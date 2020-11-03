@@ -6,7 +6,9 @@ public class Room {
     private int Capacity;
     private String NameRoom;
 
-
-
-
+    public Room(String idRoom, int capacity, String nameRoom) {
+        IdRoom = idRoom;
+        Capacity = capacity;
+        NameRoom = nameRoom;
+    }
 }

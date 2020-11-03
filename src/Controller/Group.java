@@ -1,5 +1,4 @@
 package Controller;
-import com.mysql.*;
 
 import java.util.List;
 
@@ -28,5 +27,15 @@ public class Group {
 
     public String getIdGroup() {
         return IdGroup;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "IdGroup='" + IdGroup + '\'' +
+                ", NameGroup='" + NameGroup + '\'' +
+                ", GroupCours=" + GroupCours +
+                ", GroupStudent=" + GroupStudent +
+                '}';
     }
 }

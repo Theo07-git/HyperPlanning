@@ -3,11 +3,11 @@ package Controller;
 public class Student extends User {
 
 
-    private int number;
+    private int StudentNumber;
 
-    public Student(String id, String name, String lastName, String email, int permission, int number) {
-        super(id, name, lastName, email, permission);
-        this.number = number;
+    public Student(String id, String name, String lastName, String email, String password, int permission, int studentNumber) {
+        super(id, name, lastName, email, password, permission);
+        StudentNumber = studentNumber;
     }
 
     public void addCourse() {

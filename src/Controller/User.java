@@ -6,13 +6,15 @@ public  class User {
     private String Name = "";
     private String LastName = "";
     private String Email = "";
+    private String Password ="";
     private int Permission; // ou enum ?
 
-    public User(String id, String name, String lastName, String email, int permission) {
+    public User(String id, String name, String lastName, String email, String password, int permission) {
         Id = id;
         Name = name;
         LastName = lastName;
         Email = email;
+        Password = password;
         Permission = permission;
     }
 
