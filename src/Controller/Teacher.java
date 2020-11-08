@@ -7,12 +7,12 @@ public class Teacher extends User {
     private List<Course> myCourses;
 
 
-    public Teacher(String id, String name, String lastName, String email, String password, int permission, List<Course> myCourses) {
+    public Teacher(String id, String name, String lastName, String email, String password, String permission, List<Course> myCourses) {
         super(id, name, lastName, email, password, permission);
         this.myCourses = myCourses;
     }
 
-    public Teacher(String id, String name, String lastName, String email, String password, int permission) {
+    public Teacher(String id, String name, String lastName, String email, String password, String permission) {
         super(id, name, lastName, email, password, permission);
     }
 

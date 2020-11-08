@@ -1,5 +1,6 @@
 package Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Promotion {
@@ -9,11 +10,13 @@ public class Promotion {
     private String NamePromotion="";
     private List<Group>GroupPromtion;
 
-    public Promotion(String idPromotion, String namePromotion, List<Group> groupPromtion) {
+    public Promotion(String idPromotion, String namePromotion) {
         IdPromotion = idPromotion;
         NamePromotion = namePromotion;
-        GroupPromtion = groupPromtion;
+        GroupPromtion = new ArrayList<Group>();
     }
+
+    public Promotion(){}
 
     public String getIdPromotion() {
         return IdPromotion;

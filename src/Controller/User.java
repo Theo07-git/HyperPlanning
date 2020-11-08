@@ -3,28 +3,22 @@ package Controller;
 public  class User {
 
     protected String Id = "";
-    private String Name = "";
-    private String LastName = "";
     private String Email = "";
-    private String Password ="";
-    private int Permission; // ou enum ?
+    private String Password = "";
+    private String LastName = "";
+    private String FirstName = "";
+    private String Permission; // ou enum ?
 
-    public User(String id, String name, String lastName, String email, String password, int permission) {
+    public User(String id, String email, String password, String lastName, String firstName, String permission) {
         Id = id;
-        Name = name;
-        LastName = lastName;
         Email = email;
         Password = password;
+        LastName = lastName;
+        FirstName = firstName;
         Permission = permission;
     }
 
-    public int getPermission() {
-        return Permission;
-    }
-
-    public void setPermission(int permission) {
-        Permission = permission;
-    }
+    public User(){}
 
     public String getId() {
         return Id;
@@ -32,22 +26,6 @@ public  class User {
 
     public void setId(String id) {
         Id = id;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
     }
 
     public String getEmail() {
@@ -58,12 +36,36 @@ public  class User {
         Email = email;
     }
 
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public String getPermission() {
+        return Permission;
+    }
+
+    public void setPermission(String permission) {
+        Permission = permission;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "Id='" + Id + '\'' +
-                ", Name='" + Name + '\'' +
                 ", LastName='" + LastName + '\'' +
+                ", FirstName='" + FirstName + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
     }
