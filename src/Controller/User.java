@@ -3,11 +3,11 @@ package Controller;
 public  class User {
 
     protected String Id = "";
-    private String Email = "";
-    private String Password = "";
-    private String LastName = "";
-    private String FirstName = "";
-    private String Permission; // ou enum ?
+    protected String Email = "";
+    protected String Password = "";
+    protected String LastName = "";
+    protected String FirstName = "";
+    protected String Permission;
 
     public User(String id, String email, String password, String lastName, String firstName, String permission) {
         Id = id;

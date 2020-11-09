@@ -2,11 +2,10 @@ package Controller;
 
 public class Student extends User {
 
-
     private int StudentNumber;
 
-    public Student(String id, String name, String lastName, String email, String password, String permission, int studentNumber) {
-        super(id, name, lastName, email, password, permission);
+    public Student(String id, String email, String password, String lastName, String firstName, String permission, int studentNumber) {
+        super(id, email, password, lastName, firstName, permission);
         StudentNumber = studentNumber;
     }
 

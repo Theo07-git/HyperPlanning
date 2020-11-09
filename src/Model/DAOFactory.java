@@ -14,7 +14,16 @@ public class DAOFactory {
         this.url = url;
         this.username = username;
         this.password = password;
-        //monte le driver connecteur à la base de données
+        // Monte le driver connecteur à la base de données
+        String driverName = "com.mysql.cj.jdbc.Driver";
+        Class.forName(driverName);
+    }
+
+    public DAOFactory() throws ClassNotFoundException {
+        this.url = "jdbc:mysql://localhost:3306/hyperplanning?useUnicode=true&useJDBCCompliant" +
+                "TimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        this.username = "root";
+        this.password = "planning$*";
         String driverName = "com.mysql.cj.jdbc.Driver";
         Class.forName(driverName);
     }
@@ -25,7 +34,7 @@ public class DAOFactory {
         return DriverManager.getConnection(url, username, password);
     }
 
-    //  Méthodes de récupération de l'implémentation des différents DAO
+    //  Méthodes de récupération des différents DAO
     public DAO getUserDao() throws SQLException{
         return new UserDao(this.getConnection());
     }
@@ -33,6 +42,10 @@ public class DAOFactory {
     public DAO getStudentDao() throws SQLException{
         return new StudentDao(this.getConnection());
     }
+
+    //public DAO getProfesseurDao() throws SQLException{
+      //  return new ProfesseurDao(this.getConnection());
+    //}
 
     public DAO getPromotionDao() throws SQLException{
         return new PromotionDao(this.getConnection());

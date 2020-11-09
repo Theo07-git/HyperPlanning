@@ -24,7 +24,7 @@ public class PromotionDao extends DAO<Promotion> {
         return false;
     }
 
-    public Promotion find(String idPromotion) {
+    public Promotion findById(String idPromotion) {
         Promotion promotion = new Promotion();
 
         try{
@@ -39,5 +39,15 @@ public class PromotionDao extends DAO<Promotion> {
         }
 
         return promotion;
+    }
+
+    @Override
+    public Promotion findByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public Promotion findByLastName(String last_name) {
+        return null;
     }
 }

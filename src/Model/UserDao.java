@@ -20,7 +20,7 @@ public class UserDao extends DAO<User>{
         return false;
     }
 
-    public User find(String id){
+    public User findById(String id){
         User user = new User();
 
         try{
@@ -32,6 +32,48 @@ public class UserDao extends DAO<User>{
                         result.getString("email"),
                         result.getString("password"),
                         result.getString("last_name"),
+                        result.getString("first_name"),
+                        result.getString("permission"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public User findByEmail(String email){
+        User user = new User();
+
+        try{
+            ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE email = '" + email + "'");
+            if(result.first())
+                user = new User(
+                        result.getString("idUser"),
+                        email,
+                        result.getString("password"),
+                        result.getString("last_name"),
+                        result.getString("first_name"),
+                        result.getString("permission"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public User findByLastName(String last_name) {
+        User user = new User();
+
+        try{
+            ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE last_name = '" + last_name + "'");
+            if(result.first())
+                user = new User(
+                        result.getString("idUser"),
+                        result.getString("email"),
+                        result.getString("password"),
+                        "OIN",
                         result.getString("first_name"),
                         result.getString("permission"));
         } catch (SQLException throwables) {

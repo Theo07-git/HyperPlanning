@@ -12,5 +12,7 @@ public abstract class DAO<T> {
     public abstract boolean create(T obj);
     public abstract boolean update(T obj);
     public abstract boolean delete(T obj);
-    public abstract T find(String id);
+    public abstract T findById(String id);
+    public abstract T findByEmail(String email);
+    public abstract T findByLastName(String last_name);
 }
