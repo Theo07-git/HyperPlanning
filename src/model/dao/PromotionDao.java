@@ -10,8 +10,8 @@ import java.sql.SQLException;
 public class PromotionDao {
     protected Connection connect = null;
 
-    public PromotionDao(Connection conn) {
-        this.connect = conn;
+    public PromotionDao(Connection connect) {
+        this.connect = connect;
     }
 
     public boolean create(Promotion obj) {

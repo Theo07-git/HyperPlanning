@@ -1,7 +1,4 @@
 package model.dao;
-
-import model.Promotion;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -65,7 +62,7 @@ public class DAOFactory {
         return new StudentDao(this.getConnection());
     }
 
-    public TeacherDao getProfesseurDao() throws SQLException{
+    public TeacherDao getTeacherDao() throws SQLException{
         return new TeacherDao(this.getConnection());
     }
 
