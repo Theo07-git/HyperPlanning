@@ -21,7 +21,7 @@ public class DAOFactory {
         this.url = "jdbc:mysql://localhost:3306/hyperplanning?useUnicode=true&useJDBCCompliant" +
                 "TimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         this.username = "root";
-        this.password = "planning$*";
+        this.password = "bqpnr5cd";
         String driverName = "com.mysql.cj.jdbc.Driver";
         Class.forName(driverName);
     }

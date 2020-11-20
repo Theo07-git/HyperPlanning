@@ -11,6 +11,7 @@ public class Main {
         MainView iMainView = new MainView();
         iMainView.Display();
         System.out.println("End Hyper planning");
+        System.out.println("tes morts");
     }
 
 }
