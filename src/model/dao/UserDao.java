@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDao {
+public class UserDao implements UserDaoInterface{
     private Connection connect = null;
 
     ResultSet resultSet;
