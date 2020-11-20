@@ -1,16 +1,15 @@
-package Model;
+package model.dao;
 
-import Controller.Student;
-import Controller.User;
+import model.Student;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StudentDao extends UserDao{
-    public StudentDao(Connection connection){
-        super(connection);
-    }
+public class StudentDao{
+    private Connection connect = null;
+
+    public StudentDao(Connection connect){ this.connect = connect; }
 
     public boolean create(Student obj){
         return false;
@@ -24,7 +23,7 @@ public class StudentDao extends UserDao{
         return false;
     }
 
-    public Student find(String id) {
+    public Student findById(String id) throws SQLException, ClassNotFoundException {
         Student student = new Student();
 
         try{
@@ -39,7 +38,7 @@ public class StudentDao extends UserDao{
                         result.getString("first_name"),
                         result.getString("permission"),
                         result.getInt("number"));
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
 

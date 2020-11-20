@@ -1,15 +1,17 @@
-package Model;
+package model.dao;
 
-import Controller.Promotion;
-import Controller.User;
+import model.Promotion;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PromotionDao extends DAO<Promotion> {
+public class PromotionDao {
+    protected Connection connect = null;
+
     public PromotionDao(Connection conn) {
-        super(conn);
+        this.connect = conn;
     }
 
     public boolean create(Promotion obj) {
@@ -39,15 +41,5 @@ public class PromotionDao extends DAO<Promotion> {
         }
 
         return promotion;
-    }
-
-    @Override
-    public Promotion findByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public Promotion findByLastName(String last_name) {
-        return null;
     }
 }

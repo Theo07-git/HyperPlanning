@@ -1,9 +1,10 @@
-package Model;
+package model.dao;
+
+import model.Promotion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import com.mysql.cj.jdbc.Driver;
 
 public class DAOFactory {
     private String url;
@@ -35,20 +36,40 @@ public class DAOFactory {
     }
 
     //  Méthodes de récupération des différents DAO
-    public DAO getUserDao() throws SQLException{
-        return new UserDao(this.getConnection());
+
+    public CourseDao getCourseDao() throws SQLException{
+        return new CourseDao(this.getConnection());
     }
 
-    public DAO getStudentDao() throws SQLException{
-        return new StudentDao(this.getConnection());
+    public GroupDao getGroupDao() throws SQLException{
+        return new GroupDao(this.getConnection());
     }
 
-    //public DAO getProfesseurDao() throws SQLException{
-      //  return new ProfesseurDao(this.getConnection());
-    //}
-
-    public DAO getPromotionDao() throws SQLException{
+    public PromotionDao getPromotionDao() throws SQLException{
         return new PromotionDao(this.getConnection());
     }
 
+    public RoomDao getRoomDao() throws SQLException{
+        return new RoomDao(this.getConnection());
+    }
+
+    public SessionDao getSessionDao() throws SQLException{
+        return new SessionDao(this.getConnection());
+    }
+
+    public SiteDao getSiteDao() throws SQLException{
+        return new SiteDao(this.getConnection());
+    }
+
+    public StudentDao getStudentDao() throws SQLException{
+        return new StudentDao(this.getConnection());
+    }
+
+    public TeacherDao getProfesseurDao() throws SQLException{
+        return new TeacherDao(this.getConnection());
+    }
+
+    public UserDao getUserDao() throws SQLException{
+        return new UserDao(this.getConnection());
+    }
 }

@@ -1,5 +1,9 @@
-package Controller;
+package model;
 
+import model.Course;
+import model.User;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class Teacher extends User {
@@ -7,12 +11,12 @@ public class Teacher extends User {
     private List<Course> myCourses;
 
 
-    public Teacher(String id, String name, String lastName, String email, String password, String permission, List<Course> myCourses) {
+    public Teacher(String id, String name, String lastName, String email, String password, String permission, List<Course> myCourses) throws SQLException, ClassNotFoundException {
         super(id, name, lastName, email, password, permission);
         this.myCourses = myCourses;
     }
 
-    public Teacher(String id, String name, String lastName, String email, String password, String permission) {
+    public Teacher(String id, String name, String lastName, String email, String password, String permission) throws SQLException, ClassNotFoundException {
         super(id, name, lastName, email, password, permission);
     }
 

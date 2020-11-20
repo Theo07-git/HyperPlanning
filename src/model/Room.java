@@ -1,4 +1,4 @@
-package Controller;
+package model;
 
 public class Room {
 

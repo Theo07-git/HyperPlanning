@@ -1,6 +1,7 @@
-package Controller;
+package model;
 
-import java.sql.Time;
+import model.Teacher;
+
 import java.util.List;
 
 public class Session {

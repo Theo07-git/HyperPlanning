@@ -1,4 +1,6 @@
-package Controller;
+package model;
+
+import model.Group;
 
 import java.util.ArrayList;
 import java.util.List;

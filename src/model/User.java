@@ -1,7 +1,12 @@
-package Controller;
+package model;
+
+import model.dao.DAOFactory;
+import model.dao.UserDao;
+
+import java.sql.SQLException;
 
 public  class User {
-
+    UserDao userDao;
     protected String Id = "";
     protected String Email = "";
     protected String Password = "";
@@ -9,7 +14,14 @@ public  class User {
     protected String FirstName = "";
     protected String Permission;
 
-    public User(String id, String email, String password, String lastName, String firstName, String permission) {
+    public User() throws ClassNotFoundException, SQLException {
+        DAOFactory DAOInstance = new DAOFactory();
+        userDao = DAOInstance.getUserDao();
+    }
+    public User(String id, String email, String password, String lastName, String firstName, String permission) throws ClassNotFoundException, SQLException {
+        //userDao=new UserDao();
+        DAOFactory DAOInstance = new DAOFactory();
+        UserDao userDao = DAOInstance.getUserDao();
         Id = id;
         Email = email;
         Password = password;
@@ -17,8 +29,6 @@ public  class User {
         FirstName = firstName;
         Permission = permission;
     }
-
-    public User(){}
 
     public String getId() {
         return Id;
@@ -34,6 +44,14 @@ public  class User {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 
     public String getFirstName() {
@@ -68,5 +86,11 @@ public  class User {
                 ", FirstName='" + FirstName + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
+    }
+    public void ResultSetByName() throws SQLException, ClassNotFoundException {
+        userDao.ResultSetByName();
+    }
+    public boolean ResultSetByNameNext(){
+        return(userDao.ResultSetByNameNext(this));
     }
 }
