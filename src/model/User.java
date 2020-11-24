@@ -78,6 +78,10 @@ public  class User {
         Permission = permission;
     }
 
+    public User findByEmail(String email) throws SQLException, ClassNotFoundException {
+        return userDao.findByEmail(email);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -87,7 +91,7 @@ public  class User {
                 ", Email='" + Email + '\'' +
                 '}';
     }
-    public void ResultSetByName() throws SQLException, ClassNotFoundException {
+    public void ResultSetByName(){
         userDao.ResultSetByName();
     }
     public boolean ResultSetByNameNext(){

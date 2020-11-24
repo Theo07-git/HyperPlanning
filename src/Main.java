@@ -1,17 +1,16 @@
-import view.MainView;
-
-import java.sql.SQLException;
-
+import view.IdentificationView;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args){
 
-        System.out.println("Hyper Planning");
+        IdentificationView idView = new IdentificationView();
+        idView.displayIdentificationView();
+       /* System.out.println("Hyper Planning");
         MainView iMainView = new MainView();
         iMainView.Display();
         System.out.println("End Hyper planning");
-        System.out.println("tes morts");
+        System.out.println("tes morts");*/
     }
 
 }
