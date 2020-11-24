@@ -1,6 +1,5 @@
 package controller;
 
-import model.Student;
 import model.User;
 import java.sql.SQLException;
 

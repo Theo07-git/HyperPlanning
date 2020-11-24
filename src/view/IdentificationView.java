@@ -48,6 +48,7 @@ public class IdentificationView extends JFrame{
             TestConnection testConnection = new TestConnection();
 
             try {
+                //String mdp = Character.toString(textField_mdp);
                 testConnection.isConnected(textField_id.getText(), textField_mdp.getText());
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
