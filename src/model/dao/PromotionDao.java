@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PromotionDao implements PromotionDaoInterface{
+
     private final Connection connect;
+    private ResultSet resultSet;
 
     public PromotionDao(Connection connect) {
         this.connect = connect;
@@ -26,7 +28,7 @@ public class PromotionDao implements PromotionDaoInterface{
         return false;
     }
 
-    public Promotion findById(String idPromotion) {
+    public Promotion findById(String idPromotion) throws SQLException, ClassNotFoundException {
         Promotion promotion = new Promotion();
 
         try{
@@ -41,5 +43,28 @@ public class PromotionDao implements PromotionDaoInterface{
         }
 
         return promotion;
+    }
+
+    public void resultSetByIdPromotion()  {
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM promotion");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean ResultSetByIdPromotionNext(Promotion promotion){
+        boolean found = false;
+        try{
+            if(resultSet.next()){
+                found = true;
+                promotion.setIdPromotion(resultSet.getString("idPromotion"));
+                promotion.setNamePromotion(resultSet.getString("name"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return found;
     }
 }

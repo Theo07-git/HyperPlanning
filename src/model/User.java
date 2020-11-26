@@ -4,8 +4,9 @@ import model.dao.DAOFactory;
 import model.dao.UserDao;
 
 import java.sql.SQLException;
+import java.util.Observable;
 
-public  class User {
+public  class User extends Observable {
     UserDao userDao;
     protected String id = "";
     protected String email = "";

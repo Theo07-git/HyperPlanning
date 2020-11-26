@@ -2,6 +2,8 @@ package model.dao;
 
 import model.Promotion;
 
+import java.sql.SQLException;
+
 public interface PromotionDaoInterface {
     boolean create(Promotion promotion);
 
@@ -9,5 +11,5 @@ public interface PromotionDaoInterface {
 
     boolean delete(Promotion promotion);
 
-    Promotion findById(String idPromotion);
+    Promotion findById(String idPromotion) throws SQLException, ClassNotFoundException;
 }
