@@ -7,22 +7,22 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PromotionDao {
-    protected Connection connect = null;
+public class PromotionDao implements PromotionDaoInterface{
+    private final Connection connect;
 
     public PromotionDao(Connection connect) {
         this.connect = connect;
     }
 
-    public boolean create(Promotion obj) {
+    public boolean create(Promotion promotion) {
         return false;
     }
 
-    public boolean update(Promotion obj) {
+    public boolean update(Promotion promotion) {
         return false;
     }
 
-    public boolean delete(Promotion obj) {
+    public boolean delete(Promotion promotion) {
         return false;
     }
 

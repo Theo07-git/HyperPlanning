@@ -9,10 +9,10 @@ public class UserView {
 
         User user = new User();
         // Affiche tous les utilisateurs classés par nom
-        user.ResultSetByName();
-        while(user.ResultSetByNameNext()){
-            System.out.println(user.toString());
-        }
+        //user.ResultSetByName();
+        //while(user.ResultSetByNameNext()){
+            //System.out.println(user.toString());
+        //}
 
         //Test la recherche de User
         /*

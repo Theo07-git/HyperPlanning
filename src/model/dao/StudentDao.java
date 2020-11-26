@@ -6,20 +6,20 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StudentDao{
-    private Connection connect = null;
+public class StudentDao implements StudentDaoInterface{
+    private final Connection connect;
 
     public StudentDao(Connection connect){ this.connect = connect; }
 
-    public boolean create(Student obj){
+    public boolean create(Student student){
         return false;
     }
 
-    public boolean update(Student obj) {
+    public boolean update(Student student) {
         return false;
     }
 
-    public boolean delete(Student obj) {
+    public boolean delete(Student student) {
         return false;
     }
 
@@ -44,4 +44,5 @@ public class StudentDao{
 
         return student;
     }
+
 }

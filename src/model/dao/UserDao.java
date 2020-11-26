@@ -21,11 +21,11 @@ public class UserDao implements UserDaoInterface{
 
     public boolean create(User user){ return false; }
 
-    public boolean update(User obj){
+    public boolean update(User user){
         return false;
     }
 
-    public boolean delete(User obj){
+    public boolean delete(User user){
         return false;
     }
 
@@ -100,6 +100,7 @@ public class UserDao implements UserDaoInterface{
             throwables.printStackTrace();
         }
     }
+
     public boolean ResultSetByNameNext(User user){
         boolean found = false;
         try{
