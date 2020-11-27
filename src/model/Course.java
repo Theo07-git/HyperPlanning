@@ -30,6 +30,30 @@ public class Course {
         return courseDao.findByName(name);
     }
 
+    public String getIdCourse() {
+        return idCourse;
+    }
+
+    public String getNameCourse() {
+        return nameCourse;
+    }
+
+    public void setIdCourse(String idCourse) {
+        this.idCourse = idCourse;
+    }
+
+    public void setNameCourse(String nameCourse) {
+        this.nameCourse = nameCourse;
+    }
+
+    public void resultSetByIdCourse(){
+        courseDao.resultSetByIdCourse();
+    }
+
+    public boolean resultSetByIdCourseNext(){
+        return(courseDao.resultSetByIdCourseNext(this));
+    }
+
     @Override
     public String toString() {
         return "Course{" +

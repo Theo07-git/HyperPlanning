@@ -2,12 +2,16 @@ package model.dao;
 
 import model.Course;
 import model.Group;
+import model.Promotion;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GroupDao implements GroupDaoInterface{
     private final Connection connect;
+    private ResultSet resultSet;
+
 
     public GroupDao(Connection connect){ this.connect = connect; }
 
@@ -45,5 +49,29 @@ public class GroupDao implements GroupDaoInterface{
             throwables.printStackTrace();
         }
         return group;
+    }
+
+    public void resultSetByIdGroup(String idPromotion)  {
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion WHERE id_promotion = '" + idPromotion + "'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean resultSetByIdGroupNext(Group group){
+        boolean found = false;
+        try{
+            if(resultSet.next()){
+                found = true;
+                group.setIdGroup(resultSet.getString("idGroupPromotion"));
+                group.setNameGroup(resultSet.getString("name"));
+                group.setIdPromotionGroup(resultSet.getString("id_promotion"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return found;
     }
 }

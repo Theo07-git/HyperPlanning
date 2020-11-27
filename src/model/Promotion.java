@@ -56,7 +56,11 @@ public class Promotion {
     }
 
     public boolean resultSetByIdPromotionNext(){
-        return(promotionDao.ResultSetByIdPromotionNext(this));
+        return(promotionDao.resultSetByIdPromotionNext(this));
+    }
+
+    public List<Group> getGroup(String idPromotion) throws SQLException, ClassNotFoundException {
+        return(promotionDao.getGroup(idPromotion));
     }
 
     @Override

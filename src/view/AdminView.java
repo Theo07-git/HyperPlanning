@@ -2,7 +2,7 @@ package view;
 
 import controller.ControllerAdmin;
 import controller.TestConnection;
-import model.User;
+import model.Student;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AdminView extends JFrame{
 
@@ -58,12 +59,12 @@ public class AdminView extends JFrame{
         menuPersonalInfo.setText("Infos Personnel");
 
         /** Creation des items Student */
-        JMenuItem miListStudent = new JMenuItem("Liste des Etudiants");
-        JMenuItem miCourseStudent = new JMenuItem("Récapitulatif des Cours");
+        JMenuItem miStudentList = new JMenuItem("Liste des Etudiants");
+        JMenuItem miStudentPlanning = new JMenuItem("Récapitulatif des Cours");
 
         /** Creation des items Teacher */
-        JMenuItem miListTeacher = new JMenuItem("Liste des Enseignants");
-        JMenuItem miCourseTeacher = new JMenuItem("Récapitulatif des Cours");
+        JMenuItem miTeacherList = new JMenuItem("Liste des Enseignants");
+        JMenuItem miTeacherPlanning = new JMenuItem("Récapitulatif des Cours");
 
         /** Creation des sous menus et items MAJ Données */
         JMenu mAdd = new JMenu("Ajouter...");
@@ -81,22 +82,22 @@ public class AdminView extends JFrame{
         JMenuItem miStudent3 = new JMenuItem("Etudiants");
 
         /** Item de menu actif */
-        miListStudent.setEnabled(true);
-        miCourseStudent.setEnabled(true);
+        miStudentList.setEnabled(true);
+        miStudentPlanning.setEnabled(true);
 
-        miListTeacher.setEnabled(true);
-        miCourseTeacher.setEnabled(true);
+        miTeacherList.setEnabled(true);
+        miTeacherPlanning.setEnabled(true);
 
         mAdd.setEnabled(true);
         mSupp.setEnabled(true);
         mMod.setEnabled(true);
 
         /** Ajout des items aux menus */
-        menuStudent.add(miListStudent);
-        menuStudent.add(miCourseStudent);
+        menuStudent.add(miStudentList);
+        menuStudent.add(miStudentPlanning);
 
-        menuTeacher.add(miListTeacher);
-        menuTeacher.add(miCourseTeacher);
+        menuTeacher.add(miTeacherList);
+        menuTeacher.add(miTeacherPlanning);
 
         menuUpdate.add(mAdd);
         menuUpdate.add(mSupp);
@@ -115,54 +116,58 @@ public class AdminView extends JFrame{
         mMod.add(miStudent3);
 
         /** Action suite selection Item */
-        miListStudent.addActionListener(new ActionListener() {
+        miStudentList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
                 try {
-                    createPromotionChoice(jFrame, controllerAdmin);
-                } catch (SQLException throwables) {
+                    createStudentList(jFrame, controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
                 }
             }
         });
 
         /*******************************************************/
-        miCourseStudent.addActionListener(new ActionListener() {
+        miStudentPlanning.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
                 try {
-                    createCourseRecap(jFrame, controllerAdmin);
-                } catch (SQLException throwables) {
+                    createStudentPlanning(jFrame, controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
                 }
             }
         });
 
         /*******************************************************/
-        miListTeacher.addActionListener(new ActionListener() {
+        miTeacherList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
-                createSubjectChoice(jFrame);
+                try {
+                    createTeacherList(jFrame, controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
 
         /*******************************************************/
-        miCourseTeacher.addActionListener(new ActionListener() {
+        miTeacherPlanning.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
-                selectListTeacher(jFrame);
+                try {
+                    createTeacherPlanning(jFrame, controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
 
@@ -262,53 +267,49 @@ public class AdminView extends JFrame{
     }
 
     /*******************************************************/
-    public void createPromotionChoice(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
-        /** Exemple de creation d'un ComboBox */
-        JLabel jLabelSelectPromo = new JLabel("Selectionner une Promotion et un groupe :");
+    public void createStudentList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        createPromotionChoice(jFrame, controllerAdmin, "StudentList");
+    }
+
+    public void createStudentPlanning(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        createPromotionChoice(jFrame, controllerAdmin, "StudentPlanning");
+    }
+
+    public void createTeacherList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        createSubjectChoice(jFrame, controllerAdmin, "TeacherList");
+    }
+
+    public void createTeacherPlanning(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        createSubjectChoice(jFrame, controllerAdmin, "TeacherPlanning");
+    }
+
+    public void createPromotionChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
+        JLabel jLabelSelectPromo = new JLabel("Selectionner une promotion et un groupe :");
         jLabelSelectPromo.setBounds(40, 10, 300, 28);
         jFrame.add(jLabelSelectPromo);
 
         ArrayList<String> promotions = controllerAdmin.getAllIdPromotion();
-
-        String str[] = new String[promotions.size()];
-
+        String[] strPromo = new String[promotions.size()];
         for (int j = 0; j < promotions.size(); j++) {
-            str[j] = promotions.get(j);
+            strPromo[j] = promotions.get(j);
         }
-
-        JComboBox jComboBoxSelectPromotion = new JComboBox(str);
+        JComboBox jComboBoxSelectPromotion = new JComboBox(strPromo);
         jComboBoxSelectPromotion.setBounds(40, 40, 100, 28);
 
         jComboBoxSelectPromotion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                /*for(int i = 0; i < promotions.length; i++) {
-                    if(jComboBoxSelectPromotion.getSelectedIndex() == i){
-                        System.out.println(i+1);
+                for(int i = 0; i < strPromo.length; i++) {
+                    if(strPromo[i].equals(jComboBoxSelectPromotion.getSelectedItem())){
+                        jFrame.getContentPane().removeAll();
+                        jFrame.add(jComboBoxSelectPromotion);
+                        jFrame.add(jLabelSelectPromo);
+                        try {
+                            createGroupeChoice(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectPromotion.getSelectedItem()).toString(), choiceView);
+                        } catch (SQLException | ClassNotFoundException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
-                }*/
-
-                if (jComboBoxSelectPromotion.getSelectedItem().equals("ING1")){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice1(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
-                }
-                else if(jComboBoxSelectPromotion.getSelectedItem() == "ING2"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice2(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
-                }
-                else if(jComboBoxSelectPromotion.getSelectedItem() == "ING3"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice3(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
                 }
             }
         });
@@ -317,229 +318,91 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    public void createGroupeChoice1(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
+    public void createGroupeChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String idPromotion, final String choiceView) throws SQLException, ClassNotFoundException {
+        ArrayList<String> groups = controllerAdmin.getAllIdGroup(idPromotion);
+        String[] strGroup = new String[groups.size()];
+        for (int j = 0; j < groups.size(); j++) {
+            strGroup[j] = groups.get(j);
+        }
+        JComboBox jComboBoxSelectGroup = new JComboBox(strGroup);
+        jComboBoxSelectGroup.setBounds(160, 40, 200, 28);
 
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
+        jComboBoxSelectGroup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-
-                    /*DefaultListModel dlm = new DefaultListModel();
-                    dlm.addElement("admin");
-                    JList liste = new JList(dlm);
-                    jFrame.add(liste);
-                    jFrame.setVisible(true);*/
-                    System.out.println("emploi du temps groupe 1");
+                if(choiceView.equals("StudentList")){
+                    try {
+                        createStudentListView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
                 }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
+                else if(choiceView.equals("StudentPlanning")){
+                    createStudentPlanningView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
                 }
             }
         });
 
         jFrame.setLayout(null);
-        jFrame.add(jComboBoxSelectGroupe);
+        jFrame.add(jComboBoxSelectGroup);
         jFrame.setVisible(true);
     }
 
-    public void createGroupeChoice2(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2", "Groupe 3"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
+    // A implementer
+    public void createStudentListView(JFrame jFrame, ControllerAdmin controllerAdmin, String groupChoiced) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<String>> students = controllerAdmin.getAllStudent(groupChoiced);
+        System.out.println(students);
 
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-                    System.out.println("emploi du temps groupe 1");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 3"){
-                    System.out.println("emploi du temps groupe 3");
-                }
+        String[] tableTitle = {"ID", "Nom", "Prenom", "Email", "Permission", "Numero d'etudiant"};
+
+        String[][] mt = new String[students.size()][tableTitle.length];
+        for(int i = 0 ; i < students.size(); i++){
+            for (int j = 0; j < tableTitle.length; j++) {
+                mt[i][j] = students.get(i).get(j);
             }
-        });
-
-        jFrame.add(jComboBoxSelectGroupe);
-        jFrame.setVisible(true);
-    }
-
-    public void createGroupeChoice3(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
-
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-                    System.out.println("emploi du temps groupe 1");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
-                }
-            }
-        });
-
-        jFrame.add(jComboBoxSelectGroupe);
-        jFrame.setVisible(true);
-    }
-
-    /*******************************************************/
-    public void createCourseRecap(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
-        /** Exemple de creation d'un ComboBox */
-        JLabel jLabelSelectPromo = new JLabel("Selectionner une Promotion et un groupe :");
-        jLabelSelectPromo.setBounds(40, 10, 300, 28);
-        jFrame.add(jLabelSelectPromo);
-
-        ArrayList<String> promotions = controllerAdmin.getAllIdPromotion();
-
-        String str[] = new String[promotions.size()];
-
-        for (int j = 0; j < promotions.size(); j++) {
-            str[j] = promotions.get(j);
         }
 
-        JComboBox jComboBoxSelectPromotion = new JComboBox(str);
-        jComboBoxSelectPromotion.setBounds(40, 40, 100, 28);
-
-        jComboBoxSelectPromotion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectPromotion.getSelectedItem() == "ING1"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice12(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
-                }
-                else if(jComboBoxSelectPromotion.getSelectedItem() == "ING2"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice22(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
-                }
-                else if(jComboBoxSelectPromotion.getSelectedItem() == "ING3"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectPromotion);
-                    jFrame.add(jLabelSelectPromo);
-                    createGroupeChoice32(jFrame);
-                    jComboBoxSelectPromotion.setEnabled(true);
-                }
-            }
-        });
-
         jFrame.setLayout(null);
-        jFrame.add(jComboBoxSelectPromotion);
+        JTable jTableStudentList = new JTable(mt, tableTitle);
+        JPanel jPanelStudentList = new JPanel();
+        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.getViewport().add(jTableStudentList);
+        jPanelStudentList.setBounds(0, 80, 500, 200);
+        jPanelStudentList.add(jScrollPane);
+        jFrame.add(jPanelStudentList);
         jFrame.setVisible(true);
     }
 
-    public void createGroupeChoice12(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
+    public void createStudentPlanningView(JFrame jFrame, ControllerAdmin controllerAdmin, String GroupChoiced){
 
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-                    System.out.println("emploi du temps groupe 1");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
-                }
-            }
-        });
-
-        jFrame.add(jComboBoxSelectGroupe);
-        jFrame.setVisible(true);
-    }
-
-    public void createGroupeChoice22(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2", "Groupe 3"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
-
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-                    System.out.println("emploi du temps groupe 1");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 3"){
-                    System.out.println("emploi du temps groupe 3");
-                }
-            }
-        });
-
-        jFrame.add(jComboBoxSelectGroupe);
-        jFrame.setVisible(true);
-    }
-
-    public void createGroupeChoice32(JFrame jFrame){
-        String[] groupe = {"Groupe 1", "Groupe 2"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(160, 40, 200, 28);
-
-        jComboBoxSelectGroupe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectGroupe.getSelectedItem() == "Groupe 1"){
-                    System.out.println("emploi du temps groupe 1");
-                }
-                else if(jComboBoxSelectGroupe.getSelectedItem() == "Groupe 2"){
-                    System.out.println("emploi du temps groupe 2");
-                }
-            }
-        });
-
-        jFrame.add(jComboBoxSelectGroupe);
-        jFrame.setVisible(true);
     }
 
     /*******************************************************/
-    public void createSubjectChoice(JFrame jFrame){
-        JLabel jLabelSelectSubject = new JLabel("Selectionner une Matière :");
+    public void createSubjectChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
+        JLabel jLabelSelectSubject = new JLabel("Selectionner une matière :");
         jLabelSelectSubject.setBounds(40, 10, 300, 28);
         jFrame.add(jLabelSelectSubject);
 
-        String[] subject = {"MATH", "PHYS", "COSC"};
-        JComboBox jComboBoxSelectSubject = new JComboBox(subject);
+        ArrayList<String> promotions = controllerAdmin.getAllIdCourse();
+        String[] strCourse = new String[promotions.size()];
+        for (int j = 0; j < promotions.size(); j++) {
+            strCourse[j] = promotions.get(j);
+        }
+        JComboBox jComboBoxSelectSubject = new JComboBox(strCourse);
         jComboBoxSelectSubject.setBounds(40, 40, 100, 28);
 
         jComboBoxSelectSubject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (jComboBoxSelectSubject.getSelectedItem() == "MATH"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectSubject);
-                    jFrame.add(jLabelSelectSubject);
-                    createTeacherListMath(jFrame);
-                    jComboBoxSelectSubject.setEnabled(true);
-                }
-                else if(jComboBoxSelectSubject.getSelectedItem() == "PHYS"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectSubject);
-                    jFrame.add(jLabelSelectSubject);
-                    createTeacherListPhys(jFrame);
-                    jComboBoxSelectSubject.setEnabled(true);
-                }
-                else if(jComboBoxSelectSubject.getSelectedItem() == "COSC"){
-                    jFrame.getContentPane().removeAll();
-                    jFrame.add(jComboBoxSelectSubject);
-                    jFrame.add(jLabelSelectSubject);
-                    createTeacherListCosc(jFrame);
-                    jComboBoxSelectSubject.setEnabled(true);
+                for(int i = 0; i < strCourse.length; i++) {
+                    if(strCourse[i].equals(jComboBoxSelectSubject.getSelectedItem())){
+                        jFrame.getContentPane().removeAll();
+                        jFrame.add(jComboBoxSelectSubject);
+                        jFrame.add(jLabelSelectSubject);
+                        createTeacherListView(jFrame);
+                    }
                 }
             }
         });
@@ -549,15 +412,8 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    public void createTeacherListMath(JFrame jFrame){
-
-    }
-
-    public void createTeacherListPhys(JFrame jFrame){
-
-    }
-
-    public void createTeacherListCosc(JFrame jFrame){
+    // A implementer
+    public void createTeacherListView(JFrame jFrame){
 
     }
 

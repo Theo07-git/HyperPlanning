@@ -68,7 +68,6 @@ public class IdentificationView extends JFrame implements Observer {
                         classNotFoundException.printStackTrace();
                     }
                     int permission = testConnection.testPermission();
-                    System.out.println(permission);
                     switch (permission) {
                         case 0 -> System.out.println("Erreur - Permission non reconnu");
                         case 1 -> {
@@ -78,7 +77,7 @@ public class IdentificationView extends JFrame implements Observer {
                         case 3 -> System.out.println("3");
                         case 4 -> System.out.println("4");
                     }
-                    testConnection.getActualUser();
+                    //testConnection.getActualUser();
                     frame.dispose();
                 }
             }

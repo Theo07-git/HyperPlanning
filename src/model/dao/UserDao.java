@@ -44,6 +44,7 @@ public class UserDao implements UserDaoInterface{
                         result.getString("first_name"),
                         result.getString("permission"));
             }
+            else System.out.println("Erreur identification user non trouve");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

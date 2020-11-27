@@ -36,12 +36,32 @@ public class Group {
         return idGroup;
     }
 
+    public void setGroupDao(GroupDao groupDao) {
+        this.groupDao = groupDao;
+    }
+
+    public void setIdGroup(String idGroup) {
+        this.idGroup = idGroup;
+    }
+
+    public void setIdPromotionGroup(String idPromotion) {
+        this.idPromotion = idPromotion;
+    }
+
     public Group findById(String id) throws SQLException, ClassNotFoundException {
         return groupDao.findById(id);
     }
 
     public Group findByName(String name) throws SQLException, ClassNotFoundException {
         return groupDao.findByName(name);
+    }
+
+    public void resultSetByIdGroup(String idPromotion){
+        groupDao.resultSetByIdGroup(idPromotion);
+    }
+
+    public boolean resultSetByIdGroupNext(){
+        return(groupDao.resultSetByIdGroupNext(this));
     }
 
     @Override

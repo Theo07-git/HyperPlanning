@@ -1,6 +1,7 @@
 package model.dao;
 
 import model.Course;
+import model.Promotion;
 import model.User;
 
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 
 public class CourseDao implements CourseDaoInterface{
     private final Connection connect;
+    private ResultSet resultSet;
 
     public CourseDao(Connection connect){ this.connect = connect; }
 
@@ -44,5 +46,28 @@ public class CourseDao implements CourseDaoInterface{
             throwables.printStackTrace();
         }
         return course;
+    }
+
+    public void resultSetByIdCourse()  {
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM course");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean resultSetByIdCourseNext(Course course){
+        boolean found = false;
+        try{
+            if(resultSet.next()){
+                found = true;
+                course.setIdCourse(resultSet.getString("idCourse"));
+                course.setNameCourse(resultSet.getString("name"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return found;
     }
 }

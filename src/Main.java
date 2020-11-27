@@ -1,10 +1,12 @@
+import controller.ControllerAdmin;
 import controller.TestConnection;
 import model.*;
-import view.AdminView;
 import view.IdentificationView;
-import view.MainView;
+
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -18,7 +20,36 @@ public class Main {
 
         actualUser.addObserver(idView);
 
+        /*List<Student> students = new ArrayList<>();
 
+        Student student = new Student();
+        student.resultSetByGroupPromotion("ING1GR1");
+        students.add(student);
+
+        ArrayList<String> allStudent = new ArrayList<>();
+        while(student.resultSetByGroupPromotionNext()){
+            students.add(student);
+            assert allStudent != null;
+            allStudent.add(student.toString());
+        }
+        System.out.println(allStudent);*/
+
+
+
+
+        /*Student user = new Student();
+        user.resultSetByGroupPromotion("ING1GR1");
+
+        while(user.resultSetByGroupPromotionNext()){
+            System.out.println(user.toString());
+        }*/
+
+        /*User user2 = new User();
+        user2.ResultSetByName();
+
+        while(user2.ResultSetByNameNext()){
+            System.out.println(user2.toString());
+        }*/
 
 
         /* System.out.println("Hyper Planning");

@@ -1,11 +1,14 @@
 package model.dao;
 
+import model.Group;
 import model.Promotion;
 import model.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PromotionDao implements PromotionDaoInterface{
 
@@ -54,7 +57,7 @@ public class PromotionDao implements PromotionDaoInterface{
         }
     }
 
-    public boolean ResultSetByIdPromotionNext(Promotion promotion){
+    public boolean resultSetByIdPromotionNext(Promotion promotion){
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -66,5 +69,28 @@ public class PromotionDao implements PromotionDaoInterface{
             throwables.printStackTrace();
         }
         return found;
+    }
+
+    public List<Group> getGroup(String idPromotion) throws SQLException, ClassNotFoundException {
+        List<Group> groups = new ArrayList<>();
+        Group group = new Group();
+        boolean found = false;
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion " +
+                    "WHERE group_promotion.id_promotion =" + idPromotion);
+            group = new Group(resultSet.getString("idGroupPromotion"),
+                    resultSet.getString("name"), idPromotion);
+            groups.add(group);
+            if(resultSet.next()){
+                found = true;
+                group = new Group(resultSet.getString("idGroupPromotion"),
+                        resultSet.getString("name"), idPromotion);
+                groups.add(group);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return groups;
     }
 }

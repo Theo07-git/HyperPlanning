@@ -83,6 +83,10 @@ public  class User extends Observable {
         return userDao.findByEmail(email);
     }
 
+    public User findById(String id) throws SQLException, ClassNotFoundException {
+        return userDao.findById(id);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -90,6 +94,7 @@ public  class User extends Observable {
                 ", LastName='" + lastName + '\'' +
                 ", FirstName='" + firstName + '\'' +
                 ", Email='" + email + '\'' +
+                ", Permission='" + permission + '\''+
                 '}';
     }
 
