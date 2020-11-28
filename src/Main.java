@@ -1,17 +1,31 @@
-import controller.ControllerAdmin;
 import controller.TestConnection;
-import model.*;
-import view.IdentificationView;
+import model.User;
+import view.ConnectionView;
 
-
+import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
+
+
+        User actualUser = new User();
+
+        TestConnection testConnection = new TestConnection(actualUser);
+
+        JFrame id_root = new JFrame();
+        id_root.setSize(905,690);
+        id_root.setLocationRelativeTo(null);
+        id_root.setContentPane(new ConnectionView(testConnection).panel1);
+        id_root.pack();
+        id_root.setVisible(true);
+        while (!testConnection.isConnect){
+        }
+        id_root.dispose();
+
+/*
         User actualUser = new User();
 
         TestConnection testConnection = new TestConnection(actualUser);
@@ -20,7 +34,7 @@ public class Main {
 
         actualUser.addObserver(idView);
 
-        /*List<Student> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
 
         Student student = new Student();
         student.resultSetByGroupPromotion("ING1GR1");

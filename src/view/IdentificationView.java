@@ -1,29 +1,110 @@
 package view;
 
 import controller.TestConnection;
-import model.User;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Observable;
-import java.util.Observer;
 
-public class IdentificationView extends JFrame implements Observer {
+
+public class IdentificationView extends JFrame  {
 
     private JTextField textFieldId;
     private JPasswordField textFieldPassword;
 
-    public IdentificationView(TestConnection testConnection){
+    public IdentificationView(TestConnection testConnection) {
+
+
+
+        JFrame id_root = new JFrame("ONLINE PLANNING CONNECTION ");
+        id_root.setSize(985,785);
+        //id_root.setContentPane(new ID().panel1);
+        id_root.setVisible(true);
+
+        JButton entryButton = new JButton("Entrez");
+
+
+        entryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    testConnection.isConnected(textFieldId.getText(), textFieldPassword.getText());
+
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+                if (testConnection.getIsConnect()) {
+                    try {
+                        testConnection.updateUser(getEmailActualUser(), getPasswordActualUser());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                    int permission = testConnection.testPermission();
+                    System.out.println(permission);
+                    switch (permission) {
+                        case 0 -> System.out.println("Erreur - Permission non reconnu");
+                        case 1 -> {
+                            AdminView adminView = new AdminView(testConnection);
+                        }
+                        case 2 -> System.out.println("2");
+                        case 3 -> System.out.println("3");
+                        case 4 -> System.out.println("4");
+                    }
+                    testConnection.getActualUser();
+                    id_root.dispose();
+                }
+            }
+        });
+    }
+
+    public String getEmailActualUser() {
+        String result = "";
+        try {
+            result = textFieldId.getText();
+        } catch (NumberFormatException e) {
+            System.out.println("Erreur avec l'entrée de l'Email");
+        }
+        return result;
+    }
+
+    public String getPasswordActualUser() {
+        String result = "";
+        try {
+            result = textFieldPassword.getText();
+        } catch (NumberFormatException e) {
+            System.out.println("Erreur avec l'entrée du mot de passe");
+        }
+        return result;
+    }
+
+}
+
+/*
+
+public class IdentificationView extends JFrame implements Observer {
+
+     private JTextField textFieldId;
+     private JPasswordField textFieldPassword;
+
+    public IdentificationView(TestConnection testConnection) {
+
+
         JFrame frame = new JFrame("Menu Identification");
         frame.setTitle("Menu Identification");
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
-        frame.setBackground(Color.BLACK);
 
-        /* Iniatialisation des parametres de base de la pages */
+        JFrame id_root = new JFrame("ONLINE PLANNING CONNECTION ");
+        id_root.setSize(955,720);
+        id_root.setContentPane(new ID().panel1);
+        id_root.setVisible(true);
+
+        //frame.setBackground(Color.BLACK);
+
+        // Iniatialisation des parametres de base de la pages
 
         setLayout(null);
 
@@ -46,6 +127,9 @@ public class IdentificationView extends JFrame implements Observer {
         frame.add(textFieldPassword);
         PanelForButtonEntry.add(entryButton);
         frame.getContentPane().add(PanelForButtonEntry);
+
+
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setVisible(true);
@@ -112,4 +196,8 @@ public class IdentificationView extends JFrame implements Observer {
     public void display(String email) {
         this.textFieldId.setText(email);
     }
-}
+
+
+    }
+
+*/

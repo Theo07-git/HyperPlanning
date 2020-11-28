@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class TestConnection {
 
     private User user;
-    private boolean isConnect;
+    public boolean isConnect;
 
     public TestConnection(User user) {
         this.user = user;

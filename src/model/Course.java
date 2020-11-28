@@ -11,6 +11,14 @@ public class Course {
     private CourseDao courseDao;
     private String idCourse = "";
     private String nameCourse = "";
+    private List<Session> ListSession;
+
+
+    public Course(String idCourse, String nameCourse, List<Session> listSession) {
+        this.idCourse = idCourse;
+        this.nameCourse = nameCourse;
+        ListSession = listSession;
+    }
 
     public Course(String idCourse, String nameCourse) {
         this.idCourse = idCourse;
@@ -53,6 +61,13 @@ public class Course {
     public boolean resultSetByIdCourseNext(){
         return(courseDao.resultSetByIdCourseNext(this));
     }
+
+
+    public List<Session> getListSession() {
+        return ListSession;
+    }
+
+
 
     @Override
     public String toString() {

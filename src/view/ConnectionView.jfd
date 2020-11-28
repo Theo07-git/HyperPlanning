@@ -1,0 +1,83 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "panel1"
+			auxiliary() {
+				"JavaCodeGenerator.variableLocal": true
+			}
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Email :"
+				"foreground": &ColorUIResource0 new javax.swing.plaf.ColorUIResource( 255, 255, 255 )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 1, false )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 65
+				"height": 26
+				"x": 305
+				"y": 375
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "Password :"
+				"foreground": #ColorUIResource0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 1, false )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 80
+				"height": 26
+				"x": 305
+				"y": 410
+			} )
+			add( new FormComponent( "javax.swing.JPasswordField" ) {
+				name: "passwordField1"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 25
+				"x": 400
+				"y": 415
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "textField1"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 25
+				"x": 400
+				"y": 375
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Entry"
+				"text": "Sing In"
+				"foreground": new java.awt.Color( 0, 111, 240, 255 )
+				"font": new java.awt.Font( ".AppleSystemUIFont", 1, 13 )
+				"selectedIcon": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"actionCommand": "Log In"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "EntryActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 85
+				"height": 25
+				"x": 520
+				"y": 395
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "BackGround"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/view/Ressource/Blue Pond.jpg" )
+				"text": " "
+				"foreground": #ColorUIResource0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 131072, 0, false )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 905
+				"height": 690
+				"x": 0
+				"y": 0
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 15 )
+			"size": new java.awt.Dimension( 905, 690 )
+		} )
+	}
+}

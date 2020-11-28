@@ -16,6 +16,8 @@ public  class User extends Observable {
     protected String permission;
 
     public User() throws ClassNotFoundException, SQLException {
+        String url ="jdbc:mysql://localhost:3306/hyperplanning?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
         DAOFactory DAOInstance = new DAOFactory();
         userDao = DAOInstance.getUserDao();
     }

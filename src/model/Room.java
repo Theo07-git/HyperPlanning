@@ -11,4 +11,8 @@ public class Room {
         Capacity = capacity;
         NameRoom = nameRoom;
     }
+
+    public String getNameRoom() {
+        return NameRoom;
+    }
 }
