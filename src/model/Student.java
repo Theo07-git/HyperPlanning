@@ -61,7 +61,6 @@ public class Student extends User{
         this.permission = permission;
     }
 
-
     public Student findById(String id) throws SQLException, ClassNotFoundException{
         return studentDao.findById(id);
     }

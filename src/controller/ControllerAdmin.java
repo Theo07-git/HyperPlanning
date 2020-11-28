@@ -1,10 +1,6 @@
 package controller;
 
-import model.Course;
-import model.Group;
-import model.Promotion;
-import model.Student;
-
+import model.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +11,14 @@ public class ControllerAdmin {
     private List<Group> groupsPromotion;
     private List<Course> courses;
     private List<Student> students;
+    private List<Teacher> teachers;
 
     public ControllerAdmin(){
         promotions = new ArrayList<>();
         groupsPromotion = new ArrayList<>();
         courses = new ArrayList<>();
         students = new ArrayList<>();
+        teachers = new ArrayList<>();
     }
 
     public ArrayList<String> getAllIdPromotion() throws SQLException, ClassNotFoundException {
@@ -62,7 +60,20 @@ public class ControllerAdmin {
         return allIdGroup;
     }
 
-    public ArrayList<ArrayList<String>> getAllStudent(String idGroupPromotion) throws SQLException, ClassNotFoundException {
+    public ArrayList<String> getAllNameCourse() throws SQLException, ClassNotFoundException {
+        Course course = new Course();
+        course.resultSetByIdCourse();
+        courses.add(course);
+        ArrayList<String> allNameGroup = new ArrayList<>();
+        while(course.resultSetByIdCourseNext()){
+            courses.add(course);
+            assert allNameGroup != null;
+            allNameGroup.add(course.getNameCourse());
+        }
+        return allNameGroup;
+    }
+
+    public ArrayList<ArrayList<String>> getAllStudents(String idGroupPromotion) throws SQLException, ClassNotFoundException {
         Student student = new Student();
         student.resultSetByGroupPromotion(idGroupPromotion);
         students.add(student);
@@ -82,5 +93,26 @@ public class ControllerAdmin {
         }
 
         return allStudent;
+    }
+
+    public ArrayList<ArrayList<String>> getAllTeachers(String nameCourse) throws SQLException, ClassNotFoundException{
+        Teacher teacher = new Teacher();
+        teacher.resultSetByCourse(nameCourse);
+        teachers.add(teacher);
+        ArrayList<ArrayList<String>> allTeachers = new ArrayList<>();
+
+        while(teacher.resultSetByCourseNext()){
+            ArrayList<String> buffer = new ArrayList<>();
+            teachers.add(teacher);
+            assert allTeachers != null;
+            buffer.add(teacher.getId());
+            buffer.add(teacher.getLastName());
+            buffer.add(teacher.getFirstName());
+            buffer.add(teacher.getEmail());
+            buffer.add(teacher.getPermission());
+            allTeachers.add(buffer);
+        }
+
+        return allTeachers;
     }
 }

@@ -2,7 +2,6 @@ package view;
 
 import controller.ControllerAdmin;
 import controller.TestConnection;
-import model.Student;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +17,6 @@ public class AdminView extends JFrame{
         JFrame frame = new JFrame();
 
         interfaceAdmin(frame);
-
-        // set the Parameters of the JFrame
         frame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         frame.setSize(1200,800);
         frame.setLocationRelativeTo(null);
@@ -332,7 +329,7 @@ public class AdminView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(choiceView.equals("StudentList")){
                     try {
-                        createStudentListView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                        createStudentListViewByGroup(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {
@@ -350,9 +347,9 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // A implementer
-    public void createStudentListView(JFrame jFrame, ControllerAdmin controllerAdmin, String groupChoiced) throws SQLException, ClassNotFoundException {
-        ArrayList<ArrayList<String>> students = controllerAdmin.getAllStudent(groupChoiced);
+
+    public void createStudentListViewByGroup(JFrame jFrame, ControllerAdmin controllerAdmin, String groupChoiced) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<String>> students = controllerAdmin.getAllStudents(groupChoiced);
         System.out.println(students);
 
         String[] tableTitle = {"ID", "Nom", "Prenom", "Email", "Permission", "Numero d'etudiant"};
@@ -379,13 +376,37 @@ public class AdminView extends JFrame{
 
     }
 
+    public void createTeacherListViewByCourse(JFrame jFrame, ControllerAdmin controllerAdmin, String courseChoice) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<String>> teachers = controllerAdmin.getAllTeachers(courseChoice);
+        System.out.println(teachers);
+
+        String[] tableTitle = {"ID", "Nom", "Prenom", "Email", "Permission"};
+
+        String[][] mt = new String[teachers.size()][tableTitle.length];
+        for(int i = 0 ; i < teachers.size(); i++){
+            for (int j = 0; j < tableTitle.length; j++) {
+                mt[i][j] = teachers.get(i).get(j);
+            }
+        }
+
+        jFrame.setLayout(null);
+        JTable jTableTeacherList = new JTable(mt, tableTitle);
+        JPanel jPanelTeacherList = new JPanel();
+        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.getViewport().add(jTableTeacherList);
+        jPanelTeacherList.setBounds(0, 80, 500, 200);
+        jPanelTeacherList.add(jScrollPane);
+        jFrame.add(jPanelTeacherList);
+        jFrame.setVisible(true);
+    }
+
     /*******************************************************/
     public void createSubjectChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         JLabel jLabelSelectSubject = new JLabel("Selectionner une matière :");
         jLabelSelectSubject.setBounds(40, 10, 300, 28);
         jFrame.add(jLabelSelectSubject);
 
-        ArrayList<String> promotions = controllerAdmin.getAllIdCourse();
+        ArrayList<String> promotions = controllerAdmin.getAllNameCourse();
         String[] strCourse = new String[promotions.size()];
         for (int j = 0; j < promotions.size(); j++) {
             strCourse[j] = promotions.get(j);
@@ -396,12 +417,13 @@ public class AdminView extends JFrame{
         jComboBoxSelectSubject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < strCourse.length; i++) {
-                    if(strCourse[i].equals(jComboBoxSelectSubject.getSelectedItem())){
-                        jFrame.getContentPane().removeAll();
-                        jFrame.add(jComboBoxSelectSubject);
-                        jFrame.add(jLabelSelectSubject);
-                        createTeacherListView(jFrame);
+                if(choiceView.equals("TeacherList")){
+                    try {
+                        createTeacherListViewByCourse(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectSubject.getSelectedItem()).toString());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
                     }
                 }
             }
@@ -410,11 +432,6 @@ public class AdminView extends JFrame{
         jFrame.setLayout(null);
         jFrame.add(jComboBoxSelectSubject);
         jFrame.setVisible(true);
-    }
-
-    // A implementer
-    public void createTeacherListView(JFrame jFrame){
-
     }
 
     /*******************************************************/
