@@ -48,7 +48,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "Entry"
-				"text": "Sing In"
+				"text": "Sign In"
 				"foreground": new java.awt.Color( 0, 111, 240, 255 )
 				"font": new java.awt.Font( ".AppleSystemUIFont", 1, 13 )
 				"selectedIcon": sfield com.jformdesigner.model.FormObject NULL_VALUE

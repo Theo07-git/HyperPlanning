@@ -2,12 +2,13 @@ package view;
 
 import controller.ControllerAdmin;
 import controller.TestConnection;
+import view.Ressource.Planning;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -302,15 +303,22 @@ public class AdminView extends JFrame{
                     jFrame.add(jComboBoxSelectGroup);
                     try {
                         createStudentListViewByGroup(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
                     }
                 }
                 else if(choiceView.equals("StudentPlanning")){
-                    createStudentPlanningView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                    jFrame.getContentPane().removeAll();
+                    jFrame.add(jComboBox);
+                    jFrame.add(jComboBoxSelectGroup);
+                    try {
+                        createStudentPlanningView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString(),jComboBox,jComboBoxSelectGroup);
+                        jFrame.repaint();
+                    } catch (SQLException | ClassNotFoundException | ParseException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
+
             }
         });
 
@@ -376,7 +384,56 @@ public class AdminView extends JFrame{
         jFrame.add(jPanelStudentList);
         jFrame.setVisible(true);
     }
-    public void createStudentPlanningView(JFrame jFrame, ControllerAdmin controllerAdmin, String GroupChoiced){
+    public void createStudentPlanningView(JFrame jFrame, ControllerAdmin controllerAdmin, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
+
+        //Planning StudentPlanning = new Planning(jFrame,GroupChoiced,controllerAdmin,48);
+        Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
+        JComboBox jComboBoxSelectWeek = new JComboBox(week);
+        jComboBoxSelectWeek.setBounds(380, 40, 80, 28);
+        Planning planning = new Planning();
+        planning.setEmploiDuTemps();
+        planning.setSettings(jFrame);
+        jComboBoxSelectWeek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                jFrame.add(jComboBoxPromo);
+                jFrame.add(jComboBoxGroupe);
+                jFrame.add(jComboBoxSelectWeek);
+                for(int i = 0; i < week.length; i++) {
+                    if(jComboBoxSelectWeek.getSelectedIndex() == i){
+                        try {
+                            planning.DrawWeekCours_Student(jFrame, GroupChoiced, i+1);
+                        } catch (SQLException | ClassNotFoundException | ParseException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                }
+
+
+                jFrame.repaint();
+                planning.setSettings(jFrame);
+                jFrame.add(planning);
+
+
+                // Ne peut pas mélanger setSetting et repaint,
+                // que repaint -> les cours sont bien maj en fonction des week mais les mois ne sont plus afficher
+                // que setSettings -> cours pas afficher
+
+
+            }
+        });
+
+
+        //planning.setSettings(jFrame);
+        //jFrame.add(planning);
+        jFrame.add(planning);
+        jFrame.add(jComboBoxSelectWeek);
+
+        //
+        jFrame.setOpacity(1);
+        jFrame.setVisible(true);
+
 
     }
 

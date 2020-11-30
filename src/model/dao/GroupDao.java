@@ -1,8 +1,6 @@
 package model.dao;
 
-import model.Course;
 import model.Group;
-import model.Promotion;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,4 +72,9 @@ public class GroupDao implements GroupDaoInterface{
         }
         return found;
     }
+
+
+
+
+
 }
