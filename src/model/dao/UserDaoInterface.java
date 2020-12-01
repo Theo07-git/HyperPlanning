@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public interface UserDaoInterface {
     boolean create(User user);
 
-    boolean update(User obj);
+    User updatePassword(User user) throws SQLException;
 
     boolean delete(User obj);
 

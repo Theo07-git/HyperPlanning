@@ -17,20 +17,24 @@ public  class User extends Observable {
 
     public User() throws ClassNotFoundException, SQLException {
         String url ="jdbc:mysql://localhost:3306/hyperplanning?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
         DAOFactory DAOInstance = new DAOFactory();
         userDao = DAOInstance.getUserDao();
     }
 
     public User(String id, String email, String password, String lastName, String firstName, String permission) throws ClassNotFoundException, SQLException {
         DAOFactory DAOInstance = new DAOFactory();
-        UserDao userDao = DAOInstance.getUserDao();
+        userDao = DAOInstance.getUserDao();
         this.id = id;
         this.email = email;
         this.password = password;
         this.lastName = lastName;
         this.firstName = firstName;
         this.permission = permission;
+    }
+
+    public void updatePassword(String password) throws SQLException{
+        this.password = password;
+        userDao.updatePassword(this);
     }
 
     public String getId() {

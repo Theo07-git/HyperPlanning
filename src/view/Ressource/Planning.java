@@ -69,7 +69,7 @@ public class Planning extends JPanel {
         frame.add(label_id_11h15);
 
         JLabel label_id5_12h45 = new JLabel(heure.get(4));
-        label_id5_12h45.setBounds(5, y+3*55+20, 45, 80);
+        label_id5_12h45.setBounds(5, y+3*55+15, 45, 80);//+20
         frame.add(label_id5_12h45);
 
         JLabel label_id_14h15 = new JLabel(heure.get(5));
@@ -81,31 +81,31 @@ public class Planning extends JPanel {
         frame.add(label_id_14h30);
 
         JLabel label_id_16h00 = new JLabel(heure.get(7));
-        label_id_16h00.setBounds(5, y+6*55-10, 45, 80);
+        label_id_16h00.setBounds(5, y+5*55+30, 45, 80);
         frame.add(label_id_16h00);
 
         JLabel label_id_17h30 = new JLabel(heure.get(8));
-        label_id_17h30.setBounds(5, y+7*55-9, 45, 80);
+        label_id_17h30.setBounds(5, y+6*55+30, 45, 80);
         frame.add(label_id_17h30);
 
         JLabel label_id_17h45 = new JLabel(heure.get(9));
-        label_id_17h45.setBounds(5, y+7*55+6, 45, 80);
+        label_id_17h45.setBounds(5, y+6*55+45, 45, 80);
         frame.add(label_id_17h45);
 
         JLabel label_id_19h15 = new JLabel(heure.get(10));
-        label_id_19h15.setBounds(5, y+8*55+3, 45, 80);
+        label_id_19h15.setBounds(5, y+7*55+45, 45, 80);
         frame.add(label_id_19h15);
 
         JLabel label_id_20h45 = new JLabel(heure.get(11));
-        label_id_20h45.setBounds(5, y+9*55+8, 45, 80);
+        label_id_20h45.setBounds(5, y+8*55+45, 45, 80);
         frame.add(label_id_20h45);
 
         JLabel label_id_21h00 = new JLabel(heure.get(12));
-        label_id_21h00.setBounds(5, y+9*55+21, 45, 80);
+        label_id_21h00.setBounds(5, y+8*55+60, 45, 80);
         frame.add(label_id_21h00);
 
 
-        int xDate = 75;
+        int xDate = 116;
         int yDate = 92;
         for (int j = 0; j < 6; ++j){
             JLabel label_id = new JLabel(Day.get(j));
@@ -250,9 +250,7 @@ public class Planning extends JPanel {
             }
         }
 
-        ArrayList<Date> listDate = new ArrayList<>();
         for(int i=0;i<myWeekSession.size();++i){
-
             Date date = myWeekSession.get(i).getDate();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
             int nameDay = date.getDay();
@@ -264,9 +262,8 @@ public class Planning extends JPanel {
             String heureFinString = dateFormat.format(endTime);
 
             String heure = heureDebutString+heureFinString;
-            heure = addChar(heure,'-',8);
 
-            int y = 174;
+            int y = 154;
             int x = 50;
             if (nameDay == 1){ // equals("lundi")
             }
@@ -316,10 +313,25 @@ public class Planning extends JPanel {
             JPanel textPanel = new JPanel();
             textPanel.setLayout(null);
             JTextArea courseInfo = new JTextArea(nameCourse + "-" + typeCourse + "-M." + nameTeacher + "\n"  + " " + nameRoom);
+
+            float[] blue = Color.RGBtoHSB(71, 192, 234, null);
+            float[] red = Color.RGBtoHSB(234, 70, 70, null);
+
+            if(nameCourse.equals("MATH")){
+                courseInfo.setBackground(Color.ORANGE);
+                textPanel.setBackground(Color.ORANGE);
+            }
+            else if(nameCourse.equals("COSC")){
+                courseInfo.setBackground(Color.getHSBColor(blue[0], blue[1], blue[2]));
+                textPanel.setBackground(Color.getHSBColor(blue[0], blue[1], blue[2]));
+            }
+            else if(nameCourse.equals("PHYS")){
+                courseInfo.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
+                textPanel.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
+            }
+
             courseInfo.setEditable(false);
             courseInfo.setBounds(5, 10, 178, 30);
-            courseInfo.setBackground(Color.yellow);
-            textPanel.setBackground(Color.yellow);
             textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             textPanel.add(courseInfo);
             textPanel.setBounds(x,y,185,55);
@@ -356,7 +368,7 @@ public class Planning extends JPanel {
             String heure = heureDebutString+heureFinString;
             heure = addChar(heure,'-',8);
 
-            int y = 174;
+            int y = 154;
             int x = 50;
             if (nameDay == 1){ // equals("lundi")
             }
@@ -405,13 +417,29 @@ public class Planning extends JPanel {
 
             JPanel textPanel = new JPanel();
             textPanel.setLayout(null);
-            JTextArea testInfo = new JTextArea(nameCourse + "-" + typeCourse + "-M." + nameTeacher + "\n"  + " " + nameRoom);
-            testInfo.setEditable(false);
-            testInfo.setBounds(5, 10, 178, 30);
-            testInfo.setBackground(Color.yellow);
+            JTextArea courseInfo = new JTextArea(nameCourse + "-" + typeCourse + "-M." + nameTeacher + "\n"  + " " + nameRoom);
+
+            float[] blue = Color.RGBtoHSB(71, 192, 234, null);
+            float[] red = Color.RGBtoHSB(234, 70, 70, null);
+
+            if(nameCourse.equals("MATH")){
+                courseInfo.setBackground(Color.ORANGE);
+                textPanel.setBackground(Color.ORANGE);
+            }
+            else if(nameCourse.equals("COSC")){
+                courseInfo.setBackground(Color.getHSBColor(blue[0], blue[1], blue[2]));
+                textPanel.setBackground(Color.getHSBColor(blue[0], blue[1], blue[2]));
+            }
+            else if(nameCourse.equals("PHYS")){
+                courseInfo.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
+                textPanel.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
+            }
+            courseInfo.setEditable(false);
+            courseInfo.setBounds(5, 10, 178, 30);
+            courseInfo.setBackground(Color.yellow);
             textPanel.setBackground(Color.yellow);
             textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-            textPanel.add(testInfo);
+            textPanel.add(courseInfo);
             textPanel.setBounds(x,y,185,55);
             textPanel.setOpaque(true);
             frame.add(textPanel);
@@ -445,7 +473,7 @@ public class Planning extends JPanel {
             String heure = heureDebutString+heureFinString;
             heure = addChar(heure,'-',8);
 
-            int y = 174;
+            int y = 154;
             int x = 50;
             if (nameDay == 1){ // equals("lundi")
             }

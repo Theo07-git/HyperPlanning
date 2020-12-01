@@ -26,7 +26,8 @@ public class ControllerAdmin {
     }
 
     public ControllerAdmin(String idUser) throws SQLException, ClassNotFoundException {
-        User user = new User();
+        //User user = new User();
+        this.user = new User();
         this.user = user.findById(idUser);
     }
 

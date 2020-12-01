@@ -3,6 +3,7 @@ package view;
 import controller.ControllerAdmin;
 import controller.ControllerStudent;
 import controller.TestConnection;
+import model.User;
 import view.Ressource.Planning;
 
 import javax.swing.*;
@@ -57,7 +58,7 @@ public class AdminView extends JFrame{
 
         // Création des items student
         JMenuItem miStudentList = new JMenuItem("Liste des etudiants");
-        JMenuItem miStudentPlanning = new JMenuItem("Recapitulatif des eours");
+        JMenuItem miStudentPlanning = new JMenuItem("Recapitulatif des cours");
 
         // Création des items teachers
         JMenuItem miTeacherList = new JMenuItem("Liste des enseignants");
@@ -1306,6 +1307,11 @@ public class AdminView extends JFrame{
                 jFrame.getContentPane().remove(jButtonCancel);
                 jFrame.getContentPane().remove(jButtonOk);
                 jFrame.repaint();
+                try {
+                    controllerAdminPersonalInfos.getUser().updatePassword(jTextFieldNewPassword.getText());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
 

@@ -219,6 +219,12 @@ public class StudentView  {
                 jFrame.getContentPane().remove(jButtonCancel);
                 jFrame.getContentPane().remove(jButtonOk);
                 jFrame.repaint();
+                try {
+                    controllerStudent.getStudent().updatePassword(jTextFieldNewPassword.getText());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
             }
         });
 

@@ -15,14 +15,18 @@ public class UserDao implements UserDaoInterface{
         this.connect = conn;
     }
 
-    public UserDao() {
-        super();
-    }
-
     public boolean create(User user){ return false; }
 
-    public boolean update(User user){
-        return false;
+    public User updatePassword(User user) throws SQLException {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "UPDATE user SET password = '" + user.getPassword() + "' WHERE idUser = '" + user.getId() + "'");
+            user = this.findById(user.getId());
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 
     public boolean delete(User user){
