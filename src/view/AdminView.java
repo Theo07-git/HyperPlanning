@@ -5,7 +5,7 @@ import controller.TestConnection;
 import model.Student;
 import model.Teacher;
 import model.User;
-import view.Ressource.Planning;
+import view.ressource.Planning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

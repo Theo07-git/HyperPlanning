@@ -1,15 +1,13 @@
 package view;
 
-import controller.ControllerStudent;
 import controller.ControllerTeacher;
 import controller.TestConnection;
-import view.Ressource.Planning;
+import view.ressource.Planning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.text.ParseException;
 
 public class TeacherView {
 
