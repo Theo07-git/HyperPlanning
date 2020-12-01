@@ -12,16 +12,26 @@ public class ControllerAdmin {
     private List<Course> courses;
     private List<Student> students;
     private List<Teacher> teachers;
+    private User user;
 
     //private List<Session> sessions;
 
-    public ControllerAdmin(){
+    public ControllerAdmin() {
         promotions = new ArrayList<>();
         groupsPromotion = new ArrayList<>();
         courses = new ArrayList<>();
         students = new ArrayList<>();
         teachers = new ArrayList<>();
         //sessions = new ArrayList<>();
+    }
+
+    public ControllerAdmin(String idUser) throws SQLException, ClassNotFoundException {
+        User user = new User();
+        this.user = user.findById(idUser);
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public Group getGroupById(String idGroup) throws SQLException, ClassNotFoundException {
@@ -129,13 +139,10 @@ public class ControllerAdmin {
     public ArrayList<ArrayList<String>> getAllSession(String idGroup) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionByIdGroup(idGroup);
-        //sessions.add(session);
         ArrayList<ArrayList<String>> allSession = new ArrayList<>();
 
         while(session.resultSetSessionByIdGroupNext()){
             ArrayList<String> buffer = new ArrayList<>();
-            //sessions.add(session);
-
             assert allSession != null;
             buffer.add(session.getIdSession());
             buffer.add(String.valueOf(session.getWeek()));
@@ -144,27 +151,20 @@ public class ControllerAdmin {
             buffer.add(String.valueOf(session.getEndTime()));
             buffer.add(session.getType());
             buffer.add(String.valueOf(session.getRoom()));
-
-
             allSession.add(buffer);
         }
         return allSession;
     }
 
-
     public ArrayList<Session> getAllSession1(String idGroup) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionByIdGroup(idGroup);
-        //sessions.add(session);
         ArrayList<Session> allSession = new ArrayList<>();
         while(session.resultSetSessionByIdGroupNext()){
-            allSession.add(new Session(session.getIdSession(),session.getWeek(),session.getDate(),session.getStartTime(),session.getEndTime(),session.getType(),session.getIdCourse(), session.getRoom()));
+            allSession.add(new Session(session.getIdSession(),session.getWeek(),session.getDate(),session.getStartTime(),session.getEndTime(),session.getType(),session.getIdCourse(), session.getRoom(), session.getTeacherName(), session.getIdGroupSession()));
         }
-        System.out.println("Allsession"+allSession);
-
         return allSession;
     }
-
 
     public List<Group> getGroupsPromotion() {
         return groupsPromotion;

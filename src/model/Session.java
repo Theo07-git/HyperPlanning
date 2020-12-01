@@ -19,8 +19,10 @@ public class Session {
     public String type;
     private Room room;
     private String idCourse;
+    private String teacherName;
+    private String idGroupSession;
 
-    public Session(String idSession, int week, Date date, Time startTime, Time endTime, String type, String idCourse, Room room) throws SQLException, ClassNotFoundException {
+    public Session(String idSession, int week, Date date, Time startTime, Time endTime, String type, String idCourse, Room room, String teacherName, String idGroupSession) throws SQLException, ClassNotFoundException {
         IdSession = idSession;
         Week = week;
         this.date = date;
@@ -29,6 +31,8 @@ public class Session {
         this.type = type;
         this.room = room;
         this.idCourse = idCourse;
+        this.teacherName = teacherName;
+        this.idGroupSession = idGroupSession;
     }
 
     public Session() throws ClassNotFoundException, SQLException {
@@ -37,8 +41,24 @@ public class Session {
         this.room = new Room();
     }
 
-    public Room getRoom() {
+    public Room getRoom(){
         return room;
+    }
+
+    public String getTeacherName(){
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName){
+        this.teacherName = teacherName;
+    }
+
+    public String getIdGroupSession() {
+        return idGroupSession;
+    }
+
+    public void setIdGroupSession(String idGroupSession) {
+        this.idGroupSession = idGroupSession;
     }
 
     public String getIdCourse() {
@@ -110,6 +130,18 @@ public class Session {
         return (sessionDao.resultSetSessionByIdGroupNext(this));
     }
 
+    public void resultSetSessionForTeacher(String idTeacher){
+        sessionDao.resultSetSessionForTeacher(idTeacher);
+    }
+
+    public boolean resultSetSessionForTeacherNext(){
+        return (sessionDao.resultSetSessionForTeacherNext(this));
+    }
+
+    public Teacher findTeacherSession() throws SQLException, ClassNotFoundException{
+        return sessionDao.findTeacherSession(this.IdSession);
+    }
+
     @Override
     public String toString() {
         return "Session{" +
@@ -119,6 +151,10 @@ public class Session {
                 ", StartTime=" + StartTime +
                 ", EndTime=" + EndTime +
                 ", type='" + type + '\'' +
+                ", room=" + room +
+                ", idCourse='" + idCourse + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", idGroupSession='" + idGroupSession + '\'' +
                 '}';
     }
 }

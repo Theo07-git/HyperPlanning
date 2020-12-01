@@ -16,12 +16,14 @@ public class Teacher extends User {
         teacherDao = DAOInstance.getTeacherDao();
     }
 
-    public Teacher(String id, String name, String lastName, String email, String password, String permission, String idCourse) throws SQLException, ClassNotFoundException {
-        super(id, name, lastName, email, password, permission);
+    public Teacher(String id, String email, String password, String lastName, String firstName, String permission, String idCourse) throws SQLException, ClassNotFoundException {
+        super(id, email, password, lastName, firstName, permission);
         this.idCourse = idCourse;
     }
 
-
+    public String getIdCourse() {
+        return idCourse;
+    }
 
     public void setId(String id){
         this.id = id;
@@ -48,6 +50,10 @@ public class Teacher extends User {
     }
 
     public void setIdCourse(String idCourse){ this.idCourse = idCourse; }
+
+    public Teacher findById(String id) throws SQLException, ClassNotFoundException{
+        return teacherDao.findById(id);
+    }
 
     public void resultSetByCourse(String nameCourse){
         teacherDao.resultSetByCourse(nameCourse);

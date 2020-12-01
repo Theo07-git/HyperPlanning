@@ -47,7 +47,8 @@ public class IdentificationView extends JFrame  {
                     switch (permission) {
                         case 0 -> System.out.println("Erreur - Permission non reconnu");
                         case 1 -> {
-                            AdminView adminView = new AdminView(testConnection);
+                            //AdminView adminView = new AdminView(testConnection);
+                            System.out.println("1");
                         }
                         case 2 -> System.out.println("2");
                         case 3 -> System.out.println("3");

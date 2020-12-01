@@ -33,7 +33,7 @@ public class StudentDao implements StudentDaoInterface{
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE idUser = " + id);
             ResultSet result1 = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM student WHERE id_UserS = " + id);
-            if(result.first() && result1.first())
+            if(result.first() && result1.first()) {
                 student = new Student(
                         id,
                         result.getString("email"),
@@ -43,11 +43,11 @@ public class StudentDao implements StudentDaoInterface{
                         result.getString("permission"),
                         result1.getString("number"),
                         result1.getString("id_group_promotionS"));
+            }
             else System.out.println("Erreur identification eleve non trouve");
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-
         return student;
     }
 
@@ -108,5 +108,4 @@ public class StudentDao implements StudentDaoInterface{
         }
         return found;
     }
-
 }

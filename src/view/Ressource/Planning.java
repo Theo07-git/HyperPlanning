@@ -1,6 +1,8 @@
 package view.Ressource;
 
 import controller.ControllerAdmin;
+import controller.ControllerStudent;
+import controller.ControllerTeacher;
 import model.Session;
 
 import javax.swing.*;
@@ -26,15 +28,6 @@ public class Planning extends JPanel {
         }
 
     public void setSettings(Frame frame) {
-
-        /**
-         * (numérodesemaine-1)*7+datepremierlundi pour obtenir le lundi de la semaine concernée,
-         * puis ajouter un nombre de 0 à 6 pour pointer le jour voulu de la semaine en question du lundi au dimanche.
-         **/
-
-
-
-
         ArrayList<String> heure = new ArrayList<>();
         heure.add("8h00");
         heure.add("9h30");
@@ -58,8 +51,7 @@ public class Planning extends JPanel {
         Day.add("Vendredi");
         Day.add("Samedi" );
 
-
-        int y = 182;
+        int y = 114;
         JLabel label_id_8h00 = new JLabel(heure.get(0));
         label_id_8h00.setBounds(5, y, 45, 80);
         frame.add(label_id_8h00);
@@ -114,25 +106,21 @@ public class Planning extends JPanel {
 
 
         int xDate = 75;
-        int yDate = 155;
-        for (int j =0;j< 6;++j){
+        int yDate = 92;
+        for (int j = 0; j < 6; ++j){
             JLabel label_id = new JLabel(Day.get(j));
             label_id.setBounds(xDate, yDate, 200, 100);
             frame.add(label_id);
             xDate+=188;
-
-
         }
         JPanel ListWeek = new JPanel();
-        ListWeek.setBounds(150,130,1000,25);
+        ListWeek.setBounds(150,80,1000,25);
         JPanel ListMonth = new JPanel();
-        ListMonth.setBounds(150,155,1000,15);
-
+        ListMonth.setBounds(150,105,1000,15);
 
         ListMonth.setBackground(Color.black);
         ListMonth.setLayout(new GridLayout(1,12));
         ListMonth.setOpaque(false);
-
 
         ListWeek.setBackground(Color.black);
         ListWeek.setOpaque(false);
@@ -233,14 +221,14 @@ public class Planning extends JPanel {
         }
 
         int cnt =32;
-        for(int i =32; i < 54;++i) {
+        for(int i =32; i < 54;++i){
             JButton Week = new JButton("" + i);
             Week.setBackground(Color.GRAY);
             Week.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             Week.setOpaque(true);
             ListWeek.add(Week);
         }
-        for(int i =1; i < 31;++i) {
+        for(int i =1; i < 31;++i){
             JButton Week = new JButton("" + i );
             Week.setBackground(Color.GRAY);
             Week.setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -251,15 +239,10 @@ public class Planning extends JPanel {
         frame.add(ListMonth);
     }
 
-    public void DrawWeekCours_Student(Frame frame,String idGroupe , int week) throws SQLException, ClassNotFoundException, ParseException {
-
-
+    public void DrawStudentPlanningForAdmin(Frame frame, String idGroupe, int week) throws SQLException, ClassNotFoundException{
         ControllerAdmin controller = new ControllerAdmin();
-
-        //ArrayList<ArrayList<String>> sessions = controller.getAllSession(idGroupe);
         ArrayList<Session> sessions = controller.getAllSession1(idGroupe);
         ArrayList<Session> myWeekSession= new ArrayList<>();
-
 
         for(int i = 0;i< sessions.size();++i){
             if(sessions.get(i).getWeek() == week){
@@ -268,42 +251,24 @@ public class Planning extends JPanel {
         }
 
         ArrayList<Date> listDate = new ArrayList<>();
-
         for(int i=0;i<myWeekSession.size();++i){
 
             Date date = myWeekSession.get(i).getDate();
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
             int nameDay = date.getDay();
 
+            Time startTime = myWeekSession.get(i).getStartTime();
+            Time endTime = myWeekSession.get(i).getEndTime();
 
-            Time heureDebut = myWeekSession.get(i).getStartTime();
-            Time heureFin = myWeekSession.get(i).getEndTime();
-
-            System.out.println("TIME i="+i+"heure debut"+heureDebut+"heure fin "+heureFin);
-
-            String heureDebutString = dateFormat.format(heureDebut);
-            String heureFinString = dateFormat.format(heureFin);
-            System.out.println("STRING i="+i+"heure debut"+heureDebutString+"heure fin "+heureFinString);
+            String heureDebutString = dateFormat.format(startTime);
+            String heureFinString = dateFormat.format(endTime);
 
             String heure = heureDebutString+heureFinString;
             heure = addChar(heure,'-',8);
 
-
-            //String TypeCours = myWeekSession.get(i).get(5);
-
-            String NameRoom = myWeekSession.get(i).getRoom().getNameRoom();
-            String NameCours = myWeekSession.get(i).getIdCourse();
-
-            System.out.println("N°"+i+" name day ="+nameDay+" heure="+heure);
-            DateFormat dateFormat8h00 = new SimpleDateFormat("08:00:00");
-            System.out.println("datefromat"+dateFormat8h00);
-            DateFormat dateFormat9H30 = new SimpleDateFormat("hh:mm:ss");
-            //DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-
-            int y = 220;
-            int x =50;
+            int y = 174;
+            int x = 50;
             if (nameDay == 1){ // equals("lundi")
-
             }
             if (nameDay == 2){ // equals("mardi")
                 x+= 190;
@@ -320,8 +285,7 @@ public class Planning extends JPanel {
             if (nameDay == 6){ // equals("samedi"))
                 x+= 190*5;
             }
-            if(heureDebutString.equals("09:00:00")){
-            }
+            if(heureDebutString.equals("09:00:00")){}
             if(heureDebutString.equals("10:30:00")){
                 y+=57;
             }
@@ -344,28 +308,207 @@ public class Planning extends JPanel {
                 y+=57*7+35;
             }
 
+            String nameRoom = myWeekSession.get(i).getRoom().getNameRoom();
+            String nameCourse = myWeekSession.get(i).getIdCourse();
+            String typeCourse = myWeekSession.get(i).getType();
+            String nameTeacher = myWeekSession.get(i).getTeacherName();
+
             JPanel textPanel = new JPanel();
-
-            JLabel name_cours = new JLabel(NameCours,SwingConstants.CENTER);
-            JLabel numRoom = new JLabel(NameRoom,SwingConstants.CENTER);
-
-            numRoom.setBackground(Color.yellow);
-            name_cours.setBackground(Color.yellow);
+            textPanel.setLayout(null);
+            JTextArea courseInfo = new JTextArea(nameCourse + "-" + typeCourse + "-M." + nameTeacher + "\n"  + " " + nameRoom);
+            courseInfo.setEditable(false);
+            courseInfo.setBounds(5, 10, 178, 30);
+            courseInfo.setBackground(Color.yellow);
             textPanel.setBackground(Color.yellow);
-
             textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-
-            textPanel.add(numRoom);
-            textPanel.add(name_cours);
-
+            textPanel.add(courseInfo);
             textPanel.setBounds(x,y,185,55);
-            frame.add(textPanel);
             textPanel.setOpaque(true);
+            frame.add(textPanel);
+            frame.repaint();
         }
     }
 
-    public void setEmploiDuTemps() {
-        //g2.setColor(Color.gray);
+    public void DrawStudentPlanningForStudent(Frame frame, String idGroupe, String idUser, int week) throws SQLException, ClassNotFoundException{
+        ControllerStudent controller = new ControllerStudent(idUser);
+        ArrayList<Session> sessions = controller.getAllSession(idGroupe);
+        ArrayList<Session> myWeekSession= new ArrayList<>();
+
+        for(int i = 0;i< sessions.size();++i){
+            if(sessions.get(i).getWeek() == week){
+                myWeekSession.add(sessions.get(i));
+            }
+        }
+
+        ArrayList<Date> listDate = new ArrayList<>();
+        for(int i=0;i<myWeekSession.size();++i){
+
+            Date date = myWeekSession.get(i).getDate();
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            int nameDay = date.getDay();
+
+            Time startTime = myWeekSession.get(i).getStartTime();
+            Time endTime = myWeekSession.get(i).getEndTime();
+
+            String heureDebutString = dateFormat.format(startTime);
+            String heureFinString = dateFormat.format(endTime);
+
+            String heure = heureDebutString+heureFinString;
+            heure = addChar(heure,'-',8);
+
+            int y = 174;
+            int x = 50;
+            if (nameDay == 1){ // equals("lundi")
+            }
+            if (nameDay == 2){ // equals("mardi")
+                x+= 190;
+            }
+            if (nameDay == 3){ // equals("mercredi"))
+                x+= 190*2;
+            }
+            if (nameDay == 4){ // equals("jeudi")
+                x+= 190*3;
+            }
+            if (nameDay == 5){ // equals("vendredi")
+                x+= 190*4;
+            }
+            if (nameDay == 6){ // equals("samedi"))
+                x+= 190*5;
+            }
+            if(heureDebutString.equals("09:00:00")){}
+            if(heureDebutString.equals("10:30:00")){
+                y+=57;
+            }
+            if(heureDebutString.equals("12:15:00")){
+                y+=57*2+10;
+            }
+            if(heureDebutString.equals("01:45:00")){
+                y+=57*3+10;
+            }
+            if(heureDebutString.equals("03:30:00")){
+                y+=57*4+25;
+            }
+            if(heureDebutString.equals("05:00:00")){
+                y+=57*5+25;
+            }
+            if(heureDebutString.equals("06:45:00")){
+                y+=57*6+35;
+            }
+            if(heureDebutString.equals("08:15:00")){
+                y+=57*7+35;
+            }
+
+            String nameRoom = myWeekSession.get(i).getRoom().getNameRoom();
+            String nameCourse = myWeekSession.get(i).getIdCourse();
+            String typeCourse = myWeekSession.get(i).getType();
+            String nameTeacher = myWeekSession.get(i).getTeacherName();
+
+            JPanel textPanel = new JPanel();
+            textPanel.setLayout(null);
+            JTextArea testInfo = new JTextArea(nameCourse + "-" + typeCourse + "-M." + nameTeacher + "\n"  + " " + nameRoom);
+            testInfo.setEditable(false);
+            testInfo.setBounds(5, 10, 178, 30);
+            testInfo.setBackground(Color.yellow);
+            textPanel.setBackground(Color.yellow);
+            textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            textPanel.add(testInfo);
+            textPanel.setBounds(x,y,185,55);
+            textPanel.setOpaque(true);
+            frame.add(textPanel);
+        }
+    }
+
+    public void DrawTeacherPlanningForTeacher(Frame frame, String idUser, int week) throws SQLException, ClassNotFoundException{
+        ControllerTeacher controller = new ControllerTeacher(idUser);
+        ArrayList<Session> sessions = controller.getAllSession(idUser);
+        ArrayList<Session> myWeekSession= new ArrayList<>();
+
+        for(int i = 0;i< sessions.size();++i){
+            if(sessions.get(i).getWeek() == week){
+                myWeekSession.add(sessions.get(i));
+            }
+        }
+
+        ArrayList<Date> listDate = new ArrayList<>();
+        for(int i=0;i<myWeekSession.size();++i){
+
+            Date date = myWeekSession.get(i).getDate();
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            int nameDay = date.getDay();
+
+            Time startTime = myWeekSession.get(i).getStartTime();
+            Time endTime = myWeekSession.get(i).getEndTime();
+
+            String heureDebutString = dateFormat.format(startTime);
+            String heureFinString = dateFormat.format(endTime);
+
+            String heure = heureDebutString+heureFinString;
+            heure = addChar(heure,'-',8);
+
+            int y = 174;
+            int x = 50;
+            if (nameDay == 1){ // equals("lundi")
+            }
+            if (nameDay == 2){ // equals("mardi")
+                x+= 190;
+            }
+            if (nameDay == 3){ // equals("mercredi"))
+                x+= 190*2;
+            }
+            if (nameDay == 4){ // equals("jeudi")
+                x+= 190*3;
+            }
+            if (nameDay == 5){ // equals("vendredi")
+                x+= 190*4;
+            }
+            if (nameDay == 6){ // equals("samedi"))
+                x+= 190*5;
+            }
+            if(heureDebutString.equals("09:00:00")){}
+            if(heureDebutString.equals("10:30:00")){
+                y+=57;
+            }
+            if(heureDebutString.equals("12:15:00")){
+                y+=57*2+10;
+            }
+            if(heureDebutString.equals("01:45:00")){
+                y+=57*3+10;
+            }
+            if(heureDebutString.equals("03:30:00")){
+                y+=57*4+25;
+            }
+            if(heureDebutString.equals("05:00:00")){
+                y+=57*5+25;
+            }
+            if(heureDebutString.equals("06:45:00")){
+                y+=57*6+35;
+            }
+            if(heureDebutString.equals("08:15:00")){
+                y+=57*7+35;
+            }
+
+            String nameRoom = myWeekSession.get(i).getRoom().getNameRoom();
+            String nameCourse = myWeekSession.get(i).getIdCourse();
+            String typeCourse = myWeekSession.get(i).getType();
+            String nameGroup = myWeekSession.get(i).getIdGroupSession();
+
+            JPanel textPanel = new JPanel();
+            textPanel.setLayout(null);
+            JTextArea courseInfo = new JTextArea(nameCourse + "-" + typeCourse + "-" + nameGroup + "\n"  + " " + nameRoom);
+            courseInfo.setEditable(false);
+            courseInfo.setBounds(5, 10, 178, 30);
+            courseInfo.setBackground(Color.yellow);
+            textPanel.setBackground(Color.yellow);
+            textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            textPanel.add(courseInfo);
+            textPanel.setBounds(x,y,185,55);
+            textPanel.setOpaque(true);
+            frame.add(textPanel);
+        }
+    }
+
+    public void setEmploiDuTemps(Graphics g2) {
+        g2.setColor(Color.gray);
         int x = 50;
         int y = 220;
         for (int i = 0; i < 6; ++i) {
@@ -374,7 +517,7 @@ public class Planning extends JPanel {
                  JLabel panel = new JLabel();
                  panel.setBounds(x, y, 185, 38);
                  setBackground(Color.GRAY);
-                 //g2.fillRect(x, y, 185, 38); // fill new rectangle with color blue
+                 g2.fillRect(x, y, 185, 38); // fill new rectangle with color blue
 
                 y += 40;
             }
@@ -388,11 +531,11 @@ public class Planning extends JPanel {
         super.paintComponent(g);
         // cast Graphics to Graphics2D
         Graphics2D g2 = (Graphics2D) g;
-        //setEmploiDuTemps(g2);
+        setEmploiDuTemps(g2);
 
     }
 
-    }
+}
 
 
 

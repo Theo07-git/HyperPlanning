@@ -32,7 +32,7 @@ public class Main {
 
         IdentificationView idView = new IdentificationView(testConnection);
 
-        actualUser.addObserver(idView);
+        //actualUser.addObserver(idView);
 
         List<Student> students = new ArrayList<>();
 

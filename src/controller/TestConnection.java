@@ -48,7 +48,7 @@ public class TestConnection {
     }
 
     public void getActualUser(){
-        System.out.println(user.toString());
+        //System.out.println(user.toString());
     }
     public User getUser(){
         return user;

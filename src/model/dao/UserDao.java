@@ -35,7 +35,7 @@ public class UserDao implements UserDaoInterface{
         try{
             ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE idUser = " + id);
-            if(result.first()) {
+            if(result.first()){
                 user = new User(
                         id,
                         result.getString("email"),
@@ -57,7 +57,7 @@ public class UserDao implements UserDaoInterface{
         try{
             ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE email = '" + email + "'");
-            if(result.first())
+            if(result.first()) {
                 user = new User(
                         result.getString("idUser"),
                         email,
@@ -65,6 +65,7 @@ public class UserDao implements UserDaoInterface{
                         result.getString("last_name"),
                         result.getString("first_name"),
                         result.getString("permission"));
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

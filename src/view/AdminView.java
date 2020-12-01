@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControllerAdmin;
+import controller.ControllerStudent;
 import controller.TestConnection;
 import view.Ressource.Planning;
 
@@ -14,10 +15,10 @@ import java.util.Objects;
 
 public class AdminView extends JFrame{
 
-    public AdminView(TestConnection testConnection){
+    public AdminView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
         JFrame frame = new JFrame();
 
-        interfaceAdmin(frame);
+        interfaceAdmin(frame, testConnection);
         frame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         frame.setSize(1200,800);
         frame.setLocationRelativeTo(null);
@@ -27,41 +28,40 @@ public class AdminView extends JFrame{
         frame.setVisible(true);
     }
 
-    public void interfaceAdmin(JFrame jFrame){
+    public void interfaceAdmin(JFrame jFrame, TestConnection testConnection) throws SQLException, ClassNotFoundException {
         ControllerAdmin controllerAdmin = new ControllerAdmin();
+        ControllerAdmin controllerAdminPersonalInfos = new ControllerAdmin(testConnection.getUser().getId());
 
         // Création de la barre menu
         JMenuBar menuBar = new JMenuBar();
         jFrame.setJMenuBar(menuBar);
 
         // Création des menus
-        JMenu menuStudent = new JMenu();
-        JMenu menuTeacher = new JMenu();
-        JMenu menuRoom = new JMenu();
-        JMenu menuUpdate = new JMenu();
-        JMenu menuPersonalInfo = new JMenu();
+        JMenu menuHome = new JMenu("Accueil");
+        JMenu menuStudent = new JMenu("Etudiant");
+        JMenu menuTeacher = new JMenu("Professeur");
+        JMenu menuRoom = new JMenu("Salles");
+        JMenu menuUpdate = new JMenu("Mise a jour des donnees");
+        JMenu menuPersonalInfo = new JMenu("Informations personnelles");
 
         // Ajout des menus dans la barre de menu
+        menuBar.add(menuHome);
         menuBar.add(menuStudent);
         menuBar.add(menuTeacher);
         menuBar.add(menuRoom);
         menuBar.add(menuUpdate);
         menuBar.add(menuPersonalInfo);
 
-        // Affectation des textes dans les menus
-        menuStudent.setText("Etudiant");
-        menuTeacher.setText("Professeur");
-        menuRoom.setText("Salles");
-        menuUpdate.setText("Mise a Jour des Données");
-        menuPersonalInfo.setText("Infos Personnel");
+        // Création des items student
+        JMenuItem miHome = new JMenuItem("Accueil");
 
         // Création des items student
-        JMenuItem miStudentList = new JMenuItem("Liste des Etudiants");
-        JMenuItem miStudentPlanning = new JMenuItem("Récapitulatif des Cours");
+        JMenuItem miStudentList = new JMenuItem("Liste des etudiants");
+        JMenuItem miStudentPlanning = new JMenuItem("Recapitulatif des eours");
 
         // Création des items teachers
-        JMenuItem miTeacherList = new JMenuItem("Liste des Enseignants");
-        JMenuItem miTeacherPlanning = new JMenuItem("Récapitulatif des Cours");
+        JMenuItem miTeacherList = new JMenuItem("Liste des enseignants");
+        JMenuItem miTeacherPlanning = new JMenuItem("Recapitulatif des cours");
 
         // Creation des sous menus et items "mise à jour données"
         JMenu mAdd = new JMenu("Ajouter...");
@@ -78,41 +78,47 @@ public class AdminView extends JFrame{
         JMenuItem miStudent2 = new JMenuItem("Etudiants");
         JMenuItem miStudent3 = new JMenuItem("Etudiants");
 
+        // Création de l'item Info personnelles
+        JMenuItem miAccount = new JMenuItem("Compte");
+
         // Item du menu actif
+        miHome.setEnabled(true);
         miStudentList.setEnabled(true);
         miStudentPlanning.setEnabled(true);
-
         miTeacherList.setEnabled(true);
         miTeacherPlanning.setEnabled(true);
-
         mAdd.setEnabled(true);
         mSupp.setEnabled(true);
         mMod.setEnabled(true);
+        miAccount.setEnabled(true);
 
         // Ajout des items au menu
+        menuHome.add(miHome);
         menuStudent.add(miStudentList);
         menuStudent.add(miStudentPlanning);
-
         menuTeacher.add(miTeacherList);
         menuTeacher.add(miTeacherPlanning);
-
         menuUpdate.add(mAdd);
         menuUpdate.add(mSupp);
         menuUpdate.add(mMod);
-
         mAdd.add(miCourse1);
         mAdd.add(miTeacher1);
         mAdd.add(miStudent1);
-
         mSupp.add(miCourse2);
         mSupp.add(miTeacher2);
         mSupp.add(miStudent2);
-
         mMod.add(miCourse3);
         mMod.add(miTeacher3);
         mMod.add(miStudent3);
+        menuPersonalInfo.add(miAccount);
 
         // Action sélection item
+        miHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         miStudentList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -224,12 +230,12 @@ public class AdminView extends JFrame{
                 modStudentWindow();
             }
         });
-        menuPersonalInfo.addActionListener(new ActionListener() {
+        miAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
-                personalInfo(jFrame);
+                createPersonalInfos(jFrame, controllerAdminPersonalInfos);
             }
         });
 
@@ -250,7 +256,7 @@ public class AdminView extends JFrame{
         createCourseChoice(jFrame, controllerAdmin, "TeacherPlanning");
     }
 
-    // Affichage combobox choix
+    // Affichage combobox choix Student
     public void createPromotionChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         jFrame.setLayout(null);
         JLabel jLabelSelectPromo = new JLabel("Selectionner une promotion et un groupe :");
@@ -312,7 +318,7 @@ public class AdminView extends JFrame{
                     jFrame.add(jComboBox);
                     jFrame.add(jComboBoxSelectGroup);
                     try {
-                        createStudentPlanningView(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString(),jComboBox,jComboBoxSelectGroup);
+                        createStudentPlanningView(jFrame, Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString(),jComboBox,jComboBoxSelectGroup);
                         jFrame.repaint();
                     } catch (SQLException | ClassNotFoundException | ParseException throwables) {
                         throwables.printStackTrace();
@@ -326,6 +332,7 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectGroup);
         jFrame.setVisible(true);
     }
+    // Affichage combobox choix Teacher
     public void createCourseChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         JLabel jLabelSelectCourse = new JLabel("Selectionner une matière :");
         jLabelSelectCourse.setBounds(40, 10, 300, 28);
@@ -337,22 +344,29 @@ public class AdminView extends JFrame{
             strCourse[j] = promotions.get(j);
         }
         JComboBox jComboBoxSelectCourse = new JComboBox(strCourse);
-        jComboBoxSelectCourse.setBounds(40, 40, 100, 28);
+        jComboBoxSelectCourse.setBounds(40, 40, 200, 28);
 
         jComboBoxSelectCourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(choiceView.equals("TeacherList")){
-                    JPanel jPanelTable = new JPanel();
                     jFrame.getContentPane().removeAll();
                     jFrame.add(jComboBoxSelectCourse);
                     jFrame.add(jLabelSelectCourse);
                     try {
                         createTeacherListViewByCourse(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString());
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
+                    }
+                }
+                else if(choiceView.equals("TeacherPlanning")){
+                    jFrame.getContentPane().removeAll();
+                    jFrame.add(jComboBoxSelectCourse);
+                    jFrame.add(jLabelSelectCourse);
+                    try {
+                        createTeacherChoice(jFrame, jComboBoxSelectCourse, controllerAdmin, Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString());
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
                     }
                 }
             }
@@ -360,6 +374,41 @@ public class AdminView extends JFrame{
 
         jFrame.setLayout(null);
         jFrame.add(jComboBoxSelectCourse);
+        jFrame.setVisible(true);
+    }
+    public void createTeacherChoice(JFrame jFrame, JComboBox jComboBoxCourse, ControllerAdmin controllerAdmin, String courseChoiced) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<String>> teachers = controllerAdmin.getAllTeachers(courseChoiced);
+        String[] strTeacherId = new String[teachers.size()];
+        for (int i = 0; i < teachers.size(); i++) {
+            strTeacherId[i] = teachers.get(i).get(0);
+        }
+        String[] strTeacherName = new String[teachers.size()];
+        for (int i = 0; i < teachers.size(); i++) {
+            strTeacherName[i] = "M." + teachers.get(i).get(1);
+        }
+        JComboBox jComboBoxSelectteacher = new JComboBox(strTeacherName);
+        jComboBoxSelectteacher.setBounds(250, 40, 200, 28);
+
+        jComboBoxSelectteacher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < strTeacherName.length; i++) {
+                    if (strTeacherName[i].equals(jComboBoxSelectteacher.getSelectedItem())) {
+                        jFrame.getContentPane().removeAll();
+                        jFrame.add(jComboBoxCourse);
+                        jFrame.add(jComboBoxSelectteacher);
+                        try {
+                            createTeacherPlanningView(jFrame, strTeacherId[i], jComboBoxCourse, jComboBoxSelectteacher);
+                        } catch (SQLException | ClassNotFoundException | ParseException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        jFrame.setLayout(null);
+        jFrame.add(jComboBoxSelectteacher);
         jFrame.setVisible(true);
     }
 
@@ -384,14 +433,11 @@ public class AdminView extends JFrame{
         jFrame.add(jPanelStudentList);
         jFrame.setVisible(true);
     }
-    public void createStudentPlanningView(JFrame jFrame, ControllerAdmin controllerAdmin, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
-
-        //Planning StudentPlanning = new Planning(jFrame,GroupChoiced,controllerAdmin,48);
+    public void createStudentPlanningView(JFrame jFrame, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
         Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(380, 40, 80, 28);
         Planning planning = new Planning();
-        planning.setEmploiDuTemps();
         planning.setSettings(jFrame);
         jComboBoxSelectWeek.addActionListener(new ActionListener() {
             @Override
@@ -403,44 +449,26 @@ public class AdminView extends JFrame{
                 for(int i = 0; i < week.length; i++) {
                     if(jComboBoxSelectWeek.getSelectedIndex() == i){
                         try {
-                            planning.DrawWeekCours_Student(jFrame, GroupChoiced, i+1);
-                        } catch (SQLException | ClassNotFoundException | ParseException throwables) {
+                            planning.DrawStudentPlanningForAdmin(jFrame, GroupChoiced, i+1);
+                        } catch (SQLException | ClassNotFoundException throwables) {
                             throwables.printStackTrace();
                         }
                     }
                 }
-
-
-                jFrame.repaint();
+                planning.repaint();
                 planning.setSettings(jFrame);
                 jFrame.add(planning);
-
-
-                // Ne peut pas mélanger setSetting et repaint,
-                // que repaint -> les cours sont bien maj en fonction des week mais les mois ne sont plus afficher
-                // que setSettings -> cours pas afficher
-
-
             }
         });
-
-
-        //planning.setSettings(jFrame);
-        //jFrame.add(planning);
         jFrame.add(planning);
         jFrame.add(jComboBoxSelectWeek);
-
-        //
         jFrame.setOpacity(1);
         jFrame.setVisible(true);
-
-
     }
 
     // Affichage tableaux professeurs par matière
     public void createTeacherListViewByCourse(JFrame jFrame, ControllerAdmin controllerAdmin, String courseChoice) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> teachers = controllerAdmin.getAllTeachers(courseChoice);
-        System.out.println(teachers);
         String[] tableTitle = {"ID", "Nom", "Prenom", "Email", "Permission"};
         String[][] mt = new String[teachers.size()][tableTitle.length];
         for(int i = 0 ; i < teachers.size(); i++){
@@ -456,6 +484,38 @@ public class AdminView extends JFrame{
         jPanelTeacherList.setBounds(0, 80, 500, 200);
         jPanelTeacherList.add(jScrollPane);
         jFrame.add(jPanelTeacherList);
+        jFrame.setVisible(true);
+    }
+    public void createTeacherPlanningView(JFrame jFrame, String idUser, JComboBox jComboBoxCourse, JComboBox jComboBoxTeacherChoice) throws SQLException, ClassNotFoundException, ParseException {
+        Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
+        JComboBox jComboBoxSelectWeek = new JComboBox(week);
+        jComboBoxSelectWeek.setBounds(460, 40, 80, 28);
+        Planning planning = new Planning();
+        planning.setSettings(jFrame);
+        jComboBoxSelectWeek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                jFrame.add(jComboBoxCourse);
+                jFrame.add(jComboBoxTeacherChoice);
+                jFrame.add(jComboBoxSelectWeek);
+                for(int i = 0; i < week.length; i++) {
+                    if(jComboBoxSelectWeek.getSelectedIndex() == i){
+                        try {
+                            planning.DrawTeacherPlanningForTeacher(jFrame, idUser, i+1);
+                        } catch (SQLException | ClassNotFoundException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                }
+                planning.repaint();
+                planning.setSettings(jFrame);
+                jFrame.add(planning);
+            }
+        });
+        jFrame.add(planning);
+        jFrame.add(jComboBoxSelectWeek);
+        jFrame.setOpacity(1);
         jFrame.setVisible(true);
     }
 
@@ -1148,8 +1208,108 @@ public class AdminView extends JFrame{
     }
 
     // Affichage informations personnelles
-    public void personalInfo(JFrame jFrame){
-        JLabel accountLabel = new JLabel("<b/>Compte");
-        jFrame.add(accountLabel);
+    public void createPersonalInfos(JFrame jFrame, ControllerAdmin controllerAdminPersonalInfos){
+        JLabel jLabelAcount = new JLabel("Compte");
+        jLabelAcount.setBounds(20, 20, 100, 28);
+
+        JLabel jLabelId = new JLabel("Identifiant :");
+        jLabelId.setBounds(40, 50, 300, 28);
+        JTextField jTextFieldId = new JTextField(controllerAdminPersonalInfos.getUser().getId());
+        jTextFieldId.setBounds(40, 80, 300, 28);
+
+        JLabel jLabelLastName = new JLabel("Nom :");
+        jLabelLastName.setBounds(40, 110, 300, 28);
+        JTextField jTextFieldLastName = new JTextField(controllerAdminPersonalInfos.getUser().getLastName());
+        jTextFieldLastName.setBounds(40, 140, 300, 28);
+
+        JLabel jLabelFirstName = new JLabel("Prenom :");
+        jLabelFirstName.setBounds(40, 170, 300, 28);
+        JTextField jTextFieldFirstName = new JTextField(controllerAdminPersonalInfos.getUser().getFirstName());
+        jTextFieldFirstName.setBounds(40, 200, 300, 28);
+
+        JLabel jLabelEmail = new JLabel("Email :");
+        jLabelEmail.setBounds(40, 230, 300, 28);
+        JTextField jTextFieldEmail = new JTextField(controllerAdminPersonalInfos.getUser().getEmail());
+        jTextFieldEmail.setBounds(40, 260, 300, 28);
+
+        JLabel jLabelPassword = new JLabel("Mot de passe :");
+        jLabelPassword.setBounds(40, 290, 300, 28);
+        JPasswordField jPasswordFieldPassword = new JPasswordField(controllerAdminPersonalInfos.getUser().getPassword());
+        jPasswordFieldPassword.setBounds(40, 320, 300, 28);
+
+        JButton jButtonModifPassword = new JButton("Modifier le mot de passe");
+        jButtonModifPassword.setBounds(350, 320, 200, 28);
+
+        //set editabilite
+        jTextFieldId.setEditable(false);
+        jTextFieldLastName.setEditable(false);
+        jTextFieldFirstName.setEditable(false);
+        jTextFieldEmail.setEditable(false);
+        jPasswordFieldPassword.setEditable(false);
+
+        // Ajout des element à la JFrame
+        jFrame.add(jLabelAcount);
+        jFrame.add(jLabelId);
+        jFrame.add(jTextFieldId);
+        jFrame.add(jLabelLastName);
+        jFrame.add(jTextFieldLastName);
+        jFrame.add(jLabelFirstName);
+        jFrame.add(jTextFieldFirstName);
+        jFrame.add(jLabelEmail);
+        jFrame.add(jTextFieldEmail);
+        jFrame.add(jLabelPassword);
+        jFrame.add(jButtonModifPassword);
+        jFrame.add(jPasswordFieldPassword);
+
+        jButtonModifPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createModifPassword(jFrame, controllerAdminPersonalInfos);
+                jFrame.repaint();
+            }
+        });
+
+        jFrame.setLayout(null);
+        jFrame.setVisible(true);
     }
+
+    public void createModifPassword(JFrame jFrame, ControllerAdmin controllerAdminPersonalInfos){
+        JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");
+        jLabelModifPassword.setBounds(560, 290, 300, 28);
+        JTextField jTextFieldNewPassword = new JTextField(controllerAdminPersonalInfos.getUser().getPassword());
+        jTextFieldNewPassword.setBounds(560, 320, 200, 28);
+        JButton jButtonCancel = new JButton("Annuler");
+        jButtonCancel.setBounds(560, 350, 100, 28);
+        JButton jButtonOk = new JButton("Valider");
+        jButtonOk.setBounds(660, 350, 100, 28);
+
+        jFrame.add(jLabelModifPassword);
+        jFrame.add(jTextFieldNewPassword);
+        jFrame.add(jButtonCancel);
+        jFrame.add(jButtonOk);
+
+        jButtonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().remove(jLabelModifPassword);
+                jFrame.getContentPane().remove(jTextFieldNewPassword);
+                jFrame.getContentPane().remove(jButtonCancel);
+                jFrame.getContentPane().remove(jButtonOk);
+                jFrame.repaint();
+            }
+        });
+        jButtonOk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().remove(jLabelModifPassword);
+                jFrame.getContentPane().remove(jTextFieldNewPassword);
+                jFrame.getContentPane().remove(jButtonCancel);
+                jFrame.getContentPane().remove(jButtonOk);
+                jFrame.repaint();
+            }
+        });
+
+        jFrame.setVisible(true);
+    }
+
 }

@@ -17,7 +17,7 @@ public class ConnectionView  {
     }
 
 
-    private void EntryActionPerformed(ActionEvent e) {
+    private void EntryActionPerformed(ActionEvent e) throws SQLException, ClassNotFoundException {
         // TODO add your code here
         try {
             testConnection.isConnected(textField1.getText(), passwordField1.getText());
@@ -41,8 +41,12 @@ public class ConnectionView  {
                     AdminView adminView = new AdminView(testConnection);
                 }
                 case 2 -> System.out.println("2");
-                case 3 -> System.out.println("3");
-                case 4 -> System.out.println("4");
+                case 3 -> {
+                    TeacherView teacherView = new TeacherView(testConnection);
+                }
+                case 4 -> {
+                    StudentView studentView = new StudentView(testConnection);
+                }
             }
             testConnection.getActualUser();
         }
@@ -94,7 +98,13 @@ public class ConnectionView  {
             Entry.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 13));
             Entry.setSelectedIcon(null);
             Entry.setActionCommand("Log In");
-            Entry.addActionListener(e -> EntryActionPerformed(e));
+            Entry.addActionListener(e -> {
+                try {
+                    EntryActionPerformed(e);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
             panel1.add(Entry);
             Entry.setBounds(520, 395, 85, 25);
 
