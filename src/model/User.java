@@ -93,6 +93,18 @@ public  class User extends Observable {
         return userDao.findById(id);
     }
 
+    public boolean alreadyExist(String id) throws SQLException{
+        return userDao.alreadyExist(id);
+    }
+
+    public void ResultSetByName(){
+        userDao.ResultSetByName();
+    }
+
+    public boolean ResultSetByNameNext(){
+        return(userDao.ResultSetByNameNext(this));
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -104,11 +116,5 @@ public  class User extends Observable {
                 '}';
     }
 
-    public void ResultSetByName(){
-        userDao.ResultSetByName();
-    }
 
-    public boolean ResultSetByNameNext(){
-        return(userDao.ResultSetByNameNext(this));
-    }
 }

@@ -17,7 +17,7 @@ public class UserDao implements UserDaoInterface{
 
     public boolean create(User user){ return false; }
 
-    public User updatePassword(User user) throws SQLException {
+    public User updatePassword(User user){
         try {
             this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
                     "UPDATE user SET password = '" + user.getPassword() + "' WHERE idUser = '" + user.getId() + "'");
@@ -124,4 +124,18 @@ public class UserDao implements UserDaoInterface{
         }
         return found;
     }
+
+    public boolean alreadyExist(String id) throws SQLException {
+        try {
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE idUser = " + id);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(resultSet.first()){
+            return true;
+        }else return false;
+    }
+
 }

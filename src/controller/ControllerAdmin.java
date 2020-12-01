@@ -55,12 +55,24 @@ public class ControllerAdmin {
         return allIdPromotion;
     }
 
-    public ArrayList<String> getAllIdGroup(String idPromotion) throws SQLException, ClassNotFoundException {
+    public ArrayList<String> getAllIdGroupByIdPromo(String idPromotion) throws SQLException, ClassNotFoundException {
         Group group = new Group();
         group.resultSetByIdGroup(idPromotion);
         groupsPromotion.add(group);
         ArrayList<String> allIdGroup = new ArrayList<>();
         while(group.resultSetByIdGroupNext()){
+            groupsPromotion.add(group);
+            assert allIdGroup != null;
+            allIdGroup.add(group.getIdGroup());
+        }
+        return allIdGroup;
+    }
+    public ArrayList<String> getAllIdGroup() throws SQLException, ClassNotFoundException {
+        Group group = new Group();
+        group.resultSetIdGroup();
+        groupsPromotion.add(group);
+        ArrayList<String> allIdGroup = new ArrayList<>();
+        while(group.resultSetIdGroupNext()){
             groupsPromotion.add(group);
             assert allIdGroup != null;
             allIdGroup.add(group.getIdGroup());

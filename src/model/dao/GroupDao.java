@@ -72,4 +72,28 @@ public class GroupDao implements GroupDaoInterface{
         }
         return found;
     }
+
+    public void resultSetIdGroup()  {
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean resultSetIdGroupNext(Group group){
+        boolean found = false;
+        try{
+            if(resultSet.next()){
+                found = true;
+                group.setIdGroup(resultSet.getString("idGroupPromotion"));
+                group.setNameGroup(resultSet.getString("name"));
+                group.setIdPromotionGroup(resultSet.getString("id_promotion"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return found;
+    }
 }

@@ -52,7 +52,7 @@ public class TeacherDao {
         }
     }
 
-    public boolean resultSetByCourseNext(Teacher teacher){
+    public boolean resultSetByCourseNext(Teacher teacher) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -69,5 +69,16 @@ public class TeacherDao {
             throwables.printStackTrace();
         }
         return found;
+    }
+
+    public void createTeacher(Teacher teacher){
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO user VALUES('" + teacher.getId() + "', '" + teacher.getEmail() + "', '" + teacher.getPassword() + "', '" + teacher.getLastName() + "', '" + teacher.getFirstName() + "', '" + teacher.getPermission() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO teacher VALUES('" + teacher.getId() + "', '" + teacher.getIdCourse() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

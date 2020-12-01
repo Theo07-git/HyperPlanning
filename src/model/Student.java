@@ -17,6 +17,8 @@ public class Student extends User{
 
     public Student(String id, String email, String password, String lastName, String firstName, String permission, String studentNumber, String idGroupPromotion) throws SQLException, ClassNotFoundException {
         super(id, email, password, lastName, firstName, permission);
+        DAOFactory DAOInstance = new DAOFactory();
+        studentDao = DAOInstance.getStudentDao();
         this.studentNumber = studentNumber;
         this.idGroupPromotion = idGroupPromotion;
     }
@@ -79,6 +81,10 @@ public class Student extends User{
 
     public boolean resultSetByGroupPromotionNext(){
         return (studentDao.resultSetByGroupPromotionNext(this));
+    }
+
+    public void createStudent(){
+        studentDao.createStudent(this);
     }
 
     @Override

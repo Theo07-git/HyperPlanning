@@ -1,6 +1,7 @@
 package model.dao;
 
 import model.Student;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -108,4 +109,16 @@ public class StudentDao implements StudentDaoInterface{
         }
         return found;
     }
+
+    public void createStudent(Student student){
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO user VALUES('" + student.getId() + "', '" + student.getEmail() + "', '" + student.getPassword() + "', '" + student.getLastName() + "', '" + student.getFirstName() + "', '" + student.getPermission() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO student VALUES('" + student.getId() + "', '" + student.getStudentNumber() + "', '" + student.getIdGroupPromotion() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

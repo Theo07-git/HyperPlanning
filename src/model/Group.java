@@ -64,6 +64,13 @@ public class Group {
         return(groupDao.resultSetByIdGroupNext(this));
     }
 
+    public void resultSetIdGroup(){
+        groupDao.resultSetIdGroup();
+    }
+
+    public boolean resultSetIdGroupNext(){
+        return(groupDao.resultSetIdGroupNext(this));
+    }
 
 
     @Override

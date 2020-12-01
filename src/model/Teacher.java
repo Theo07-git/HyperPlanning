@@ -18,6 +18,8 @@ public class Teacher extends User {
 
     public Teacher(String id, String email, String password, String lastName, String firstName, String permission, String idCourse) throws SQLException, ClassNotFoundException {
         super(id, email, password, lastName, firstName, permission);
+        DAOFactory DAOInstance = new DAOFactory();
+        teacherDao = DAOInstance.getTeacherDao();
         this.idCourse = idCourse;
     }
 
@@ -61,6 +63,10 @@ public class Teacher extends User {
 
     public boolean resultSetByCourseNext(){
         return (teacherDao.resultSetByCourseNext(this));
+    }
+
+    public void createTeacher(){
+        teacherDao.createTeacher(this);
     }
 
     @Override

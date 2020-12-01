@@ -1,8 +1,9 @@
 package view;
 
 import controller.ControllerAdmin;
-import controller.ControllerStudent;
 import controller.TestConnection;
+import model.Student;
+import model.Teacher;
 import model.User;
 import view.Ressource.Planning;
 
@@ -23,7 +24,7 @@ public class AdminView extends JFrame{
         frame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         frame.setSize(1200,800);
         frame.setLocationRelativeTo(null);
-        frame.setLocation(50, 50);
+        frame.setLocation(50, 0);
         frame.setOpacity(1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -179,14 +180,22 @@ public class AdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                addStudentWindow();
+                try {
+                    addStudentWindow(controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
         miTeacher1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                addTeacherWindow();
+                try {
+                    addTeacherWindow(controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
         miCourse2.addActionListener(new ActionListener() {
@@ -293,7 +302,7 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
     public void createGroupChoice(JFrame jFrame, JComboBox jComboBox, ControllerAdmin controllerAdmin, String idPromotion, final String choiceView) throws SQLException, ClassNotFoundException {
-        ArrayList<String> groups = controllerAdmin.getAllIdGroup(idPromotion);
+        ArrayList<String> groups = controllerAdmin.getAllIdGroupByIdPromo(idPromotion);
         String[] strGroup = new String[groups.size()];
         for (int j = 0; j < groups.size(); j++) {
             strGroup[j] = groups.get(j);
@@ -649,7 +658,7 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
-    public void addTeacherWindow(){
+    public void addTeacherWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
@@ -666,8 +675,10 @@ public class AdminView extends JFrame{
         JLabel jLabelEmail = new JLabel("Saissisez l'Email du professeur : ");
         jLabelEmail.setBounds(20, 48, 250, 28);
 
-        JTextField jTextFielEmail = new JTextField();
-        jTextFielEmail.setBounds(280, 48, 200, 28);
+        JTextField jTextFielEmailPart1 = new JTextField();
+        jTextFielEmailPart1.setBounds(280, 48, 100, 28);
+        JTextField jTextFielEmailPart2 = new JTextField("@ece.fr");
+        jTextFielEmailPart2.setBounds(380, 48, 100, 28);
 
         JLabel jLabelPassword = new JLabel("Saissisez le mot de passe du professeur : ");
         jLabelPassword.setBounds(20, 80, 280, 28);
@@ -687,39 +698,52 @@ public class AdminView extends JFrame{
         JTextField jTextFieldFirstName = new JTextField();
         jTextFieldFirstName.setBounds(280, 140, 200, 28);
 
-        JLabel jLabelNumber = new JLabel("Saissisez le numéro du professeur : ");
-        jLabelNumber.setBounds(20, 170, 250, 28);
-
-        JTextField jTextFieldNumber = new JTextField();
-        jTextFieldNumber.setBounds(280, 170, 200, 28);
-
         JLabel jLabelSelectPromo = new JLabel("Selectionner une matière :");
-        jLabelSelectPromo.setBounds(20, 200, 300, 28);
+        jLabelSelectPromo.setBounds(20, 170, 250, 28);
 
-        String[] subject = {"MATH", "PHYS", "COSC"};
-        JComboBox jComboBoxSelectSubject = new JComboBox(subject);
-        jComboBoxSelectSubject.setBounds(280, 200, 100, 28);
+        ArrayList<String> promotions = controllerAdmin.getAllIdCourse();
+        String[] strCourse = new String[promotions.size()];
+        for (int j = 0; j < promotions.size(); j++) {
+            strCourse[j] = promotions.get(j);
+        }
+        JComboBox jComboBoxSelectCourse = new JComboBox(strCourse);
+        jComboBoxSelectCourse.setBounds(280, 170, 100, 28);
 
         addFrame.add(jButtonCanceled);
         addFrame.add(jButtonAdd);
         addFrame.add(jLabelIdStudent);
         addFrame.add(jTextFieldId);
         addFrame.add(jLabelEmail);
-        addFrame.add(jTextFielEmail);
+        addFrame.add(jTextFielEmailPart1);
+        addFrame.add(jTextFielEmailPart2);
         addFrame.add(jLabelPassword);
         addFrame.add(jTextFieldPassword);
         addFrame.add(jLabelLastName);
         addFrame.add(jTextFieldLastName);
         addFrame.add(jLabelFirstName);
         addFrame.add(jTextFieldFirstName);
-        addFrame.add(jLabelNumber);
-        addFrame.add(jTextFieldNumber);
         addFrame.add(jLabelSelectPromo);
-        addFrame.add(jComboBoxSelectSubject);
+        addFrame.add(jComboBoxSelectCourse);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addFrame.dispose();
+            }
+        });
+        jButtonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    User user = new User();
+                    if(!user.alreadyExist(jTextFieldId.getText())){
+                        Teacher teacher = new Teacher(jTextFieldId.getText(), jTextFielEmailPart1.getText() + jTextFielEmailPart2.getText(), jTextFieldPassword.getText(), jTextFieldLastName.getText(), jTextFieldFirstName.getText(), "TEACHER", Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString());
+                        teacher.createTeacher();
+                    }
+                    else System.out.println("Erreur Id deja utilise");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
                 addFrame.dispose();
             }
         });
@@ -730,7 +754,7 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
-    public void addStudentWindow(){
+    public void addStudentWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
@@ -747,8 +771,10 @@ public class AdminView extends JFrame{
         JLabel jLabelEmail = new JLabel("Saissisez l'Email de l'étudiant : ");
         jLabelEmail.setBounds(20, 48, 250, 28);
 
-        JTextField jTextFielEmail = new JTextField();
-        jTextFielEmail.setBounds(280, 48, 200, 28);
+        JTextField jTextFielEmailPart1 = new JTextField();
+        jTextFielEmailPart1.setBounds(280, 48, 100, 28);
+        JTextField jTextFielEmailPart2 = new JTextField("@ece.fr");
+        jTextFielEmailPart2.setBounds(380, 48, 100, 28);
 
         JLabel jLabelPassword = new JLabel("Saissisez le mot de passe de l'étudiant : ");
         jLabelPassword.setBounds(20, 80, 280, 28);
@@ -777,20 +803,24 @@ public class AdminView extends JFrame{
         JLabel jLabelSelectPromo = new JLabel("Selectionner une promotion et un groupe :");
         jLabelSelectPromo.setBounds(20, 200, 300, 28);
 
-        String[] promotion = {"ING1", "ING2", "ING3"};
-        JComboBox jComboBoxSelectPromotion = new JComboBox(promotion);
-        jComboBoxSelectPromotion.setBounds(300, 200, 90, 28);
+        ArrayList<String> groups = controllerAdmin.getAllIdGroup();
 
-        String[] groupe = {"Groupe 1", "Groupe 2", "Groupe 3"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(390, 200, 150, 28);
+        String[] strGroup = new String[groups.size()];
+        for (int j = 0; j < groups.size(); j++) {
+            strGroup[j] = groups.get(j);
+        }
+        JComboBox jComboBoxSelectGroup = new JComboBox(strGroup);
+        jComboBoxSelectGroup.setBounds(300, 200, 150, 28);
+
+        jTextFielEmailPart2.setEditable(false);
 
         addFrame.add(jButtonCanceled);
         addFrame.add(jButtonAdd);
         addFrame.add(jLabelIdStudent);
         addFrame.add(jTextFieldId);
         addFrame.add(jLabelEmail);
-        addFrame.add(jTextFielEmail);
+        addFrame.add(jTextFielEmailPart1);
+        addFrame.add(jTextFielEmailPart2);
         addFrame.add(jLabelPassword);
         addFrame.add(jTextFieldPassword);
         addFrame.add(jLabelLastName);
@@ -800,12 +830,27 @@ public class AdminView extends JFrame{
         addFrame.add(jLabelNumber);
         addFrame.add(jTextFieldNumber);
         addFrame.add(jLabelSelectPromo);
-        addFrame.add(jComboBoxSelectPromotion);
-        addFrame.add(jComboBoxSelectGroupe);
+        addFrame.add(jComboBoxSelectGroup);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addFrame.dispose();
+            }
+        });
+        jButtonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Student std = new Student();
+                    if(!std.alreadyExist(jTextFieldId.getText())){
+                        Student student = new Student(jTextFieldId.getText(), jTextFielEmailPart1.getText() + jTextFielEmailPart2.getText(), jTextFieldPassword.getText(), jTextFieldLastName.getText(), jTextFieldFirstName.getText(), "STUDENT", jTextFieldNumber.getText(), Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                        student.createStudent();
+                    }
+                    else System.out.println("Erreur Id deja utilise");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
                 addFrame.dispose();
             }
         });
@@ -1317,5 +1362,4 @@ public class AdminView extends JFrame{
 
         jFrame.setVisible(true);
     }
-
 }
