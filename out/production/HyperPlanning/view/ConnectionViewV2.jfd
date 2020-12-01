@@ -1,0 +1,172 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+			"autoSize": false
+		} ) {
+			name: "panel1"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "panel2"
+				"background": sfield java.awt.Color white
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": " "
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/view/Ressource/ECE_Paris_Lyon (1).png" )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": -45
+					"y": -20
+					"width": 315
+					"height": 370
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "mail"
+					"text": "Email :"
+					"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 2, false )
+					"foreground": &Color0 new java.awt.Color( 0, 0, 0, 255 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 285
+					"y": 105
+					"width": 60
+					"height": 21
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "password"
+					"text": "Password :"
+					"font": #SwingDerivedFont0
+					"foreground": #Color0
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 85
+					"height": 26
+					"x": 285
+					"y": 145
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField1"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 370
+					"y": 100
+					"width": 100
+					"height": 30
+				} )
+				add( new FormComponent( "javax.swing.JPasswordField" ) {
+					name: "passwordField1"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 370
+					"y": 140
+					"width": 100
+					"height": 30
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "Sign In"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 16, false )
+					"foreground": #Color0
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 105
+					"height": 36
+					"x": 335
+					"y": 15
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button1"
+					"text": "Entry"
+					"background": sfield java.awt.Color black
+					"foreground": sfield java.awt.Color black
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 1, false )
+					"autoscrolls": true
+					"border": new com.jformdesigner.model.SwingBorder( "Spinner.border" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button1ActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 440
+					"y": 260
+					"width": 65
+					"height": 30
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 270
+				"y": 220
+				"height": 305
+				"width": 515
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "Background"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/view/Ressource/Mt. Fuji.jpg" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": -660
+				"y": 0
+				"width": 1770
+				"height": 905
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 0 )
+			"size": new java.awt.Dimension( 1015, 715 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "IdFail"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label5"
+				"text": "Please Try Again"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 160
+				"height": 30
+				"x": 20
+				"y": 110
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Connection Fail !"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"icon": new com.jformdesigner.model.SwingIcon( 2, "OptionPane.errorIcon" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 25
+				"y": 5
+				"width": 215
+				"height": 65
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "Incorrect Email or Password"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 270
+				"height": 31
+				"x": 20
+				"y": 80
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button2"
+				"text": "Ok"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonOkJDialogActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 190
+				"y": 140
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 275, 200 )
+			"location": new java.awt.Point( 5, 730 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+			"autoSize": false
+		} ) {
+			name: "transition"
+			"background": new javax.swing.plaf.ColorUIResource( 255, 255, 255 )
+			"font": new java.awt.Font( ".AppleSystemUIFont", 0, 13 )
+			"$locationPolicy": 1
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label6"
+				"text": "Successful Connection"
+				"foreground": new java.awt.Color( 0, 0, 0, 255 )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 11, false )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 35
+				"y": 20
+				"width": 300
+				"height": 75
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 305, 730 )
+			"size": new java.awt.Dimension( 395, 270 )
+		} )
+	}
+}

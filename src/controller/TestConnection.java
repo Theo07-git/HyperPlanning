@@ -8,23 +8,31 @@ public class TestConnection {
 
     private User user;
     public boolean isConnect;
+    public boolean idFaild;
+    public String firstName;
+
 
     public TestConnection(User user) {
         this.user = user;
         isConnect = false;
+        idFaild =false;
     }
 
     public void isConnected(String email, String mdp) throws SQLException, ClassNotFoundException {
         User user = new User();
         user = user.findByEmail(email);
+        firstName = user.getFirstName();
 
-        if (mdp.equals(user.getPassword()) && ( email.equals(user.getEmail()) || email.equals(user.getId()))){
-            System.out.println("Connexion Réussi");
-            isConnect = true;
+        if(!email.equals("") && !mdp.equals("")) {
+            if (mdp.equals(user.getPassword()) && (email.equals(user.getEmail()) || email.equals(user.getId()))) {
+                isConnect = true;
+            }
+             else {
+            idFaild = true;
+             }
+
         }
-        else{
-            System.out.println("Connexion Échoué : Vous avez entrez mdp:"+mdp+" id:"+email);
-        }
+
     }
 
     public int testPermission(){
@@ -45,6 +53,10 @@ public class TestConnection {
 
     public boolean getIsConnect() {
         return isConnect;
+    }
+
+    public boolean getIsIdFaild() {
+        return idFaild;
     }
 
     public void getActualUser(){
