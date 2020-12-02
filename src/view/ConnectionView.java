@@ -39,29 +39,19 @@ public class ConnectionView {
                 case 0 -> System.out.println("Erreur - Permission non reconnu");
                 case 1 -> {
                     root.setVisible(false);
-                    transition.setVisible(true);
-                    Thread.sleep(5000);
-                    transition.setVisible(false);
                     AdminView adminView = new AdminView(testConnection, true);
                 }
                 case 2 -> {
                     root.setVisible(false);
-                    transition.setVisible(true);
-                    Thread.sleep(5000);
-                    transition.setVisible(false);
+
                     AdminView adminView = new AdminView(testConnection, false);
                 }
                 case 3 -> {
                     root.setVisible(false);
-                    transition.setVisible(true);
-                    Thread.sleep(5000);
-                    transition.setVisible(false);
+
                     TeacherView teacherView = new TeacherView(testConnection);}
                 case 4 ->{
                     root.setVisible(false);
-                    transition.setVisible(true);
-                    Thread.sleep(5000);
-                    transition.setVisible(false);
                     StudentView studentView = new StudentView(testConnection);}
             }
             testConnection.getActualUser();

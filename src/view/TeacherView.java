@@ -2,8 +2,7 @@ package view;
 
 import controller.ControllerTeacher;
 import controller.TestConnection;
-import view.ressource.Planning;
-
+import view.Ressource.Planning;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package view.ressource;
+package view.Ressource;
 
 import controller.ControllerAdmin;
 import controller.ControllerStudent;

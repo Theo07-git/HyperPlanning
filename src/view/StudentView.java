@@ -2,11 +2,12 @@ package view;
 
 import controller.ControllerStudent;
 import controller.TestConnection;
-import view.ressource.Planning;
+import view.Ressource.DailyPlanning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class StudentView  {
@@ -74,8 +75,8 @@ public class StudentView  {
         Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(40, 40, 80, 28);
-        Planning planning = new Planning();
-        planning.setSettings(jFrame);
+        DailyPlanning planning = new DailyPlanning();
+        java.util.Date actual = new Date(2020-11-23);
         jComboBoxSelectWeek.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,14 +85,13 @@ public class StudentView  {
                 for(int i = 0; i < week.length; i++) {
                     if(jComboBoxSelectWeek.getSelectedIndex() == i){
                         try {
-                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), i+1);
+                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), actual);
                         } catch (SQLException | ClassNotFoundException throwables) {
                             throwables.printStackTrace();
                         }
                     }
                 }
                 jFrame.repaint();
-                planning.setSettings(jFrame);
                 jFrame.add(planning);
             }
         });

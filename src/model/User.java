@@ -105,6 +105,14 @@ public  class User extends Observable {
         return(userDao.ResultSetByNameNext(this));
     }
 
+    public void ResultSetAll(){
+        userDao.ResultSetAll();
+    }
+
+    public boolean ResultSetAllNext(){
+        return userDao.ResultSetAllNext(this);
+    }
+
     @Override
     public String toString() {
         return "User{" +

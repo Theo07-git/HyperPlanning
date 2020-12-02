@@ -3,7 +3,9 @@ package view;
 import controller.ControllerAdmin;
 import controller.TestConnection;
 import model.*;
-import view.ressource.Planning;
+import view.Ressource.AdminGlobalViewPage;
+import view.Ressource.AlertePopUp;
+import view.Ressource.Planning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -115,12 +117,20 @@ public class AdminView extends JFrame{
         mAdd.add(miRoomAdd);
         mSupp.add(miRoomSupp);
         menuPersonalInfo.add(miAccount);
+        AdminGlobalViewPage adminGlobalViewPage = new AdminGlobalViewPage(testConnection);
+        jFrame.setContentPane(adminGlobalViewPage.panel1);
 
         // Action sélection item
         miHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                jFrame.getContentPane().removeAll();
+                jFrame.dispose();
+                try {
+                    interfaceAdmin(jFrame,testConnection,isAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
         miStudentList.addActionListener(new ActionListener() {
@@ -770,23 +780,30 @@ public class AdminView extends JFrame{
                     Session session1 = new Session();
                     Teacher teacher = new Teacher();
                     teacher = teacher.findByName(jTextFieldTeacher.getText());
-                    if(!session1.alreadyExist(jTextFieldId.getText()) && teacher.alreadyExist(jTextFieldTeacher.getText())
-                            && !teacher.alreadyTeach(Integer.parseInt(jTextFieldWeek.getText()), date, Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()), endTime[0], teacher.getId())
-                            && room.alreadyExist(jTextFieldRoom.getText()))
-                    {
-                        Session session = new Session(jTextFieldId.getText(),
-                                Integer.parseInt(jTextFieldWeek.getText()),
-                                date,
-                                Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()),
-                                endTime[0],
-                                Objects.requireNonNull(jComboBoxSelectCourseType.getSelectedItem()).toString(),
-                                Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString(),
-                                room.findByName(jTextFieldRoom.getText()),
-                                jTextFieldTeacher.getText(),
-                                Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
-                        session.createSession(teacher);
+
+                    if (!jTextFieldId.getText().equals("") && !jTextFieldWeek.getText().equals("") && jTextFieldTeacher.getText() != "" && jTextFieldRoom.getText() != "") {
+                        if (!session1.alreadyExist(jTextFieldId.getText()) && teacher.alreadyExist(jTextFieldTeacher.getText())
+                                && !teacher.alreadyTeach(Integer.parseInt(jTextFieldWeek.getText()), date, Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()), endTime[0], teacher.getId())
+                                && room.alreadyExist(jTextFieldRoom.getText()) ) {
+                            Session session = new Session(jTextFieldId.getText(),
+                                    Integer.parseInt(jTextFieldWeek.getText()),
+                                    date,
+                                    Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()),
+                                    endTime[0],
+                                    Objects.requireNonNull(jComboBoxSelectCourseType.getSelectedItem()).toString(),
+                                    Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString(),
+                                    room.findByName(jTextFieldRoom.getText()),
+                                    jTextFieldTeacher.getText(),
+                                    Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                            session.createSession(teacher);
+                        }
                     }
-                    else System.out.println("Erreur dans la saisie des informations Id déja utiliser/Professeur inexistant/professeur occupé/Salle inexistant");
+                    else {
+                        System.out.println("Erreur dans la saisie des informations Id déja utiliser/Professeur inexistant/professeur occupé/Salle inexistant");
+                        addSessionWindow(controllerAdmin);
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.AddFailId.setVisible(true);
+                    }
                 } catch (ClassNotFoundException | SQLException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
@@ -878,11 +895,18 @@ public class AdminView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     User user = new User();
+                    if (!jTextFieldId.getText().equals("") && !jTextFielEmailPart1.getText().equals("") && !jTextFieldFirstName.getText().equals("") && !jTextFieldLastName.getText().equals("")){
                     if(!user.alreadyExist(jTextFieldId.getText())){
                         Teacher teacher = new Teacher(jTextFieldId.getText(), jTextFielEmailPart1.getText() + jTextFielEmailPart2.getText(), jTextFieldPassword.getText(), jTextFieldLastName.getText(), jTextFieldFirstName.getText(), "TEACHER", Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString());
                         teacher.createTeacher();
+                    }}
+                    else {
+                        addTeacherWindow(controllerAdmin);
+                        System.out.println("Erreur Id deja utilise");
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.AddFailId.setVisible(true);
+
                     }
-                    else System.out.println("Erreur Id deja utilise");
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -985,11 +1009,17 @@ public class AdminView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     Student std = new Student();
-                    if(!std.alreadyExist(jTextFieldId.getText())){
+                    if (!jTextFieldId.getText().equals("") && !jTextFielEmailPart1.getText().equals("") && !jTextFieldFirstName.getText().equals("") && !jTextFieldLastName.getText().equals("") && !jTextFieldNumber.getText().equals("")){
+                        if(!std.alreadyExist(jTextFieldId.getText())){
                         Student student = new Student(jTextFieldId.getText(), jTextFielEmailPart1.getText() + jTextFielEmailPart2.getText(), jTextFieldPassword.getText(), jTextFieldLastName.getText(), jTextFieldFirstName.getText(), "STUDENT", jTextFieldNumber.getText(), Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
                         student.createStudent();
+                    }}
+                    else {
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.AddFailId.setVisible(true);
+                        System.out.println("Erreur Id deja utilise");
+                        addStudentWindow(controllerAdmin);
                     }
-                    else System.out.println("Erreur Id deja utilise");
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -1064,12 +1094,18 @@ public class AdminView extends JFrame{
                     Room rm = new Room();
                     Site site = new Site();
                     assert rm != null;
+                    if(!jTextFiedldName.getText().equals("") && !jTextFiedldCapacity.getText().equals("")){
                     if(!rm.alreadyExist(jTextFiedlIdRoom.getText())){
                         Room room = new Room(jTextFiedlIdRoom.getText(), Integer.parseInt(jTextFiedldCapacity.getText()), jTextFiedldName.getText(), site.findByName(Objects.requireNonNull(jComboBoxSelectSite.getSelectedItem()).toString()).getIdSite());
                         room.createRoom();
                         addFrame.dispose();
+                    }}
+                    else {
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.AddFailId.setVisible(true);
+                        System.out.println("Erreur de saisie des informations");
+                        addRoomWindow(controllerAdmin);
                     }
-                    else System.out.println("Erreur de saisie des informations");
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -1115,7 +1151,10 @@ public class AdminView extends JFrame{
                     if(session.alreadyExist(jTextFieldId.getText())){
                         session.deleteSession(jTextFieldId.getText());
                     }
-                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                    else {
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.DeleteFail.setVisible(true);
+                        System.out.println("Erreur l'Id saisie n'existe pas");}
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -1163,7 +1202,10 @@ public class AdminView extends JFrame{
                     if(teacher.alreadyExist(jTextFieldId.getText())){
                         teacher.deleteTeacher(jTextFieldId.getText());
                     }
-                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                    else {
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.DeleteFail.setVisible(true);
+                        System.out.println("Erreur l'Id saisie n'existe pas");}
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -1211,7 +1253,10 @@ public class AdminView extends JFrame{
                     if(student.alreadyExist(jTextFieldId.getText())){
                         student.deleteStudent(jTextFieldId.getText());
                     }
-                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                    else{
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.DeleteFail.setVisible(true);
+                        System.out.println("Erreur l'Id saisie n'existe pas");}
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -1259,7 +1304,10 @@ public class AdminView extends JFrame{
                     if(room.alreadyExist(jTextFieldId.getText())){
                         room.deleteRoom(jTextFieldId.getText());
                     }
-                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                    else {
+                        AlertePopUp alertePopUp = new AlertePopUp();
+                        alertePopUp.DeleteFail.setVisible(true);
+                        System.out.println("Erreur l'Id saisie n'existe pas");}
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }

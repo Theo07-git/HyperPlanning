@@ -13,15 +13,17 @@ public class ControllerAdmin {
     private List<Student> students;
     private List<Teacher> teachers;
     private User user;
+    private Site site;
 
     //private List<Session> sessions;
 
-    public ControllerAdmin() {
+    public ControllerAdmin() throws SQLException, ClassNotFoundException {
         promotions = new ArrayList<>();
         groupsPromotion = new ArrayList<>();
         courses = new ArrayList<>();
         students = new ArrayList<>();
         teachers = new ArrayList<>();
+        site = new Site();
         //sessions = new ArrayList<>();
     }
 
@@ -149,6 +151,24 @@ public class ControllerAdmin {
         return allTeachers;
     }
 
+    public ArrayList<ArrayList<String>> getAllUser() throws SQLException, ClassNotFoundException{
+        User user = new User();
+        user.ResultSetAll();
+        ArrayList<ArrayList<String>> allUsers = new ArrayList<>();
+
+        while(user.ResultSetAllNext()){
+            ArrayList<String> buffer = new ArrayList<>();
+            assert allUsers != null;
+            buffer.add(user.getId());
+            buffer.add(user.getLastName());
+            buffer.add(user.getFirstName());
+            buffer.add(user.getEmail());
+            buffer.add(user.getPermission());
+            allUsers.add(buffer);
+        }
+        return allUsers;
+    }
+
     public ArrayList<ArrayList<String>> getAllSession(String idGroup) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionByIdGroup(idGroup);
@@ -188,6 +208,17 @@ public class ControllerAdmin {
             allNameSite.add(site.getNameSite());
         }
         return allNameSite;
+    }
+
+    public ArrayList<Site> getAllSite() throws SQLException, ClassNotFoundException {
+        Site site = new Site();
+        site.resultSetSiteName();
+        ArrayList<Site> allSite = new ArrayList<>();
+        while(site.resultSetSiteNameNext()){
+            assert allSite != null;
+            allSite.add(new Site(site.getIdSite(),site.getNameSite()));
+        }
+        return allSite;
     }
 
     public ArrayList<ArrayList<String>> getAllRoom(String nameSite) throws SQLException, ClassNotFoundException {

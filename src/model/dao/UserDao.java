@@ -125,6 +125,36 @@ public class UserDao implements UserDaoInterface{
         return found;
     }
 
+    public void ResultSetAll()  {
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user ");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean ResultSetAllNext(User user){
+        boolean found = false;
+        try{
+            if(resultSet.next()){
+                found = true;
+                user.setId(resultSet.getString("idUser"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setPermission(resultSet.getString("permission"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return found;
+    }
+
+
+
+
     public boolean alreadyExist(String id) throws SQLException {
         try {
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
