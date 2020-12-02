@@ -2,15 +2,15 @@ package view;
 
 import controller.ControllerAdmin;
 import controller.TestConnection;
-import model.Student;
-import model.Teacher;
-import model.User;
+import model.*;
 import view.ressource.Planning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -65,20 +65,21 @@ public class AdminView extends JFrame{
         JMenuItem miTeacherList = new JMenuItem("Liste des enseignants");
         JMenuItem miTeacherPlanning = new JMenuItem("Recapitulatif des cours");
 
+        // Création des items teachers
+        JMenuItem miRoom = new JMenuItem("Liste des Salles");
+
         // Creation des sous menus et items "mise à jour données"
         JMenu mAdd = new JMenu("Ajouter...");
         JMenu mSupp = new JMenu("Supprimer...");
-        JMenu mMod = new JMenu("Modifier...");
 
-        JMenuItem miCourse1  = new JMenuItem("Cours");
-        JMenuItem miCourse2 = new JMenuItem("Cours");
-        JMenuItem miCourse3 = new JMenuItem("Cours");
-        JMenuItem miTeacher1 = new JMenuItem("Professeurs");
-        JMenuItem miTeacher2 = new JMenuItem("Professeurs");
-        JMenuItem miTeacher3 = new JMenuItem("Professeurs");
-        JMenuItem miStudent1 = new JMenuItem("Etudiants");
-        JMenuItem miStudent2 = new JMenuItem("Etudiants");
-        JMenuItem miStudent3 = new JMenuItem("Etudiants");
+        JMenuItem miSessionAdd  = new JMenuItem("Session");
+        JMenuItem miSessionSupp = new JMenuItem("Session");
+        JMenuItem miTeacherAdd = new JMenuItem("Professeurs");
+        JMenuItem miTeacherSupp = new JMenuItem("Professeurs");
+        JMenuItem miStudentAdd = new JMenuItem("Etudiants");
+        JMenuItem miStudentSupp = new JMenuItem("Etudiants");
+        JMenuItem miRoomAdd = new JMenuItem("Salles");
+        JMenuItem miRoomSupp = new JMenuItem("Salles");
 
         // Création de l'item Info personnelles
         JMenuItem miAccount = new JMenuItem("Compte");
@@ -89,9 +90,9 @@ public class AdminView extends JFrame{
         miStudentPlanning.setEnabled(true);
         miTeacherList.setEnabled(true);
         miTeacherPlanning.setEnabled(true);
+        miRoom.setEnabled(true);
         mAdd.setEnabled(true);
         mSupp.setEnabled(true);
-        mMod.setEnabled(true);
         miAccount.setEnabled(true);
 
         // Ajout des items au menu
@@ -100,18 +101,17 @@ public class AdminView extends JFrame{
         menuStudent.add(miStudentPlanning);
         menuTeacher.add(miTeacherList);
         menuTeacher.add(miTeacherPlanning);
+        menuRoom.add(miRoom);
         menuUpdate.add(mAdd);
         menuUpdate.add(mSupp);
-        menuUpdate.add(mMod);
-        mAdd.add(miCourse1);
-        mAdd.add(miTeacher1);
-        mAdd.add(miStudent1);
-        mSupp.add(miCourse2);
-        mSupp.add(miTeacher2);
-        mSupp.add(miStudent2);
-        mMod.add(miCourse3);
-        mMod.add(miTeacher3);
-        mMod.add(miStudent3);
+        mAdd.add(miSessionAdd);
+        mAdd.add(miTeacherAdd);
+        mAdd.add(miStudentAdd);
+        mSupp.add(miSessionSupp);
+        mSupp.add(miTeacherSupp);
+        mSupp.add(miStudentSupp);
+        mAdd.add(miRoomAdd);
+        mSupp.add(miRoomSupp);
         menuPersonalInfo.add(miAccount);
 
         // Action sélection item
@@ -125,7 +125,7 @@ public class AdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                jFrame.dispose();
+                //jFrame.dispose();
                 try {
                     createStudentList(jFrame, controllerAdmin);
                 } catch (SQLException | ClassNotFoundException throwables) {
@@ -169,14 +169,30 @@ public class AdminView extends JFrame{
                 }
             }
         });
-        miCourse1.addActionListener(new ActionListener() {
+        miRoom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                addCourseWindow();
+                jFrame.dispose();
+                try {
+                    createRoomList(jFrame, controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
-        miStudent1.addActionListener(new ActionListener() {
+        miSessionAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                try {
+                    addSessionWindow(controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        miStudentAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
@@ -187,7 +203,7 @@ public class AdminView extends JFrame{
                 }
             }
         });
-        miTeacher1.addActionListener(new ActionListener() {
+        miTeacherAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
@@ -198,46 +214,41 @@ public class AdminView extends JFrame{
                 }
             }
         });
-        miCourse2.addActionListener(new ActionListener() {
+        miRoomAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    addRoomWindow(controllerAdmin);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        miSessionSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                suppCourseWindow();
+                suppSessionWindow();
             }
         });
-        miTeacher2.addActionListener(new ActionListener() {
+        miTeacherSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 suppTeacherWindow();
             }
         });
-        miStudent2.addActionListener(new ActionListener() {
+        miStudentSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 suppStudentWindow();
             }
         });
-        miCourse3.addActionListener(new ActionListener() {
+        miRoomSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                modCourseWindow();
-            }
-        });
-        miTeacher3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                modTeacherWindow();
-            }
-        });
-        miStudent3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                modStudentWindow();
+                suppRoomWindow();
             }
         });
         miAccount.addActionListener(new ActionListener() {
@@ -264,6 +275,9 @@ public class AdminView extends JFrame{
     }
     public void createTeacherPlanning(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createCourseChoice(jFrame, controllerAdmin, "TeacherPlanning");
+    }
+    public void createRoomList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        createSiteChoice(jFrame, controllerAdmin);
     }
 
     // Affichage combobox choix Student
@@ -421,6 +435,35 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectteacher);
         jFrame.setVisible(true);
     }
+    // Affichage combobox choix Site
+    public void createSiteChoice(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
+        JLabel jLabelSelectCourse = new JLabel("Selectionner un site :");
+        jLabelSelectCourse.setBounds(40, 10, 300, 28);
+
+        ArrayList<String> site = controllerAdmin.getAllNameSite();
+        String[] strSite = new String[site.size()];
+        for (int j = 0; j < site.size(); j++) {
+            strSite[j] = site.get(j);
+        }
+        JComboBox jComboBoxSelectSite = new JComboBox(strSite);
+        jComboBoxSelectSite.setBounds(40, 40, 200, 28);
+
+        jComboBoxSelectSite.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    createRoomListViewBySite(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectSite.getSelectedItem()).toString());
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+        jFrame.add(jLabelSelectCourse);
+        jFrame.add(jComboBoxSelectSite);
+        jFrame.setLayout(null);
+        jFrame.setVisible(true);
+    }
 
     // Affichage tableaux des élèves par groupe
     public void createStudentListViewByGroup(JFrame jFrame, ControllerAdmin controllerAdmin, String groupChoiced) throws SQLException, ClassNotFoundException {
@@ -529,14 +572,35 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
+    // Affichage tableaux des salles par site
+    public void createRoomListViewBySite(JFrame jFrame, ControllerAdmin controllerAdmin, String siteChoice) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<String>> rooms = controllerAdmin.getAllRoom(siteChoice);
+        String[] tableTitle = {"ID", "Nom", "Capacite"};
+        String[][] mt = new String[rooms.size()][tableTitle.length];
+        for(int i = 0 ; i < rooms.size(); i++){
+            for (int j = 0; j < tableTitle.length; j++) {
+                mt[i][j] = rooms.get(i).get(j);
+            }
+        }
+        jFrame.setLayout(null);
+        JTable jTableTeacherList = new JTable(mt, tableTitle);
+        JScrollPane jScrollPane = new JScrollPane();
+        JPanel jPanelTeacherList = new JPanel();
+        jScrollPane.getViewport().add(jTableTeacherList);
+        jPanelTeacherList.setBounds(0, 80, 500, 200);
+        jPanelTeacherList.add(jScrollPane);
+        jFrame.add(jPanelTeacherList);
+        jFrame.setVisible(true);
+    }
+
     // Affichage mini fenêtres mise à jours
-    public void addCourseWindow(){
+    public void addSessionWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
-        jButtonCanceled.setBounds(380, 240, 100, 28);
+        jButtonCanceled.setBounds(380, 290, 100, 28);
         JButton jButtonAdd = new JButton("Ajouter");
-        jButtonAdd.setBounds(490, 240, 100, 28);
+        jButtonAdd.setBounds(490, 290, 100, 28);
 
         JLabel jLabelIdSession = new JLabel("Saissisez l'ID de la session à créer : ");
         jLabelIdSession.setBounds(20, 20, 250, 28);
@@ -553,7 +617,10 @@ public class AdminView extends JFrame{
         JLabel jLabelSelectDate = new JLabel("Selectionner une date :");
         jLabelSelectDate.setBounds(20, 80, 250, 28);
 
-        Integer[] day = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
+        String[] day = new String[31];
+        for (int i = 0; i < 31; i++) {
+            day[i] = String.valueOf(i+1);
+        }
         JComboBox jComboBoxSelectDay = new JComboBox(day);
         jComboBoxSelectDay.setBounds(280, 80, 70, 28);
 
@@ -583,39 +650,81 @@ public class AdminView extends JFrame{
             }
         });
 
-        String[] years = {"2019-2020", "2020-2021", "2021-2022"};
+        String[] years = {"2019", "2020", "2021"};
         JComboBox jComboBoxSelectYear = new JComboBox(years);
         jComboBoxSelectYear.setBounds(420, 80, 130, 28);
 
         JLabel jLabelStartHour = new JLabel("Selectionner une heure de début :");
         jLabelStartHour.setBounds(20, 108, 250, 28);
 
-        String[] StartHours = {"08h00", "09h30", "11h15", "12h45", "14h30", "16H00", "17h45"};
+        String[] StartHours = {"08:00:00", "09:30:00", "11:15:00", "12:45:00", "14:30:00", "16:00:00", "17:45:00"};
         JComboBox jComboBoxSelectStartHour = new JComboBox(StartHours);
         jComboBoxSelectStartHour.setBounds(280, 108, 100, 28);
 
-        JLabel jLabelEndHour = new JLabel("Selectionner une heure de fin :");
-        jLabelEndHour.setBounds(20, 140, 250, 28);
-
-        String[] EndHours = {"09h30", "11h00", "12h45", "14h15", "16H00", "17h30", "19h15"};
-        JComboBox jComboBoxSelectEndHour = new JComboBox(EndHours);
-        jComboBoxSelectEndHour.setBounds(280, 140, 100, 28);
+        final Time[] endTime = {null};
+        jComboBoxSelectStartHour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object o = Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem());
+                if ("08:00:00".equals(o)) {
+                    endTime[0] = Time.valueOf("09:30:00");
+                } else if ("09:30:00".equals(o)) {
+                    endTime[0] = Time.valueOf("11:00:00");
+                } else if ("11:15:00".equals(o)) {
+                    endTime[0] = Time.valueOf("12:45:00");
+                } else if ("12:45:00".equals(o)) {
+                    endTime[0] = Time.valueOf("14:15:00");
+                } else if ("14:30:00".equals(o)) {
+                    endTime[0] = Time.valueOf("16:00:00");
+                } else if ("16:00:00".equals(o)) {
+                    endTime[0] = Time.valueOf("17:30:00");
+                } else if ("17:45:00".equals(o)) {
+                    endTime[0] = Time.valueOf("19:15:00");
+                } else if ("19:15:00".equals(o)) {
+                    endTime[0] = Time.valueOf("20:45:00");
+                }
+            }
+        });
 
         JLabel jLabelTeacher = new JLabel("Selectionner un Enseignant :");
-        jLabelTeacher.setBounds(20, 170, 250, 28);
+        jLabelTeacher.setBounds(20, 140, 250, 28);
 
-        String[] subject = {"MATH", "PHYS", "COSC"};
-        JComboBox jComboBoxSelectSubject = new JComboBox(subject);
-        jComboBoxSelectSubject.setBounds(280, 170, 100, 28);
+        ArrayList<String> promotions = controllerAdmin.getAllIdCourse();
+        String[] strCourse = new String[promotions.size()];
+        for (int j = 0; j < promotions.size(); j++) {
+            strCourse[j] = promotions.get(j);
+        }
+        JComboBox jComboBoxSelectCourse = new JComboBox(strCourse);
+        jComboBoxSelectCourse.setBounds(280, 140, 100, 28);
 
         JTextField jTextFieldTeacher = new JTextField();
-        jTextFieldTeacher.setBounds(390, 170, 195, 28);
+        jTextFieldTeacher.setBounds(390, 140, 100, 28);
 
         JLabel jLabelRoom = new JLabel("Selectionner une salle :");
-        jLabelRoom.setBounds(20,  200, 250, 28);
+        jLabelRoom.setBounds(20, 170, 250, 28);
 
         JTextField jTextFieldRoom = new JTextField();
-        jTextFieldRoom.setBounds(280, 200, 200, 28);
+        jTextFieldRoom.setBounds(280, 170, 100, 28);
+
+        JLabel jLabelCourseType = new JLabel("Selectionner le type du cours :");
+        jLabelCourseType.setBounds(20, 200, 250, 28);
+
+        String[] courseType = {"DW", "LE", "OC", "PA", "PW", "SD"};
+        JComboBox jComboBoxSelectCourseType = new JComboBox(courseType);
+        jComboBoxSelectCourseType.setBounds(280, 200, 100, 28);
+
+        JLabel jLabelIdGroup = new JLabel("Selectionner l'ID du groupe :");
+        jLabelIdGroup.setBounds(20, 230, 250, 28);
+
+        ArrayList<String> groups = controllerAdmin.getAllIdGroup();
+
+        String[] strGroup = new String[groups.size()];
+        for (int j = 0; j < groups.size(); j++) {
+            strGroup[j] = groups.get(j);
+        }
+        JComboBox jComboBoxSelectGroup = new JComboBox(strGroup);
+        jComboBoxSelectGroup.setBounds(280, 230, 150, 28);
+
 
         addFrame.add(jButtonCanceled);
         addFrame.add(jButtonAdd);
@@ -629,13 +738,15 @@ public class AdminView extends JFrame{
         addFrame.add(jComboBoxSelectYear);
         addFrame.add(jLabelStartHour);
         addFrame.add(jComboBoxSelectStartHour);
-        addFrame.add(jLabelEndHour);
-        addFrame.add(jComboBoxSelectEndHour);
         addFrame.add(jLabelTeacher);
-        addFrame.add(jComboBoxSelectSubject);
+        addFrame.add(jComboBoxSelectCourse);
         addFrame.add(jTextFieldTeacher);
         addFrame.add(jLabelRoom);
         addFrame.add(jTextFieldRoom);
+        addFrame.add(jLabelCourseType);
+        addFrame.add(jComboBoxSelectCourseType);
+        addFrame.add(jLabelIdGroup);
+        addFrame.add(jComboBoxSelectGroup);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
@@ -647,13 +758,39 @@ public class AdminView extends JFrame{
         jButtonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    Room room = new Room();
+                    String strDtae = Objects.requireNonNull(jComboBoxSelectYear.getSelectedItem()).toString() + "-" + Objects.requireNonNull(jComboBoxSelectMonth.getSelectedItem()).toString() + "-" + Objects.requireNonNull(jComboBoxSelectDay.getSelectedItem()).toString();
+                    Date date = Date.valueOf(strDtae);
+                    Session session1 = new Session();
+                    Teacher teacher = new Teacher();
+                    teacher = teacher.findByName(jTextFieldTeacher.getText());
+                    if(!session1.alreadyExist(jTextFieldId.getText()) && teacher.alreadyExist(jTextFieldTeacher.getText())
+                            && !teacher.alreadyTeach(Integer.parseInt(jTextFieldWeek.getText()), date, Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()), endTime[0], teacher.getId())
+                            && room.alreadyExist(jTextFieldRoom.getText()))
+                    {
+                        Session session = new Session(jTextFieldId.getText(),
+                                Integer.parseInt(jTextFieldWeek.getText()),
+                                date,
+                                Time.valueOf(Objects.requireNonNull(jComboBoxSelectStartHour.getSelectedItem()).toString()),
+                                endTime[0],
+                                Objects.requireNonNull(jComboBoxSelectCourseType.getSelectedItem()).toString(),
+                                Objects.requireNonNull(jComboBoxSelectCourse.getSelectedItem()).toString(),
+                                room.findByName(jTextFieldRoom.getText()),
+                                jTextFieldTeacher.getText(),
+                                Objects.requireNonNull(jComboBoxSelectGroup.getSelectedItem()).toString());
+                        session.createSession(teacher);
+                    }
+                    else System.out.println("Erreur dans la saisie des informations Id déja utiliser/Professeur inexistant/professeur occupé/Salle inexistant");
+                } catch (ClassNotFoundException | SQLException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
                 addFrame.dispose();
             }
         });
 
         addFrame.setTitle("Ajout d'un cours");
-        addFrame.setSize(600,300);
+        addFrame.setSize(600,350);
         addFrame.setLocation(200, 100);
         addFrame.setLayout(null);
         addFrame.setVisible(true);
@@ -861,8 +998,87 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
-    public void suppCourseWindow(){
+    public void addRoomWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
+
+        JButton jButtonCanceled = new JButton("Annuler");
+        jButtonCanceled.setBounds(380, 140, 100, 28);
+        JButton jButtonAdd = new JButton("Ajouter");
+        jButtonAdd.setBounds(490, 140, 100, 28);
+
+        JLabel jLabelIdSite = new JLabel("Selectionner le site où ajouter la salle à créer : ");
+        jLabelIdSite.setBounds(20, 20, 250, 28);
+
+        ArrayList<String> site = controllerAdmin.getAllNameSite();
+        String[] strSite = new String[site.size()];
+        for (int j = 0; j < site.size(); j++) {
+            strSite[j] = site.get(j);
+        }
+        JComboBox jComboBoxSelectSite = new JComboBox(strSite);
+        jComboBoxSelectSite.setBounds(280, 20, 200, 28);
+
+        JLabel jLabelIdRoom = new JLabel("Saissisez l'ID de la salle : ");
+        jLabelIdRoom.setBounds(20, 48, 250, 28);
+
+        JTextField jTextFiedlIdRoom = new JTextField();
+        jTextFiedlIdRoom.setBounds(280, 48, 200, 28);
+
+        JLabel jLabelName = new JLabel("Saissisez le nom de la salle : ");
+        jLabelName.setBounds(20, 80, 280, 28);
+
+        JTextField jTextFiedldName = new JTextField();
+        jTextFiedldName.setBounds(280, 80, 200, 28);
+
+        JLabel jLabelCapacity = new JLabel("Saissisez la capacite de la salle : ");
+        jLabelCapacity.setBounds(20, 108, 250, 28);
+
+        JTextField jTextFiedldCapacity = new JTextField();
+        jTextFiedldCapacity.setBounds(280, 108, 200, 28);
+
+        addFrame.add(jLabelIdSite);
+        addFrame.add(jComboBoxSelectSite);
+        addFrame.add(jLabelIdRoom);
+        addFrame.add(jTextFiedlIdRoom);
+        addFrame.add(jLabelName);
+        addFrame.add(jTextFiedldName);
+        addFrame.add(jLabelCapacity);
+        addFrame.add(jTextFiedldCapacity);
+        addFrame.add(jButtonCanceled);
+        addFrame.add(jButtonAdd);
+
+        jButtonCanceled.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addFrame.dispose();
+            }
+        });
+        jButtonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Room rm = new Room();
+                    Site site = new Site();
+                    assert rm != null;
+                    if(!rm.alreadyExist(jTextFiedlIdRoom.getText())){
+                        Room room = new Room(jTextFiedlIdRoom.getText(), Integer.parseInt(jTextFiedldCapacity.getText()), jTextFiedldName.getText(), site.findByName(Objects.requireNonNull(jComboBoxSelectSite.getSelectedItem()).toString()).getIdSite());
+                        room.createRoom();
+                        addFrame.dispose();
+                    }
+                    else System.out.println("Erreur de saisie des informations");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+        addFrame.setTitle("Ajout d'une salle");
+        addFrame.setSize(600,200);
+        addFrame.setLocation(200, 100);
+        addFrame.setLayout(null);
+        addFrame.setVisible(true);
+    }
+    public void suppSessionWindow(){
+        JFrame suppFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
         jButtonCanceled.setBounds(380, 120, 100, 28);
@@ -875,26 +1091,41 @@ public class AdminView extends JFrame{
         JTextField jTextFieldId = new JTextField();
         jTextFieldId.setBounds(280, 50, 200, 28);
 
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonSupp);
-        addFrame.add(jLabelIdCourse);
-        addFrame.add(jTextFieldId);
+        suppFrame.add(jButtonCanceled);
+        suppFrame.add(jButtonSupp);
+        suppFrame.add(jLabelIdCourse);
+        suppFrame.add(jTextFieldId);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
+                suppFrame.dispose();
+            }
+        });
+        jButtonSupp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Session session = new Session();
+                    if(session.alreadyExist(jTextFieldId.getText())){
+                        session.deleteSession(jTextFieldId.getText());
+                    }
+                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+                suppFrame.dispose();
             }
         });
 
-        addFrame.setTitle("Suppression d'un cours");
-        addFrame.setSize(600,180);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
+        suppFrame.setTitle("Suppression d'un cours");
+        suppFrame.setSize(600,180);
+        suppFrame.setLocation(200, 100);
+        suppFrame.setLayout(null);
+        suppFrame.setVisible(true);
     }
     public void suppTeacherWindow(){
-        JFrame addFrame = new JFrame();
+        JFrame suppFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
         jButtonCanceled.setBounds(380, 120, 100, 28);
@@ -907,26 +1138,42 @@ public class AdminView extends JFrame{
         JTextField jTextFieldId = new JTextField();
         jTextFieldId.setBounds(300, 50, 200, 28);
 
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonSupp);
-        addFrame.add(jLabelIdCourse);
-        addFrame.add(jTextFieldId);
+        suppFrame.add(jButtonCanceled);
+        suppFrame.add(jButtonSupp);
+        suppFrame.add(jLabelIdCourse);
+        suppFrame.add(jTextFieldId);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
+                suppFrame.dispose();
             }
         });
 
-        addFrame.setTitle("Suppression d'un professeur");
-        addFrame.setSize(600,180);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
+        jButtonSupp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Teacher teacher = new Teacher();
+                    if(teacher.alreadyExist(jTextFieldId.getText())){
+                        teacher.deleteTeacher(jTextFieldId.getText());
+                    }
+                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+                suppFrame.dispose();
+            }
+        });
+
+        suppFrame.setTitle("Suppression d'un professeur");
+        suppFrame.setSize(600,180);
+        suppFrame.setLocation(200, 100);
+        suppFrame.setLayout(null);
+        suppFrame.setVisible(true);
     }
     public void suppStudentWindow(){
-        JFrame addFrame = new JFrame();
+        JFrame suppFrame = new JFrame();
 
         JButton jButtonCanceled = new JButton("Annuler");
         jButtonCanceled.setBounds(380, 120, 100, 28);
@@ -934,323 +1181,92 @@ public class AdminView extends JFrame{
         jButtonSupp.setBounds(490, 120, 100, 28);
 
         JLabel jLabelIdCourse = new JLabel("Saissisez l'ID de l'étudiant à supprimer : ");
-        jLabelIdCourse.setBounds(20, 50, 260, 28);
+        jLabelIdCourse.setBounds(20, 50, 280, 28);
+
+        JTextField jTextFieldId = new JTextField();
+        jTextFieldId.setBounds(310, 50, 200, 28);
+
+        suppFrame.add(jButtonCanceled);
+        suppFrame.add(jButtonSupp);
+        suppFrame.add(jLabelIdCourse);
+        suppFrame.add(jTextFieldId);
+
+        jButtonCanceled.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                suppFrame.dispose();
+            }
+        });
+
+        jButtonSupp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Student student = new Student();
+                    if(student.alreadyExist(jTextFieldId.getText())){
+                        student.deleteStudent(jTextFieldId.getText());
+                    }
+                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+                suppFrame.dispose();
+            }
+        });
+
+        suppFrame.setTitle("Suppression d'un étudiant");
+        suppFrame.setSize(600,180);
+        suppFrame.setLocation(200, 100);
+        suppFrame.setLayout(null);
+        suppFrame.setVisible(true);
+    }
+    public void suppRoomWindow(){
+        JFrame suppFrame = new JFrame();
+
+        JButton jButtonCanceled = new JButton("Annuler");
+        jButtonCanceled.setBounds(380, 120, 100, 28);
+        JButton jButtonSupp = new JButton("Supprimer");
+        jButtonSupp.setBounds(490, 120, 100, 28);
+
+        JLabel jLabelIdRoom = new JLabel("Saissisez le nom de la salle à supprimer : ");
+        jLabelIdRoom.setBounds(20, 50, 260, 28);
 
         JTextField jTextFieldId = new JTextField();
         jTextFieldId.setBounds(290, 50, 200, 28);
 
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonSupp);
-        addFrame.add(jLabelIdCourse);
-        addFrame.add(jTextFieldId);
+        suppFrame.add(jButtonCanceled);
+        suppFrame.add(jButtonSupp);
+        suppFrame.add(jLabelIdRoom);
+        suppFrame.add(jTextFieldId);
 
         jButtonCanceled.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
+                suppFrame.dispose();
             }
         });
 
-        addFrame.setTitle("Suppression d'un étudiant");
-        addFrame.setSize(600,180);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
-    }
-    public void modCourseWindow(){
-        JFrame addFrame = new JFrame();
-
-        JButton jButtonCanceled = new JButton("Annuler");
-        jButtonCanceled.setBounds(380, 240, 100, 28);
-        JButton jButtonAdd = new JButton("Modifier");
-        jButtonAdd.setBounds(490, 240, 100, 28);
-
-        JLabel jLabelIdSession = new JLabel("Saissisez l'ID de la session à modifier : ");
-        jLabelIdSession.setBounds(20, 20, 250, 28);
-
-        JTextField jTextFieldId = new JTextField();
-        jTextFieldId.setBounds(280, 20, 200, 28);
-
-        JLabel jLabelWeek = new JLabel("Saissisez la semaine de la session : ");
-        jLabelWeek.setBounds(20, 48, 250, 28);
-
-        JTextField jTextFieldWeek = new JTextField();
-        jTextFieldWeek.setBounds(280, 48, 200, 28);
-
-        JLabel jLabelSelectDate = new JLabel("Selectionner nouvelle une date :");
-        jLabelSelectDate.setBounds(20, 80, 250, 28);
-
-        Integer[] day = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
-        JComboBox jComboBoxSelectDay = new JComboBox(day);
-        jComboBoxSelectDay.setBounds(280, 80, 70, 28);
-
-        jComboBoxSelectDay.addActionListener(new ActionListener() {
+        jButtonSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < day.length; i++) {
-                    if(jComboBoxSelectDay.getSelectedIndex() == i){
-                        System.out.println(i+1);
+                try {
+                    Room room = new Room();
+                    if(room.alreadyExist(jTextFieldId.getText())){
+                        room.deleteRoom(jTextFieldId.getText());
                     }
+                    else System.out.println("Erreur l'Id saisie n'existe pas");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
                 }
+                suppFrame.dispose();
             }
         });
 
-        String[] month = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-        JComboBox jComboBoxSelectMonth = new JComboBox(month);
-        jComboBoxSelectMonth.setBounds(350, 80, 70, 28);
-
-        jComboBoxSelectMonth.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < month.length; i++) {
-                    if(jComboBoxSelectMonth.getSelectedIndex() == i){
-                        System.out.println(i+1);
-                    }
-                }
-            }
-        });
-
-        String[] years = {"2019-2020", "2020-2021", "2021-2022"};
-        JComboBox jComboBoxSelectYear = new JComboBox(years);
-        jComboBoxSelectYear.setBounds(420, 80, 130, 28);
-
-        JLabel jLabelStartHour = new JLabel("Selectionner une heure de début :");
-        jLabelStartHour.setBounds(20, 108, 250, 28);
-
-        String[] StartHours = {"08h00", "09h30", "11h15", "12h45", "14h30", "16H00", "17h45"};
-        JComboBox jComboBoxSelectStartHour = new JComboBox(StartHours);
-        jComboBoxSelectStartHour.setBounds(280, 108, 100, 28);
-
-        JLabel jLabelEndHour = new JLabel("Selectionner une heure de fin :");
-        jLabelEndHour.setBounds(20, 140, 250, 28);
-
-        String[] EndHours = {"09h30", "11h00", "12h45", "14h15", "16H00", "17h30", "19h15"};
-        JComboBox jComboBoxSelectEndHour = new JComboBox(EndHours);
-        jComboBoxSelectEndHour.setBounds(280, 140, 100, 28);
-
-        JLabel jLabelTeacher = new JLabel("Selectionner un Enseignant :");
-        jLabelTeacher.setBounds(20, 170, 250, 28);
-
-        String[] subject = {"MATH", "PHYS", "COSC"};
-        JComboBox jComboBoxSelectSubject = new JComboBox(subject);
-        jComboBoxSelectSubject.setBounds(280, 170, 100, 28);
-
-        JTextField jTextFieldTeacher = new JTextField();
-        jTextFieldTeacher.setBounds(390, 170, 195, 28);
-
-        JLabel jLabelRoom = new JLabel("Selectionner une salle :");
-        jLabelRoom.setBounds(20,  200, 250, 28);
-
-        JTextField jTextFieldRoom = new JTextField();
-        jTextFieldRoom.setBounds(280, 200, 200, 28);
-
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonAdd);
-        addFrame.add(jLabelIdSession);
-        addFrame.add(jTextFieldId);
-        addFrame.add(jLabelWeek);
-        addFrame.add(jTextFieldWeek);
-        addFrame.add(jLabelSelectDate);
-        addFrame.add(jComboBoxSelectDay);
-        addFrame.add(jComboBoxSelectMonth);
-        addFrame.add(jComboBoxSelectYear);
-        addFrame.add(jLabelStartHour);
-        addFrame.add(jComboBoxSelectStartHour);
-        addFrame.add(jLabelEndHour);
-        addFrame.add(jComboBoxSelectEndHour);
-        addFrame.add(jLabelTeacher);
-        addFrame.add(jComboBoxSelectSubject);
-        addFrame.add(jTextFieldTeacher);
-        addFrame.add(jLabelRoom);
-        addFrame.add(jTextFieldRoom);
-
-        jButtonCanceled.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
-            }
-        });
-
-        jButtonAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                addFrame.dispose();
-            }
-        });
-
-        addFrame.setTitle("Modification d'un cours");
-        addFrame.setSize(600,300);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
-    }
-    public void modTeacherWindow(){
-        JFrame addFrame = new JFrame();
-
-        JButton jButtonCanceled = new JButton("Annuler");
-        jButtonCanceled.setBounds(380, 240, 100, 28);
-        JButton jButtonAdd = new JButton("Modifier");
-        jButtonAdd.setBounds(490, 240, 100, 28);
-
-        JLabel jLabelIdStudent = new JLabel("Saissisez l'ID du professeur à modifier : ");
-        jLabelIdStudent.setBounds(20, 20, 260, 28);
-
-        JTextField jTextFieldId = new JTextField();
-        jTextFieldId.setBounds(280, 20, 200, 28);
-
-        JLabel jLabelEmail = new JLabel("Saissisez l'Email du professeur : ");
-        jLabelEmail.setBounds(20, 48, 250, 28);
-
-        JTextField jTextFielEmail = new JTextField();
-        jTextFielEmail.setBounds(280, 48, 200, 28);
-
-        JLabel jLabelPassword = new JLabel("Saissisez le mot de passe du professeur : ");
-        jLabelPassword.setBounds(20, 80, 280, 28);
-
-        JTextField jTextFieldPassword = new JTextField();
-        jTextFieldPassword.setBounds(280, 80, 200, 28);
-
-        JLabel jLabelLastName = new JLabel("Saissisez le nom du professeur : ");
-        jLabelLastName.setBounds(20, 108, 250, 28);
-
-        JTextField jTextFieldLastName = new JTextField();
-        jTextFieldLastName.setBounds(280, 108, 200, 28);
-
-        JLabel jLabelFirstName = new JLabel("Saissisez le prénom du professeur : ");
-        jLabelFirstName.setBounds(20, 140, 250, 28);
-
-        JTextField jTextFieldFirstName = new JTextField();
-        jTextFieldFirstName.setBounds(280, 140, 200, 28);
-
-        JLabel jLabelNumber = new JLabel("Saissisez le numéro du professeur : ");
-        jLabelNumber.setBounds(20, 170, 250, 28);
-
-        JTextField jTextFieldNumber = new JTextField();
-        jTextFieldNumber.setBounds(280, 170, 200, 28);
-
-        JLabel jLabelSelectPromo = new JLabel("Selectionner une matière :");
-        jLabelSelectPromo.setBounds(20, 200, 300, 28);
-
-        String[] subject = {"MATH", "PHYS", "COSC"};
-        JComboBox jComboBoxSelectSubject = new JComboBox(subject);
-        jComboBoxSelectSubject.setBounds(280, 200, 100, 28);
-
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonAdd);
-        addFrame.add(jLabelIdStudent);
-        addFrame.add(jTextFieldId);
-        addFrame.add(jLabelEmail);
-        addFrame.add(jTextFielEmail);
-        addFrame.add(jLabelPassword);
-        addFrame.add(jTextFieldPassword);
-        addFrame.add(jLabelLastName);
-        addFrame.add(jTextFieldLastName);
-        addFrame.add(jLabelFirstName);
-        addFrame.add(jTextFieldFirstName);
-        addFrame.add(jLabelNumber);
-        addFrame.add(jTextFieldNumber);
-        addFrame.add(jLabelSelectPromo);
-        addFrame.add(jComboBoxSelectSubject);
-
-        jButtonCanceled.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
-            }
-        });
-
-        addFrame.setTitle("Modification d'un professeur");
-        addFrame.setSize(600,300);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
-    }
-    public void modStudentWindow(){
-        JFrame addFrame = new JFrame();
-
-        JButton jButtonCanceled = new JButton("Annuler");
-        jButtonCanceled.setBounds(380, 240, 100, 28);
-        JButton jButtonAdd = new JButton("Ajouter");
-        jButtonAdd.setBounds(490, 240, 100, 28);
-
-        JLabel jLabelIdStudent = new JLabel("Saissisez l'ID de l'étudiant à modofier : ");
-        jLabelIdStudent.setBounds(20, 20, 250, 28);
-
-        JTextField jTextFieldId = new JTextField();
-        jTextFieldId.setBounds(280, 20, 200, 28);
-
-        JLabel jLabelEmail = new JLabel("Saissisez l'Email de l'étudiant : ");
-        jLabelEmail.setBounds(20, 48, 250, 28);
-
-        JTextField jTextFielEmail = new JTextField();
-        jTextFielEmail.setBounds(280, 48, 200, 28);
-
-        JLabel jLabelPassword = new JLabel("Saissisez le mot de passe de l'étudiant : ");
-        jLabelPassword.setBounds(20, 80, 280, 28);
-
-        JTextField jTextFieldPassword = new JTextField();
-        jTextFieldPassword.setBounds(280, 80, 200, 28);
-
-        JLabel jLabelLastName = new JLabel("Saissisez le nom de l'étudiant : ");
-        jLabelLastName.setBounds(20, 108, 250, 28);
-
-        JTextField jTextFieldLastName = new JTextField();
-        jTextFieldLastName.setBounds(280, 108, 200, 28);
-
-        JLabel jLabelFirstName = new JLabel("Saissisez le prénom de l'étudiant : ");
-        jLabelFirstName.setBounds(20, 140, 250, 28);
-
-        JTextField jTextFieldFirstName = new JTextField();
-        jTextFieldFirstName.setBounds(280, 140, 200, 28);
-
-        JLabel jLabelNumber = new JLabel("Saissisez le numéro de l'étudiant : ");
-        jLabelNumber.setBounds(20, 170, 250, 28);
-
-        JTextField jTextFieldNumber = new JTextField();
-        jTextFieldNumber.setBounds(280, 170, 200, 28);
-
-        JLabel jLabelSelectPromo = new JLabel("Selectionner une promotion et un groupe :");
-        jLabelSelectPromo.setBounds(20, 200, 300, 28);
-
-        String[] promotion = {"ING1", "ING2", "ING3"};
-        JComboBox jComboBoxSelectPromotion = new JComboBox(promotion);
-        jComboBoxSelectPromotion.setBounds(300, 200, 90, 28);
-
-        String[] groupe = {"Groupe 1", "Groupe 2", "Groupe 3"};
-        JComboBox jComboBoxSelectGroupe = new JComboBox(groupe);
-        jComboBoxSelectGroupe.setBounds(390, 200, 150, 28);
-
-        addFrame.add(jButtonCanceled);
-        addFrame.add(jButtonAdd);
-        addFrame.add(jLabelIdStudent);
-        addFrame.add(jTextFieldId);
-        addFrame.add(jLabelEmail);
-        addFrame.add(jTextFielEmail);
-        addFrame.add(jLabelPassword);
-        addFrame.add(jTextFieldPassword);
-        addFrame.add(jLabelLastName);
-        addFrame.add(jTextFieldLastName);
-        addFrame.add(jLabelFirstName);
-        addFrame.add(jTextFieldFirstName);
-        addFrame.add(jLabelNumber);
-        addFrame.add(jTextFieldNumber);
-        addFrame.add(jLabelSelectPromo);
-        addFrame.add(jComboBoxSelectPromotion);
-        addFrame.add(jComboBoxSelectGroupe);
-
-        jButtonCanceled.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addFrame.dispose();
-            }
-        });
-
-        addFrame.setTitle("Modification d'un étudiant");
-        addFrame.setSize(600,300);
-        addFrame.setLocation(200, 100);
-        addFrame.setLayout(null);
-        addFrame.setVisible(true);
+        suppFrame.setTitle("Suppression d'une salle");
+        suppFrame.setSize(600,180);
+        suppFrame.setLocation(200, 100);
+        suppFrame.setLayout(null);
+        suppFrame.setVisible(true);
     }
 
     // Affichage informations personnelles
@@ -1318,7 +1334,6 @@ public class AdminView extends JFrame{
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
-
     public void createModifPassword(JFrame jFrame, ControllerAdmin controllerAdminPersonalInfos){
         JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");
         jLabelModifPassword.setBounds(560, 290, 300, 28);

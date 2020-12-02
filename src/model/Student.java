@@ -87,6 +87,10 @@ public class Student extends User{
         studentDao.createStudent(this);
     }
 
+    public void deleteStudent(String idStudent) throws SQLException{
+        studentDao.deleteStudent(idStudent);
+    }
+
     @Override
     public String toString() {
         return "Student{" +

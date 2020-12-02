@@ -1,11 +1,11 @@
 package model.dao;
 
+import model.Room;
+import model.Session;
 import model.Student;
 import model.Teacher;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class TeacherDao {
 
@@ -34,6 +34,29 @@ public class TeacherDao {
             }
             else System.out.println("Erreur identification professeur non trouve");
         } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return teacher;
+    }
+
+    public Teacher findByName(String nameTeacher) throws SQLException, ClassNotFoundException {
+        Teacher teacher = new Teacher();
+        try{
+            ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user JOIN teacher\n" +
+                    "ON user.idUser = teacher.id_UserT\n" +
+                    "WHERE user.last_name = '" + nameTeacher + "'");
+            if(result.first())
+                teacher = new Teacher(
+                        result.getString("idUser"),
+                        result.getString("email"),
+                        result.getString("password"),
+                        nameTeacher,
+                        result.getString("first_name"),
+                        result.getString("permission"),
+                        result.getString("id_CourseT"));
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -80,5 +103,50 @@ public class TeacherDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteTeacher(String idTeacher){
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM teacher WHERE (id_UserT = '" + idTeacher + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM user WHERE idUser = '" + idTeacher + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean alreadyTeach(int week, Date date, Time startTime, Time endTime, String idTeacher) throws SQLException {
+        try {
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM session \n" +
+                    "JOIN teachers_session\n" +
+                    "    ON session.idSession = teachers_session.id_SessionTS\n" +
+                    "JOIN teacher\n" +
+                    "    ON teachers_session.id_TeacherTS = teacher.id_UserT\n" +
+                    "WHERE teacher.id_UserT = '" + idTeacher + "'\n" +
+                    "AND session.week = '" + week + "'\n" +
+                    "AND session.date = '" + date + "' \n" +
+                    "AND session.start_time = '" + startTime + "'\n" +
+                    "AND session.end_time = '" + endTime + "'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(resultSet.first()){
+            return true;
+        }else return false;
+    }
+
+    public boolean alreadyExist(String nameTeacher) throws SQLException {
+        try {
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user WHERE last_name = '" + nameTeacher +"'");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(resultSet.first()){
+            return true;
+        }else return false;
     }
 }

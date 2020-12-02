@@ -179,6 +179,32 @@ public class ControllerAdmin {
         return allSession;
     }
 
+    public ArrayList<String> getAllNameSite() throws SQLException, ClassNotFoundException {
+        Site site = new Site();
+        site.resultSetSiteName();
+        ArrayList<String> allNameSite = new ArrayList<>();
+        while(site.resultSetSiteNameNext()){
+            assert allNameSite != null;
+            allNameSite.add(site.getNameSite());
+        }
+        return allNameSite;
+    }
+
+    public ArrayList<ArrayList<String>> getAllRoom(String nameSite) throws SQLException, ClassNotFoundException {
+        Room room = new Room();
+        room.resultSetRoom(nameSite);
+        ArrayList<ArrayList<String>> allRoom = new ArrayList<>();
+        while(room.resultSetRoomNext()){
+            ArrayList<String> buffer = new ArrayList<>();
+            assert allRoom != null;
+            buffer.add(room.getIdRoom());
+            buffer.add(room.getNameRoom());
+            buffer.add(String.valueOf(room.getCapacity()));
+            allRoom.add(buffer);
+        }
+        return allRoom;
+    }
+
     public List<Group> getGroupsPromotion() {
         return groupsPromotion;
     }

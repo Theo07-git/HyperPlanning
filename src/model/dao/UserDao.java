@@ -98,7 +98,7 @@ public class UserDao implements UserDaoInterface{
         return user;
     }
 
-    public void ResultSetByName()  {
+    public void ResultSetByName(){
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user ORDER BY last_name");
@@ -137,5 +137,4 @@ public class UserDao implements UserDaoInterface{
             return true;
         }else return false;
     }
-
 }

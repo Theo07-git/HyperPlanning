@@ -10,19 +10,20 @@ import java.util.Date;
 public class Session {
 
     SessionDao sessionDao;
-    protected String IdSession="";
+    private String IdSession="";
     private int Week;
     private Date date;
     private Time StartTime;
     private Time EndTime;
-    public enum State {ANNULE,REPORTER}; // Statut à completer
-    public String type;
+    private String type;
     private Room room;
     private String idCourse;
     private String teacherName;
     private String idGroupSession;
 
     public Session(String idSession, int week, Date date, Time startTime, Time endTime, String type, String idCourse, Room room, String teacherName, String idGroupSession) throws SQLException, ClassNotFoundException {
+        DAOFactory DAOInstance = new DAOFactory();
+        sessionDao = DAOInstance.getSessionDao();
         IdSession = idSession;
         Week = week;
         this.date = date;
@@ -140,6 +141,18 @@ public class Session {
 
     public Teacher findTeacherSession() throws SQLException, ClassNotFoundException{
         return sessionDao.findTeacherSession(this.IdSession);
+    }
+
+    public void createSession(Teacher teacher){
+        sessionDao.createSession(this, teacher);
+    }
+
+    public void deleteSession(String idSession) throws SQLException{
+        sessionDao.deleteSession(idSession);
+    }
+
+    public boolean alreadyExist(String id) throws SQLException{
+        return sessionDao.alreadyExist(id);
     }
 
     @Override

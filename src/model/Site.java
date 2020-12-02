@@ -1,17 +1,25 @@
 package model;
 
+import model.dao.DAOFactory;
+import model.dao.SiteDao;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class Site {
 
-    protected String IdSite;
+    private SiteDao siteDao;
+    private String IdSite;
     private String NameSite="";
-    private List<Room> RoomSite;
 
-    public Site(String idSite, String nameSite, List<Room> roomSite) {
+    public Site(String idSite, String nameSite) {
         IdSite = idSite;
         NameSite = nameSite;
-        RoomSite = roomSite;
+    }
+
+    public Site() throws ClassNotFoundException, SQLException {
+        DAOFactory DAOInstance = new DAOFactory();
+        siteDao = DAOInstance.getSiteDao();
     }
 
     public String getNameSite() {
@@ -20,5 +28,25 @@ public class Site {
 
     public String getIdSite() {
         return IdSite;
+    }
+
+    public void setIdSite(String idSite) {
+        IdSite = idSite;
+    }
+
+    public void setNameSite(String nameSite) {
+        NameSite = nameSite;
+    }
+
+    public void resultSetSiteName(){
+        siteDao.resultSetSiteName();
+    }
+
+    public boolean resultSetSiteNameNext(){
+        return siteDao.resultSetSiteNameNext(this);
+    }
+
+    public Site findByName(String nameSite) throws SQLException, ClassNotFoundException{
+        return siteDao.findByName(nameSite);
     }
 }

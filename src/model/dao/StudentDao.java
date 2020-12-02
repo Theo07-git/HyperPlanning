@@ -120,5 +120,16 @@ public class StudentDao implements StudentDaoInterface{
             e.printStackTrace();
         }
     }
+
+    public void deleteStudent(String idStudent) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM student WHERE (id_UserS = '" + idStudent + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM user WHERE idUser = '" + idStudent + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

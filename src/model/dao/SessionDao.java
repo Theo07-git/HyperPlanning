@@ -114,5 +114,49 @@ public class SessionDao {
         }
         return teacher;
     }
+
+    public void createSession(Session session, Teacher teacher){
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO session VALUES('" + session.getIdSession() + "', '" + session.getWeek() + "', '" + session.getDate() + "', '" + session.getStartTime() + "', '" + session.getEndTime() + "', 'VALIDATED', '" + session.getIdCourse() + "', '" + session.getType() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO teachers_session VALUES('" + session.getIdSession() + "', '" + teacher.getId() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO rooms_session VALUES('" + session.getIdSession() + "', '" + session.getRoom().getIdRoom() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO groups_session VALUES('" + session.getIdSession() + "', '" + session.getIdGroupSession() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSession(String idSession) throws SQLException {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM teachers_session WHERE (id_SessionTS = '" + idSession + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM rooms_session WHERE (id_SessionRS = '" + idSession + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM groups_session WHERE (id_SessionGS = '" + idSession + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM session WHERE idSession = '" + idSession + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean alreadyExist(String id) throws SQLException {
+        try {
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM session WHERE idSession = " + id);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(resultSet.first()){
+            return true;
+        }else return false;
+    }
+
 }
 

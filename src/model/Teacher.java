@@ -3,7 +3,9 @@ package model;
 import model.dao.DAOFactory;
 import model.dao.TeacherDao;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.List;
 
 public class Teacher extends User {
@@ -57,6 +59,10 @@ public class Teacher extends User {
         return teacherDao.findById(id);
     }
 
+    public Teacher findByName(String nameTeacher) throws SQLException, ClassNotFoundException{
+        return teacherDao.findByName(nameTeacher);
+    }
+
     public void resultSetByCourse(String nameCourse){
         teacherDao.resultSetByCourse(nameCourse);
     }
@@ -67,6 +73,18 @@ public class Teacher extends User {
 
     public void createTeacher(){
         teacherDao.createTeacher(this);
+    }
+
+    public void deleteTeacher(String idTeacher) throws SQLException{
+        teacherDao.deleteTeacher(idTeacher);
+    }
+
+    public boolean alreadyTeach(int week, Date date, Time startTime, Time endTime, String idTeacher) throws SQLException{
+        return teacherDao.alreadyTeach(week, date, startTime, endTime, idTeacher);
+    }
+
+    public boolean alreadyExist(String nameTeacher) throws SQLException{
+        return teacherDao.alreadyExist(nameTeacher);
     }
 
     @Override
