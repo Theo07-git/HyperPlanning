@@ -255,12 +255,7 @@ public class Planning extends JPanel {
             int nameDay = date.getDay();
 
             Time startTime = myWeekSession.get(i).getStartTime();
-            Time endTime = myWeekSession.get(i).getEndTime();
-
             String heureDebutString = dateFormat.format(startTime);
-            String heureFinString = dateFormat.format(endTime);
-
-            String heure = heureDebutString+heureFinString;
 
             int y = 154;
             int x = 50;
@@ -351,7 +346,6 @@ public class Planning extends JPanel {
             }
         }
 
-        ArrayList<Date> listDate = new ArrayList<>();
         for(int i=0;i<myWeekSession.size();++i){
 
             Date date = myWeekSession.get(i).getDate();
@@ -433,10 +427,9 @@ public class Planning extends JPanel {
                 courseInfo.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
                 textPanel.setBackground(Color.getHSBColor(red[0], red[1], red[2]));
             }
+
             courseInfo.setEditable(false);
             courseInfo.setBounds(5, 10, 178, 30);
-            courseInfo.setBackground(Color.yellow);
-            textPanel.setBackground(Color.yellow);
             textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             textPanel.add(courseInfo);
             textPanel.setBounds(x,y,185,55);
@@ -456,7 +449,6 @@ public class Planning extends JPanel {
             }
         }
 
-        ArrayList<Date> listDate = new ArrayList<>();
         for(int i=0;i<myWeekSession.size();++i){
 
             Date date = myWeekSession.get(i).getDate();
@@ -468,9 +460,6 @@ public class Planning extends JPanel {
 
             String heureDebutString = dateFormat.format(startTime);
             String heureFinString = dateFormat.format(endTime);
-
-            String heure = heureDebutString+heureFinString;
-            heure = addChar(heure,'-',8);
 
             int y = 154;
             int x = 50;
@@ -519,13 +508,15 @@ public class Planning extends JPanel {
             String typeCourse = myWeekSession.get(i).getType();
             String nameGroup = myWeekSession.get(i).getIdGroupSession();
 
+            float[] green = Color.RGBtoHSB(92, 200, 79, null);
+
             JPanel textPanel = new JPanel();
             textPanel.setLayout(null);
             JTextArea courseInfo = new JTextArea(nameCourse + "-" + typeCourse + "-" + nameGroup + "\n"  + " " + nameRoom);
             courseInfo.setEditable(false);
             courseInfo.setBounds(5, 10, 178, 30);
-            courseInfo.setBackground(Color.yellow);
-            textPanel.setBackground(Color.yellow);
+            courseInfo.setBackground(Color.getHSBColor(green[0], green[1], green[2]));
+            textPanel.setBackground(Color.getHSBColor(green[0], green[1], green[2]));
             textPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             textPanel.add(courseInfo);
             textPanel.setBounds(x,y,185,55);
@@ -540,18 +531,17 @@ public class Planning extends JPanel {
         int y = 220;
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 13; ++j) {
-
                  JLabel panel = new JLabel();
                  panel.setBounds(x, y, 185, 38);
                  setBackground(Color.GRAY);
                  g2.fillRect(x, y, 185, 38); // fill new rectangle with color blue
-
                 y += 40;
             }
             y = 220;
             x += 190;
         }
     }
+
     @Override
     public void paintComponent(Graphics g) {
         // clear the previous painting
@@ -559,9 +549,7 @@ public class Planning extends JPanel {
         // cast Graphics to Graphics2D
         Graphics2D g2 = (Graphics2D) g;
         setEmploiDuTemps(g2);
-
     }
-
 }
 
 

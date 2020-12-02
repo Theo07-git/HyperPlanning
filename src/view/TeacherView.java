@@ -64,6 +64,7 @@ public class TeacherView {
             }
         });
 
+        createTeacherPlanning(jFrame, controllerTeacher);
         jFrame.setVisible(true);
     }
 

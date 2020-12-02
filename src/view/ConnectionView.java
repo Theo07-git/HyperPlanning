@@ -35,28 +35,30 @@ public class ConnectionView {
                 throwables.printStackTrace();
             }
             int permission = testConnection.testPermission();
-
             switch (permission) {
                 case 0 -> System.out.println("Erreur - Permission non reconnu");
                 case 1 -> {
                     root.setVisible(false);
-                    //transition.setSize(460,390);
                     transition.setVisible(true);
                     Thread.sleep(5000);
                     transition.setVisible(false);
-                    AdminView adminView = new AdminView(testConnection);
+                    AdminView adminView = new AdminView(testConnection, true);
                 }
-                case 2 -> System.out.println("2");
+                case 2 -> {
+                    root.setVisible(false);
+                    transition.setVisible(true);
+                    Thread.sleep(5000);
+                    transition.setVisible(false);
+                    AdminView adminView = new AdminView(testConnection, false);
+                }
                 case 3 -> {
                     root.setVisible(false);
-                    //transition.setSize(460,390);
                     transition.setVisible(true);
                     Thread.sleep(5000);
                     transition.setVisible(false);
                     TeacherView teacherView = new TeacherView(testConnection);}
                 case 4 ->{
                     root.setVisible(false);
-                    //transition.setSize(460,390);
                     transition.setVisible(true);
                     Thread.sleep(5000);
                     transition.setVisible(false);

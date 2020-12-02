@@ -17,10 +17,10 @@ import java.util.Objects;
 
 public class AdminView extends JFrame{
 
-    public AdminView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public AdminView(TestConnection testConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
         JFrame frame = new JFrame();
 
-        interfaceAdmin(frame, testConnection);
+        interfaceAdmin(frame, testConnection, isAdmin);
         frame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         frame.setSize(1200,800);
         frame.setLocationRelativeTo(null);
@@ -30,7 +30,7 @@ public class AdminView extends JFrame{
         frame.setVisible(true);
     }
 
-    public void interfaceAdmin(JFrame jFrame, TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public void interfaceAdmin(JFrame jFrame, TestConnection testConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
         ControllerAdmin controllerAdmin = new ControllerAdmin();
         ControllerAdmin controllerAdminPersonalInfos = new ControllerAdmin(testConnection.getUser().getId());
 
@@ -42,17 +42,19 @@ public class AdminView extends JFrame{
         JMenu menuHome = new JMenu("Accueil");
         JMenu menuStudent = new JMenu("Etudiant");
         JMenu menuTeacher = new JMenu("Professeur");
-        JMenu menuRoom = new JMenu("Salles");
-        JMenu menuUpdate = new JMenu("Mise a jour des donnees");
+        JMenu menuRoom = new JMenu("Salle");
         JMenu menuPersonalInfo = new JMenu("Informations personnelles");
+        JMenu menuUpdate = new JMenu("Mise a jour des donnees");
 
         // Ajout des menus dans la barre de menu
         menuBar.add(menuHome);
         menuBar.add(menuStudent);
         menuBar.add(menuTeacher);
         menuBar.add(menuRoom);
-        menuBar.add(menuUpdate);
         menuBar.add(menuPersonalInfo);
+        if(isAdmin){
+            menuBar.add(menuUpdate);
+        }
 
         // Création des items student
         JMenuItem miHome = new JMenuItem("Accueil");
@@ -125,7 +127,7 @@ public class AdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
-                //jFrame.dispose();
+                jFrame.dispose();
                 try {
                     createStudentList(jFrame, controllerAdmin);
                 } catch (SQLException | ClassNotFoundException throwables) {
@@ -181,76 +183,79 @@ public class AdminView extends JFrame{
                 }
             }
         });
-        miSessionAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                try {
-                    addSessionWindow(controllerAdmin);
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
+        if(isAdmin){
+            miSessionAdd.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    try {
+                        addSessionWindow(controllerAdmin);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            }
-        });
-        miStudentAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                try {
-                    addStudentWindow(controllerAdmin);
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
+            });
+            miStudentAdd.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    try {
+                        addStudentWindow(controllerAdmin);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            }
-        });
-        miTeacherAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                try {
-                    addTeacherWindow(controllerAdmin);
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
+            });
+            miTeacherAdd.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    try {
+                        addTeacherWindow(controllerAdmin);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            }
-        });
-        miRoomAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    addRoomWindow(controllerAdmin);
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
+            });
+            miRoomAdd.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        addRoomWindow(controllerAdmin);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            }
-        });
-        miSessionSupp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                suppSessionWindow();
-            }
-        });
-        miTeacherSupp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                suppTeacherWindow();
-            }
-        });
-        miStudentSupp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jFrame.getContentPane().removeAll();
-                suppStudentWindow();
-            }
-        });
-        miRoomSupp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                suppRoomWindow();
-            }
-        });
+            });
+            miSessionSupp.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    suppSessionWindow();
+                }
+            });
+            miTeacherSupp.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    suppTeacherWindow();
+                }
+            });
+            miStudentSupp.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jFrame.getContentPane().removeAll();
+                    suppStudentWindow();
+                }
+            });
+            miRoomSupp.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    suppRoomWindow();
+                }
+            });
+        }
+
         miAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -583,13 +588,13 @@ public class AdminView extends JFrame{
             }
         }
         jFrame.setLayout(null);
-        JTable jTableTeacherList = new JTable(mt, tableTitle);
+        JTable jTableRoomList = new JTable(mt, tableTitle);
         JScrollPane jScrollPane = new JScrollPane();
-        JPanel jPanelTeacherList = new JPanel();
-        jScrollPane.getViewport().add(jTableTeacherList);
-        jPanelTeacherList.setBounds(0, 80, 500, 200);
-        jPanelTeacherList.add(jScrollPane);
-        jFrame.add(jPanelTeacherList);
+        JPanel jPanelRoomList = new JPanel();
+        jScrollPane.getViewport().add(jTableRoomList);
+        jPanelRoomList.setBounds(0, 80, 500, 200);
+        jPanelRoomList.add(jScrollPane);
+        jFrame.add(jPanelRoomList);
         jFrame.setVisible(true);
     }
 
