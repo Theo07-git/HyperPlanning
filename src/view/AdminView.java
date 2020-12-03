@@ -3,10 +3,9 @@ package view;
 import controller.ControllerAdmin;
 import controller.TestConnection;
 import model.*;
-import view.Ressource.AdminHomePage;
-import view.Ressource.AlertePopUp;
-import view.Ressource.Planning;
-
+import view.ressource.AdminHomePage;
+import view.ressource.AlertePopUp;
+import view.ressource.Planning;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

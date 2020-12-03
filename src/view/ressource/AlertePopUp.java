@@ -1,4 +1,4 @@
-package view.Ressource;
+package view.ressource;
 
 import javax.swing.*;
 import java.awt.*;

@@ -2,7 +2,9 @@ package view;
 
 import controller.ControllerTeacher;
 import controller.TestConnection;
-import view.Ressource.Planning;
+import view.ressource.Planning;
+import view.ressource.TeacherHomePage;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +15,7 @@ public class TeacherView {
     public TeacherView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
         JFrame jFrame = new JFrame();
 
-        interfaceTeacher(jFrame, testConnection.getUser().getId());
+        interfaceTeacher(jFrame, testConnection.getUser().getId(),testConnection);
         jFrame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         jFrame.setSize(1200,800);
         jFrame.setLocationRelativeTo(null);
@@ -22,7 +24,7 @@ public class TeacherView {
         jFrame.setVisible(true);
     }
 
-    public void interfaceTeacher(JFrame jFrame, String idUser) throws SQLException, ClassNotFoundException {
+    public void interfaceTeacher(JFrame jFrame, String idUser, TestConnection testConnection) throws SQLException, ClassNotFoundException {
         ControllerTeacher controllerTeacher = new ControllerTeacher(idUser);
 
         // Création de la barre menu
@@ -38,14 +40,31 @@ public class TeacherView {
         menuBar.add(menuPersonalInfos);
 
         // Création des items
+        JMenuItem miHome = new JMenuItem("Accueil");
         JMenuItem miTeacherPlanning = new JMenuItem("Emploi du temps");
         JMenuItem miTeacherAccount = new JMenuItem("Compte");
 
         // Ajout des items dans le menu
+        menuTeacher.add(miHome);
         menuTeacher.add(miTeacherPlanning);
         menuPersonalInfos.add(miTeacherAccount);
 
+        TeacherHomePage teacherHomePage = new TeacherHomePage(testConnection);
+        jFrame.setContentPane(teacherHomePage.panel1);
+
         // Action sélection item
+        miHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                jFrame.dispose();
+                try {
+                    interfaceTeacher(jFrame,idUser,testConnection);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
         miTeacherPlanning.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +82,6 @@ public class TeacherView {
             }
         });
 
-        createTeacherPlanning(jFrame, controllerTeacher);
         jFrame.setVisible(true);
     }
 

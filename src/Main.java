@@ -1,7 +1,6 @@
 import controller.TestConnection;
 import model.User;
 import view.ConnectionView;
-
 import javax.swing.*;
 import java.sql.SQLException;
 

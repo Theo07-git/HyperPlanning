@@ -1,4 +1,4 @@
-package view.Ressource;
+package view.ressource;
 
 import controller.ControllerAdmin;
 import controller.TestConnection;
@@ -226,7 +226,7 @@ public class AdminHomePage {
 
             //---- Background ----
             Background.setText(" ");
-            Background.setIcon(new ImageIcon(getClass().getResource("/view/Ressource/Mt. Fuji.jpg")));
+            Background.setIcon(new ImageIcon(getClass().getResource("/view/ressource/Image/Mt. Fuji.jpg")));
             Background.setBorder(UIManager.getBorder("MenuBar.border"));
             panel1.add(Background);
             Background.setBounds(0, 0, 1200, 745);

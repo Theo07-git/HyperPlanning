@@ -105,7 +105,7 @@ public class ConnectionView {
 
                 //---- label1 ----
                 label1.setText(" ");
-                label1.setIcon(new ImageIcon(getClass().getResource("/view/ressource/ECE_Paris_Lyon (1).png")));
+                label1.setIcon(new ImageIcon(getClass().getResource("/view/ressource/Image/ECE_Paris_Lyon (1).png")));
                 panel2.add(label1);
                 label1.setBounds(-45, -20, 315, 370);
 
@@ -174,7 +174,7 @@ public class ConnectionView {
             panel2.setBounds(270, 220, 515, 305);
 
             //---- Background ----
-            Background.setIcon(new ImageIcon(getClass().getResource("/view/ressource/Mt. Fuji.jpg")));
+            Background.setIcon(new ImageIcon(getClass().getResource("/view/ressource/Image/Mt. Fuji.jpg")));
             panel1.add(Background);
             Background.setBounds(-660, 0, 1770, 905);
 

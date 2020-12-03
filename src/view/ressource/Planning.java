@@ -1,4 +1,4 @@
-package view.Ressource;
+package view.ressource;
 
 import controller.ControllerAdmin;
 import controller.ControllerStudent;
@@ -276,26 +276,26 @@ public class Planning extends JPanel {
             if (nameDay == 6){ // equals("samedi"))
                 x+= 190*5;
             }
-            if(heureDebutString.equals("09:00:00")){}
-            if(heureDebutString.equals("10:30:00")){
+            if(heureDebutString.equals("08:00:00")){}
+            if(heureDebutString.equals("09:30:00")){
                 y+=57;
             }
-            if(heureDebutString.equals("12:15:00")){
+            if(heureDebutString.equals("11:15:00")){
                 y+=57*2+10;
             }
-            if(heureDebutString.equals("01:45:00")){
+            if(heureDebutString.equals("00:45:00")){
                 y+=57*3+10;
             }
-            if(heureDebutString.equals("03:30:00")){
+            if(heureDebutString.equals("02:30:00")){
                 y+=57*4+25;
             }
-            if(heureDebutString.equals("05:00:00")){
+            if(heureDebutString.equals("04:00:00")){
                 y+=57*5+25;
             }
-            if(heureDebutString.equals("06:45:00")){
+            if(heureDebutString.equals("05:45:00")){
                 y+=57*6+35;
             }
-            if(heureDebutString.equals("08:15:00")){
+            if(heureDebutString.equals("07:15:00")){
                 y+=57*7+35;
             }
 
@@ -380,26 +380,26 @@ public class Planning extends JPanel {
             if (nameDay == 6){ // equals("samedi"))
                 x+= 190*5;
             }
-            if(heureDebutString.equals("09:00:00")){}
-            if(heureDebutString.equals("10:30:00")){
+            if(heureDebutString.equals("08:00:00")){}
+            if(heureDebutString.equals("09:30:00")){
                 y+=57;
             }
-            if(heureDebutString.equals("12:15:00")){
+            if(heureDebutString.equals("11:15:00")){
                 y+=57*2+10;
             }
-            if(heureDebutString.equals("01:45:00")){
+            if(heureDebutString.equals("12:45:00")){
                 y+=57*3+10;
             }
-            if(heureDebutString.equals("03:30:00")){
+            if(heureDebutString.equals("02:30:00")){
                 y+=57*4+25;
             }
-            if(heureDebutString.equals("05:00:00")){
+            if(heureDebutString.equals("04:00:00")){
                 y+=57*5+25;
             }
-            if(heureDebutString.equals("06:45:00")){
+            if(heureDebutString.equals("05:45:00")){
                 y+=57*6+35;
             }
-            if(heureDebutString.equals("08:15:00")){
+            if(heureDebutString.equals("07:15:00")){
                 y+=57*7+35;
             }
 
@@ -441,7 +441,7 @@ public class Planning extends JPanel {
     public void DrawTeacherPlanningForTeacher(Frame frame, String idUser, int week) throws SQLException, ClassNotFoundException{
         ControllerTeacher controller = new ControllerTeacher(idUser);
         ArrayList<Session> sessions = controller.getAllSession(idUser);
-        ArrayList<Session> myWeekSession= new ArrayList<>();
+        ArrayList<Session> myWeekSession = new ArrayList<>();
 
         for(int i = 0;i< sessions.size();++i){
             if(sessions.get(i).getWeek() == week){
@@ -480,26 +480,26 @@ public class Planning extends JPanel {
             if (nameDay == 6){ // equals("samedi"))
                 x+= 190*5;
             }
-            if(heureDebutString.equals("09:00:00")){}
-            if(heureDebutString.equals("10:30:00")){
+            if(heureDebutString.equals("08:00:00")){}
+            if(heureDebutString.equals("09:30:00")){
                 y+=57;
             }
-            if(heureDebutString.equals("12:15:00")){
+            if(heureDebutString.equals("11:15:00")){
                 y+=57*2+10;
             }
-            if(heureDebutString.equals("01:45:00")){
+            if(heureDebutString.equals("00:45:00")){
                 y+=57*3+10;
             }
-            if(heureDebutString.equals("03:30:00")){
+            if(heureDebutString.equals("02:30:00")){
                 y+=57*4+25;
             }
-            if(heureDebutString.equals("05:00:00")){
+            if(heureDebutString.equals("04:00:00")){
                 y+=57*5+25;
             }
-            if(heureDebutString.equals("06:45:00")){
+            if(heureDebutString.equals("05:45:00")){
                 y+=57*6+35;
             }
-            if(heureDebutString.equals("08:15:00")){
+            if(heureDebutString.equals("07:15:00")){
                 y+=57*7+35;
             }
 

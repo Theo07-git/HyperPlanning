@@ -1,4 +1,4 @@
-package view.Ressource;
+package view.ressource;
 
 import controller.ControllerStudent;
 import controller.TestConnection;
@@ -40,14 +40,14 @@ panel1 = new JPanel();
         for(int i = 0 ; i < myTot.length; i++){
             for (int j = 0; j < tableTitle2.length; j++) {
                 if (i==0){
-                    mt2[i][0] = String.valueOf(myTot[i]);
-                    mt2[i][1] = "Mathématiques";}
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Mathématiques";}
                 if(i==1){
-                    mt2[i][0] = String.valueOf(myTot[i]);
-                    mt2[i][1] = "Informatique";}
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Informatique";}
                 if(i==2){
-                    mt2[i][0] = String.valueOf(myTot[i]);
-                    mt2[i][1] = "Physique";}
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Physique";}
                 }
             }
 
@@ -108,27 +108,23 @@ public class StudentHomePage {
                 if(i==2){
                     mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
                     mt2[i][0] = "Physique";}
-                }
             }
+        }
 
         table1 = new JTable(mt2, tableTitle2);
-
-
-
-
-
 
 
         //======== panel1 ========
         {
             panel1.setBackground(Color.lightGray);
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-            . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing
-            . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-            Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-            ) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-            public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName (
-            ) )) throw new RuntimeException( ); }} );
+            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
+            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion"
+            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 )
+            , java. awt. Color. red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
+            ; }} );
             panel1.setLayout(null);
 
             //---- label1 ----
@@ -239,7 +235,7 @@ public class StudentHomePage {
 
             //---- Background ----
             Background.setText(" ");
-            Background.setIcon(new ImageIcon(getClass().getResource("/view/Ressource/Mt. Fuji.jpg")));
+            Background.setIcon(new ImageIcon(getClass().getResource("/view/ressource/Image/Mt. Fuji.jpg")));
             Background.setBorder(UIManager.getBorder("MenuBar.border"));
             panel1.add(Background);
             Background.setBounds(0, 0, 1200, 745);

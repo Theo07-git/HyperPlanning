@@ -19,9 +19,9 @@ public class DAOFactory {
 
     public DAOFactory() throws ClassNotFoundException {
         this.url = "jdbc:mysql://localhost:3306/hyperplanning?useUnicode=true&useJDBCCompliant" +
-                "TimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+                "TimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris";
         this.username = "root";
-        this.password = "planning$*";
+        this.password = "projetemploisdutemps2020";
         String driverName = "com.mysql.cj.jdbc.Driver";
         Class.forName(driverName);
     }

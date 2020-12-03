@@ -2,14 +2,14 @@ package view;
 
 import controller.ControllerStudent;
 import controller.TestConnection;
-import view.Ressource.DailyPlanning;
-import view.Ressource.StudentHomePage;
+import view.ressource.Planning;
+import view.ressource.StudentHomePage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class StudentView  {
 
@@ -40,11 +40,15 @@ public class StudentView  {
         menuBar.add(menuStudent);
         menuBar.add(menuPersonalInfos);
 
+
         // Création des items
+        JMenuItem miHome = new JMenuItem("Accueil");
+
         JMenuItem miStudentPlanning = new JMenuItem("Emploi du temps");
         JMenuItem miStudentAccount = new JMenuItem("Compte");
 
         // Ajout des items dans le menu
+        menuStudent.add(miHome);
         menuStudent.add(miStudentPlanning);
         menuPersonalInfos.add(miStudentAccount);
 
@@ -53,6 +57,17 @@ public class StudentView  {
         jFrame.add(studentHomePage.panel1);
 
         // Action sélection item
+
+        miHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                jFrame.dispose();
+                jFrame.add(studentHomePage.panel1);
+                jFrame.setVisible(true);
+
+            }
+        });
         miStudentPlanning.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,8 +95,7 @@ public class StudentView  {
         Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(40, 40, 80, 28);
-        DailyPlanning planning = new DailyPlanning();
-        java.util.Date actual = new Date(2020-11-23);
+        Planning planning = new Planning();
         jComboBoxSelectWeek.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,13 +104,13 @@ public class StudentView  {
                 for(int i = 0; i < week.length; i++) {
                     if(jComboBoxSelectWeek.getSelectedIndex() == i){
                         try {
-                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), actual);
-                        } catch (SQLException | ClassNotFoundException throwables) {
+                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), Integer.parseInt(Objects.requireNonNull(jComboBoxSelectWeek.getSelectedItem()).toString()));                        } catch (SQLException | ClassNotFoundException throwables) {
                             throwables.printStackTrace();
                         }
                     }
                 }
                 jFrame.repaint();
+                planning.setSettings(jFrame);
                 jFrame.add(planning);
             }
         });
