@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -10,6 +10,7 @@ new FormModel {
 			"background": sfield java.awt.Color lightGray
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 1
+				"JavaCodeGenerator.customCreate": true
 			}
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
@@ -49,14 +50,14 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label2"
-				"text": "All sites :"
+				"text": "Les sites"
 				"foreground": &Color0 new java.awt.Color( 0, 0, 0, 255 )
 				"horizontalAlignment": 0
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 65536, 7, false )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 15
-				"y": 155
-				"width": 140
+				"y": 165
+				"width": 115
 				"height": 31
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
@@ -83,38 +84,26 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label3"
-				"text": "All members :"
+				"text": "Membres"
 				"foreground": #Color0
 				"horizontalAlignment": 0
-				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 65536, 7, false )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 65536, 7, false )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 160
 				"height": 31
-				"x": 35
-				"y": 320
+				"x": 15
+				"y": 345
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
-				name: "panel2"
+				name: "chart"
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 1
 				}
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 830
-				"y": 165
-				"height": 340
-				"width": 300
-			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label4"
-				"text": "Graphs :"
-				"foreground": #Color0
-				"horizontalAlignment": 0
-				"font": #SwingDerivedFont0
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 160
-				"height": 31
-				"x": 895
-				"y": 120
+				"width": 340
+				"height": 265
+				"x": 810
+				"y": 300
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "Background"

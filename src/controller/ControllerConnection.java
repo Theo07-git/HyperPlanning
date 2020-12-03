@@ -1,40 +1,49 @@
 package controller;
 
 import model.User;
-
 import java.sql.SQLException;
 
-public class TestConnection {
+public class ControllerConnection {
 
     private User user;
     public boolean isConnect;
-    public boolean idFaild;
+    public boolean idFailed;
     public String firstName;
 
-
-    public TestConnection(User user) {
+    // Constructeur
+    public ControllerConnection(User user) {
         this.user = user;
         isConnect = false;
-        idFaild =false;
+        idFailed =false;
     }
 
+    // Getters
+    public User getUser(){
+        return user;
+    }
+    public boolean getIsConnect() {
+        return isConnect;
+    }
+    public boolean getIsIdFaild() {
+        return idFailed;
+    }
+
+    // Vérifie les identifiants pour se connecter ou non
     public void isConnected(String email, String mdp) throws SQLException, ClassNotFoundException {
         User user = new User();
         user = user.findByEmail(email);
         firstName = user.getFirstName();
-
         if(!email.equals("") && !mdp.equals("")) {
             if (mdp.equals(user.getPassword()) && (email.equals(user.getEmail()) || email.equals(user.getId()))) {
                 isConnect = true;
             }
-             else {
-            idFaild = true;
-             }
-
+            else {
+                idFailed = true;
+            }
         }
-
     }
 
+    // Renvoie la permission de l'utilisateur connecté
     public int testPermission(){
         int i = switch (user.getPermission()) {
             case "ADMIN" -> 1;
@@ -46,23 +55,9 @@ public class TestConnection {
         return i;
     }
 
-    public void updateUser(String email, String password) throws SQLException, ClassNotFoundException {
+    // S'il est connecté on remplit la valeur de user (la personne qui vient de se connecter)
+    public void updateUser(String email) throws SQLException, ClassNotFoundException {
         User user = new User();
         this.user = user.findByEmail(email);
-    }
-
-    public boolean getIsConnect() {
-        return isConnect;
-    }
-
-    public boolean getIsIdFaild() {
-        return idFaild;
-    }
-
-    public void getActualUser(){
-        //System.out.println(user.toString());
-    }
-    public User getUser(){
-        return user;
     }
 }

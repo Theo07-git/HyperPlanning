@@ -1,24 +1,26 @@
 package controller;
 
 import model.Session;
-import model.Student;
 import model.Teacher;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ControllerTeacher {
+
     private Teacher teacher;
 
+    // Constructeur
     public ControllerTeacher(String idUser) throws SQLException, ClassNotFoundException {
         Teacher thr = new Teacher();
         this.teacher= thr.findById(idUser);
     }
 
+    // Getter
     public Teacher getTeacher() {
         return teacher;
     }
 
+    // Récupération des cours
     public ArrayList<Session> getAllSession(String idTeacher) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionForTeacher(idTeacher);

@@ -1,7 +1,8 @@
 package view.ressource;
 
 import controller.ControllerStudent;
-import controller.TestConnection;
+import controller.ControllerConnection;
+import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -10,66 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /*
-panel1 = new JPanel();
-        label1 = new JLabel();
-        Sites = new JPanel();
-        scrollPane1 = new JScrollPane();
-        table1 = new JTable();
-        label2 = new JLabel();
-        MyGroup = new JPanel();
-        scrollPane2 = new JScrollPane();
-        //userTab = new JTable();
-        label3 = new JLabel();
-        panel2 = new JPanel();
-        Background = new JLabel();
-
-        ArrayList<ArrayList<String>> students = controllerStudent.getAllStudents(controllerStudent.getStudent().getIdGroupPromotion());
-        String[] tableTitle = {"Nom", "Prenom", "Email"};
-        String[][] mt = new String[students.size()][tableTitle.length];
-        for(int i = 0 ; i < students.size(); i++){
-            for (int j = 0; j < tableTitle.length; j++) {
-                mt[i][j] = students.get(i).get(j);
-            }
-        }
-        userTab = new JTable(mt, tableTitle);
-
-        int [] myTot = controllerStudent.numberSessionOfCourse(controllerStudent.getAllSession(controllerStudent.getStudent().getIdGroupPromotion()));
-
-        String[] tableTitle2 = {"Matières", "Total séances"};
-        String[][] mt2 = new String[myTot.length][tableTitle2.length];
-        for(int i = 0 ; i < myTot.length; i++){
-            for (int j = 0; j < tableTitle2.length; j++) {
-                if (i==0){
-                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
-                    mt2[i][0] = "Mathématiques";}
-                if(i==1){
-                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
-                    mt2[i][0] = "Informatique";}
-                if(i==2){
-                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
-                    mt2[i][0] = "Physique";}
-                }
-            }
-
-        table1 = new JTable(mt2, tableTitle2);
-
- */
-
-
-public class StudentHomePage {
-
-    public TestConnection testConnection;
-
-    public ControllerStudent controllerStudent;
-    public StudentHomePage(TestConnection testConnection) throws SQLException, ClassNotFoundException {
-        this.testConnection = testConnection;
-        this.controllerStudent = new ControllerStudent(testConnection.getUser().getId());
-        initComponents();
-    }
-
-    private void initComponents() throws SQLException, ClassNotFoundException {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - biollay
         panel1 = new JPanel();
         label1 = new JLabel();
         Sites = new JPanel();
@@ -80,8 +21,9 @@ public class StudentHomePage {
         scrollPane2 = new JScrollPane();
         //userTab = new JTable();
         label3 = new JLabel();
-        panel2 = new JPanel();
+        chart = new JPanel();
         Background = new JLabel();
+        createUIComponents();
 
         ArrayList<ArrayList<String>> students = controllerStudent.getAllStudents(controllerStudent.getStudent().getIdGroupPromotion());
         String[] tableTitle = {"Nom", "Prenom", "Email"};
@@ -112,19 +54,85 @@ public class StudentHomePage {
         }
 
         table1 = new JTable(mt2, tableTitle2);
+ */
 
+
+public class StudentHomePage {
+
+    public ControllerConnection controllerConnection;
+    public ControllerStudent controllerStudent;
+
+    public StudentHomePage(ControllerConnection controllerConnection, ControllerStudent controllerStudent) throws SQLException, ClassNotFoundException {
+        this.controllerConnection = controllerConnection;
+        this.controllerStudent = controllerStudent;
+        initComponents();
+    }
+
+    private void createUIComponents() throws SQLException, ClassNotFoundException {
+        ChartPanel chartPanel = controllerStudent.getSessionCoursesByStudent();
+        chart.setLayout(null);
+        chartPanel.setBounds(0, 0, 300, 340);
+        chart.add(chartPanel);
+    }
+
+    private void initComponents() throws SQLException, ClassNotFoundException {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        // Generated using JFormDesigner Evaluation license - Sami Quintana
+
+        panel1 = new JPanel();
+        label1 = new JLabel();
+        Sites = new JPanel();
+        scrollPane1 = new JScrollPane();
+        table1 = new JTable();
+        label2 = new JLabel();
+        MyGroup = new JPanel();
+        scrollPane2 = new JScrollPane();
+        //userTab = new JTable();
+        label3 = new JLabel();
+        chart = new JPanel();
+        Background = new JLabel();
+        createUIComponents();
+
+        ArrayList<ArrayList<String>> students = controllerStudent.getAllStudents(controllerStudent.getStudent().getIdGroupPromotion());
+        String[] tableTitle = {"Nom", "Prenom", "Email"};
+        String[][] mt = new String[students.size()][tableTitle.length];
+        for(int i = 0 ; i < students.size(); i++){
+            for (int j = 0; j < tableTitle.length; j++) {
+                mt[i][j] = students.get(i).get(j);
+            }
+        }
+        userTab = new JTable(mt, tableTitle);
+
+        int[] myTot = controllerStudent.numberSessionOfCourse(controllerStudent.getAllSession(controllerStudent.getStudent().getIdGroupPromotion()));
+
+        String[] tableTitle2 = {"Matières", "Total séances"};
+        String[][] mt2 = new String[myTot.length][tableTitle2.length];
+        for(int i = 0 ; i < myTot.length; i++){
+            for (int j = 0; j < tableTitle2.length; j++) {
+                if (i==0){
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Mathématiques";}
+                if(i==1){
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Informatique";}
+                if(i==2){
+                    mt2[i][1] = String.valueOf(myTot[i]*1.5)+"h";
+                    mt2[i][0] = "Physique";}
+            }
+        }
+
+        table1 = new JTable(mt2, tableTitle2);
 
         //======== panel1 ========
         {
             panel1.setBackground(Color.lightGray);
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
-            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion"
-            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 )
-            , java. awt. Color. red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (
-            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
+            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
+            . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing
+            . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
+            Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
+            ) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
+            public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName (
+            ) )) throw new RuntimeException( ); }} );
             panel1.setLayout(null);
 
             //---- label1 ----
@@ -211,27 +219,27 @@ public class StudentHomePage {
             panel1.add(label3);
             label3.setBounds(5, 335, 160, 31);
 
-            //======== panel2 ========
+            //======== chart ========
             {
-                panel2.setLayout(null);
+                chart.setLayout(null);
 
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel2.getComponentCount(); i++) {
-                        Rectangle bounds = panel2.getComponent(i).getBounds();
+                    for(int i = 0; i < chart.getComponentCount(); i++) {
+                        Rectangle bounds = chart.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
                     }
-                    Insets insets = panel2.getInsets();
+                    Insets insets = chart.getInsets();
                     preferredSize.width += insets.right;
                     preferredSize.height += insets.bottom;
-                    panel2.setMinimumSize(preferredSize);
-                    panel2.setPreferredSize(preferredSize);
+                    chart.setMinimumSize(preferredSize);
+                    chart.setPreferredSize(preferredSize);
                 }
             }
-            panel1.add(panel2);
-            panel2.setBounds(830, 190, 300, 340);
+            panel1.add(chart);
+            chart.setBounds(830, 190, 300, 340);
 
             //---- Background ----
             Background.setText(" ");
@@ -246,7 +254,7 @@ public class StudentHomePage {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - biollay
+    // Generated using JFormDesigner Evaluation license - Sami Quintana
     public JPanel panel1;
     private JLabel label1;
     public JPanel Sites;
@@ -257,7 +265,7 @@ public class StudentHomePage {
     private JScrollPane scrollPane2;
     private JTable userTab;
     private JLabel label3;
-    public JPanel panel2;
+    public JPanel chart;
     private JLabel Background;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

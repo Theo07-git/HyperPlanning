@@ -240,7 +240,7 @@ public class Planning extends JPanel {
 
     public void DrawStudentPlanningForAdmin(Frame frame, String idGroupe, int week) throws SQLException, ClassNotFoundException{
         ControllerAdmin controller = new ControllerAdmin();
-        ArrayList<Session> sessions = controller.getAllSession1(idGroupe);
+        ArrayList<Session> sessions = controller.getAllSessions(idGroupe);
         ArrayList<Session> myWeekSession= new ArrayList<>();
 
         for(int i = 0;i< sessions.size();++i){

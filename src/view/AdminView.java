@@ -1,7 +1,7 @@
 package view;
 
 import controller.ControllerAdmin;
-import controller.TestConnection;
+import controller.ControllerConnection;
 import model.*;
 import view.ressource.AdminHomePage;
 import view.ressource.AlertePopUp;
@@ -18,11 +18,11 @@ import java.util.Objects;
 
 public class AdminView extends JFrame{
 
-    public AdminView(TestConnection testConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
+    public AdminView(ControllerConnection controllerConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
         JFrame frame = new JFrame();
 
-        interfaceAdmin(frame, testConnection, isAdmin);
-        frame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
+        interfaceAdmin(frame, controllerConnection, isAdmin);
+        frame.setTitle(controllerConnection.getUser().getFirstName() + " " + controllerConnection.getUser().getLastName());
         frame.setSize(1200,800);
         frame.setLocationRelativeTo(null);
         frame.setLocation(50, 0);
@@ -31,9 +31,9 @@ public class AdminView extends JFrame{
         frame.setVisible(true);
     }
 
-    public void interfaceAdmin(JFrame jFrame, TestConnection testConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
+    public void interfaceAdmin(JFrame jFrame, ControllerConnection controllerConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
         ControllerAdmin controllerAdmin = new ControllerAdmin();
-        ControllerAdmin controllerAdminPersonalInfos = new ControllerAdmin(testConnection.getUser().getId());
+        ControllerAdmin controllerAdminPersonalInfos = new ControllerAdmin(controllerConnection.getUser().getId());
 
         // Création de la barre menu
         JMenuBar menuBar = new JMenuBar();
@@ -116,7 +116,7 @@ public class AdminView extends JFrame{
         mAdd.add(miRoomAdd);
         mSupp.add(miRoomSupp);
         menuPersonalInfo.add(miAccount);
-        AdminHomePage adminHomePage = new AdminHomePage(testConnection);
+        AdminHomePage adminHomePage = new AdminHomePage(controllerConnection, controllerAdmin);
         jFrame.setContentPane(adminHomePage.panel1);
 
         // Action sélection item
@@ -126,7 +126,7 @@ public class AdminView extends JFrame{
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
                 try {
-                    interfaceAdmin(jFrame,testConnection,isAdmin);
+                    interfaceAdmin(jFrame, controllerConnection,isAdmin);
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -370,6 +370,7 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectGroup);
         jFrame.setVisible(true);
     }
+
     // Affichage combobox choix Teacher
     public void createCourseChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         JLabel jLabelSelectCourse = new JLabel("Selectionner une matière :");
@@ -449,12 +450,13 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectteacher);
         jFrame.setVisible(true);
     }
+
     // Affichage combobox choix Site
     public void createSiteChoice(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
-        JLabel jLabelSelectCourse = new JLabel("Selectionner un site :");
-        jLabelSelectCourse.setBounds(40, 10, 300, 28);
+        JLabel jLabelSelectSite = new JLabel("Selectionner un site :");
+        jLabelSelectSite.setBounds(40, 10, 300, 28);
 
-        ArrayList<String> site = controllerAdmin.getAllNameSite();
+        ArrayList<String> site = controllerAdmin.getAllNamesSite();
         String[] strSite = new String[site.size()];
         for (int j = 0; j < site.size(); j++) {
             strSite[j] = site.get(j);
@@ -466,6 +468,8 @@ public class AdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    jFrame.getContentPane().removeAll();
+                    jFrame.add(jComboBoxSelectSite);
                     createRoomListViewBySite(jFrame, controllerAdmin, Objects.requireNonNull(jComboBoxSelectSite.getSelectedItem()).toString());
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
@@ -473,7 +477,7 @@ public class AdminView extends JFrame{
             }
         });
 
-        jFrame.add(jLabelSelectCourse);
+        jFrame.add(jLabelSelectSite);
         jFrame.add(jComboBoxSelectSite);
         jFrame.setLayout(null);
         jFrame.setVisible(true);
@@ -594,7 +598,7 @@ public class AdminView extends JFrame{
 
     // Affichage tableaux des salles par site
     public void createRoomListViewBySite(JFrame jFrame, ControllerAdmin controllerAdmin, String siteChoice) throws SQLException, ClassNotFoundException {
-        ArrayList<ArrayList<String>> rooms = controllerAdmin.getAllRoom(siteChoice);
+        ArrayList<ArrayList<String>> rooms = controllerAdmin.getAllRooms(siteChoice);
         String[] tableTitle = {"ID", "Nom", "Capacite"};
         String[][] mt = new String[rooms.size()][tableTitle.length];
         for(int i = 0 ; i < rooms.size(); i++){
@@ -1049,7 +1053,7 @@ public class AdminView extends JFrame{
         JLabel jLabelIdSite = new JLabel("Selectionner le site où ajouter la salle à créer : ");
         jLabelIdSite.setBounds(20, 20, 250, 28);
 
-        ArrayList<String> site = controllerAdmin.getAllNameSite();
+        ArrayList<String> site = controllerAdmin.getAllNamesSite();
         String[] strSite = new String[site.size()];
         for (int j = 0; j < site.size(); j++) {
             strSite[j] = site.get(j);
@@ -1423,11 +1427,7 @@ public class AdminView extends JFrame{
                 jFrame.getContentPane().remove(jButtonCancel);
                 jFrame.getContentPane().remove(jButtonOk);
                 jFrame.repaint();
-                try {
-                    controllerAdminPersonalInfos.getUser().updatePassword(jTextFieldNewPassword.getText());
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                controllerAdminPersonalInfos.getUser().updatePassword(jTextFieldNewPassword.getText());
             }
         });
 

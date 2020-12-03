@@ -1,7 +1,7 @@
 package view;
 
 import controller.ControllerStudent;
-import controller.TestConnection;
+import controller.ControllerConnection;
 import view.ressource.Planning;
 import view.ressource.StudentHomePage;
 import javax.swing.*;
@@ -12,11 +12,11 @@ import java.util.Objects;
 
 public class StudentView  {
 
-    public StudentView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public StudentView(ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         JFrame jFrame = new JFrame();
 
-        interfaceStudent(jFrame, testConnection.getUser().getId(), testConnection);
-        jFrame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
+        interfaceStudent(jFrame, controllerConnection.getUser().getId(), controllerConnection);
+        jFrame.setTitle(controllerConnection.getUser().getFirstName() + " " + controllerConnection.getUser().getLastName());
         jFrame.setSize(1200,800);
         jFrame.setLocationRelativeTo(null);
         jFrame.setLocation(50, 0);
@@ -24,7 +24,7 @@ public class StudentView  {
         jFrame.setVisible(true);
     }
 
-    public void interfaceStudent(JFrame jFrame, String idUser, TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public void interfaceStudent(JFrame jFrame, String idUser, ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         ControllerStudent controllerStudent = new ControllerStudent(idUser);
 
         // Création de la barre menu
@@ -50,7 +50,7 @@ public class StudentView  {
         menuPersonalInfos.add(miStudentAccount);
 
 
-        StudentHomePage studentHomePage = new StudentHomePage(testConnection);
+        StudentHomePage studentHomePage = new StudentHomePage(controllerConnection, controllerStudent);
         jFrame.add(studentHomePage.panel1);
 
         // Action sélection item
@@ -238,16 +238,10 @@ public class StudentView  {
                 jFrame.getContentPane().remove(jButtonCancel);
                 jFrame.getContentPane().remove(jButtonOk);
                 jFrame.repaint();
-                try {
-                    controllerStudent.getStudent().updatePassword(jTextFieldNewPassword.getText());
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-
+                controllerStudent.getStudent().updatePassword(jTextFieldNewPassword.getText());
             }
         });
 
         jFrame.setVisible(true);
-
     }
 }

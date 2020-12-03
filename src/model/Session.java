@@ -5,6 +5,7 @@ import model.dao.SessionDao;
 
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Session {
@@ -153,6 +154,21 @@ public class Session {
 
     public boolean alreadyExist(String id) throws SQLException{
         return sessionDao.alreadyExist(id);
+    }
+
+    public ArrayList<Session> getAllSessions(String idGroup) throws SQLException, ClassNotFoundException {
+        ArrayList<Session> sessions = new ArrayList<>();
+        Session session = new Session();
+        session.resultSetSessionByIdGroup(idGroup);
+        sessions.add(session);
+        while(session.resultSetSessionByIdGroupNext()){
+            sessions.add(new Session(session.getIdSession(),session.getWeek(),session.getDate(),session.getStartTime(),session.getEndTime(),session.getType(),session.getIdCourse(), session.getRoom(), session.getTeacherName(), session.getIdGroupSession()));
+        }
+        return sessions;
+    }
+
+    public int getNumberSessionsByCourse(String idGroupPromotion, String idCourse){
+        return sessionDao.getNumberSessionByCourse(idGroupPromotion, idCourse);
     }
 
     @Override

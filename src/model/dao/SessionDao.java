@@ -158,5 +158,24 @@ public class SessionDao {
         }else return false;
     }
 
+    public int getNumberSessionByCourse(String idGroupPromotion, String idCourse){
+        int nbStudents = 0;
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT COUNT(*) FROM session\n" +
+                    "JOIN groups_session \n" +
+                    "ON session.idSession = groups_session.id_SessionGS\n" +
+                    "JOIN group_promotion\n" +
+                    "ON groups_session.id_GroupGS = group_promotion.idGroupPromotion\n" +
+                    "WHERE group_promotion.idGroupPromotion = '" + idGroupPromotion + "'\n" +
+                    "AND session.id_course = '" + idCourse + "'");
+            if(resultSet.first()){
+                nbStudents = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nbStudents;
+    }
 }
 

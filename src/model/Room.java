@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public class Room {
 
     RoomDao roomDao;
-
     private String idRoom;
     private int capacity;
     private String nameRoom;

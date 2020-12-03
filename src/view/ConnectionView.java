@@ -1,6 +1,6 @@
 package view;
 
-import controller.TestConnection;
+import controller.ControllerConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,57 +9,56 @@ import java.sql.SQLException;
 
 public class ConnectionView {
 
-    protected TestConnection testConnection;
+    protected ControllerConnection controllerConnection;
     protected JFrame root;
     private String firstName;
 
-    public ConnectionView(TestConnection testConnection, JFrame root) {
+    public ConnectionView(ControllerConnection controllerConnection, JFrame root) {
         initComponents();
         this.root = root;
-        this.testConnection = testConnection;
-        this.firstName = this.testConnection.firstName;
+        this.controllerConnection = controllerConnection;
+        this.firstName = this.controllerConnection.firstName;
     }
 
     private void button1ActionPerformed(ActionEvent e) throws InterruptedException, SQLException, ClassNotFoundException {
         // TODO add your code here
         try {
-            testConnection.isConnected(textField1.getText(), passwordField1.getText());
+            controllerConnection.isConnected(textField1.getText(), passwordField1.getText());
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-        if (testConnection.getIsConnect()) {
+        if (controllerConnection.getIsConnect()) {
             try {
-                testConnection.updateUser(getEmailActualUser(), getPasswordActualUser());
+                controllerConnection.updateUser(getEmailActualUser());
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-            int permission = testConnection.testPermission();
+            int permission = controllerConnection.testPermission();
             switch (permission) {
                 case 0 -> System.out.println("Erreur - Permission non reconnu");
                 case 1 -> {
                     root.setVisible(false);
-                    AdminView adminView = new AdminView(testConnection, true);
+                    AdminView adminView = new AdminView(controllerConnection, true);
                 }
                 case 2 -> {
                     root.setVisible(false);
 
-                    AdminView adminView = new AdminView(testConnection, false);
+                    AdminView adminView = new AdminView(controllerConnection, false);
                 }
                 case 3 -> {
                     root.setVisible(false);
 
-                    TeacherView teacherView = new TeacherView(testConnection);}
+                    TeacherView teacherView = new TeacherView(controllerConnection);}
                 case 4 ->{
                     root.setVisible(false);
-                    StudentView studentView = new StudentView(testConnection);}
+                    StudentView studentView = new StudentView(controllerConnection);}
             }
-            testConnection.getActualUser();
         }
 
-        if(testConnection.getIsIdFaild()){
+        if(controllerConnection.getIsIdFaild()){
             IdFail.setVisible(true);
-            testConnection.idFaild =false;
+            controllerConnection.idFailed =false;
         }
     }
 

@@ -1,7 +1,7 @@
 package view.ressource;
 
 import controller.ControllerTeacher;
-import controller.TestConnection;
+import controller.ControllerConnection;
 import model.Session;
 
 import javax.swing.*;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 
 public class TeacherHomePage {
-    public TestConnection testConnection;
+    public ControllerConnection controllerConnection;
     public ControllerTeacher controllerTeacher;
-    public TeacherHomePage(TestConnection testConnection) throws SQLException, ClassNotFoundException {
-        this.testConnection = testConnection;
-        this.controllerTeacher = new ControllerTeacher(testConnection.getUser().getId());
+    public TeacherHomePage(ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
+        this.controllerConnection = controllerConnection;
+        this.controllerTeacher = new ControllerTeacher(controllerConnection.getUser().getId());
         initComponents();
     }
 

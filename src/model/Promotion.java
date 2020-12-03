@@ -19,7 +19,9 @@ public class Promotion {
         promotionDao = DAOInstance.getPromotionDao();
     }
 
-    public Promotion(String idPromotion, String namePromotion) {
+    public Promotion(String idPromotion, String namePromotion) throws ClassNotFoundException, SQLException {
+        DAOFactory DAOInstance = new DAOFactory();
+        promotionDao = DAOInstance.getPromotionDao();
         this.idPromotion = idPromotion;
         this.namePromotion = namePromotion;
         GroupPromtion = new ArrayList<Group>();
@@ -41,16 +43,6 @@ public class Promotion {
         this.namePromotion = namePromotion;
     }
 
-    public void addGroup(){
-
-        // appelle methode PromotionDAO
-    }
-
-    public void removeGroup(){
-
-        // appelle methode PromotionDAO
-    }
-
     public void resultSetByIdPromotion(){
         promotionDao.resultSetByIdPromotion();
     }
@@ -61,6 +53,21 @@ public class Promotion {
 
     public List<Group> getGroup(String idPromotion) throws SQLException, ClassNotFoundException {
         return(promotionDao.getGroup(idPromotion));
+    }
+
+    public ArrayList<Promotion> getAllPromotions() throws SQLException, ClassNotFoundException {
+        ArrayList<Promotion> promotions = new ArrayList<>();
+        Promotion promotion = new Promotion();
+        promotion.resultSetByIdPromotion();
+        promotions.add(promotion);
+        while(promotion.resultSetByIdPromotionNext()){
+            promotions.add(new Promotion(promotion.getIdPromotion(), promotion.getNamePromotion()));
+        }
+        return promotions;
+    }
+
+    public int getNumberStudentsByPromotion(){
+        return promotionDao.getNumberStudentsByPromotion(this.getIdPromotion());
     }
 
     @Override

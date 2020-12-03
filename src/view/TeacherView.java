@@ -1,7 +1,7 @@
 package view;
 
 import controller.ControllerTeacher;
-import controller.TestConnection;
+import controller.ControllerConnection;
 import view.ressource.Planning;
 import view.ressource.TeacherHomePage;
 
@@ -12,11 +12,11 @@ import java.sql.SQLException;
 
 public class TeacherView {
 
-    public TeacherView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public TeacherView(ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         JFrame jFrame = new JFrame();
 
-        interfaceTeacher(jFrame, testConnection.getUser().getId(),testConnection);
-        jFrame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
+        interfaceTeacher(jFrame, controllerConnection.getUser().getId(), controllerConnection);
+        jFrame.setTitle(controllerConnection.getUser().getFirstName() + " " + controllerConnection.getUser().getLastName());
         jFrame.setSize(1200,800);
         jFrame.setLocationRelativeTo(null);
         jFrame.setLocation(50, 0);
@@ -24,7 +24,7 @@ public class TeacherView {
         jFrame.setVisible(true);
     }
 
-    public void interfaceTeacher(JFrame jFrame, String idUser, TestConnection testConnection) throws SQLException, ClassNotFoundException {
+    public void interfaceTeacher(JFrame jFrame, String idUser, ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         ControllerTeacher controllerTeacher = new ControllerTeacher(idUser);
 
         // Création de la barre menu
@@ -49,7 +49,7 @@ public class TeacherView {
         menuTeacher.add(miTeacherPlanning);
         menuPersonalInfos.add(miTeacherAccount);
 
-        TeacherHomePage teacherHomePage = new TeacherHomePage(testConnection);
+        TeacherHomePage teacherHomePage = new TeacherHomePage(controllerConnection);
         jFrame.setContentPane(teacherHomePage.panel1);
 
         // Action sélection item
@@ -59,7 +59,7 @@ public class TeacherView {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
                 try {
-                    interfaceTeacher(jFrame,idUser,testConnection);
+                    interfaceTeacher(jFrame,idUser, controllerConnection);
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -78,13 +78,14 @@ public class TeacherView {
             public void actionPerformed(ActionEvent e) {
                 jFrame.getContentPane().removeAll();
                 jFrame.dispose();
-                createPresonalInfos(jFrame, controllerTeacher);
+                createPersonalInfos(jFrame, controllerTeacher);
             }
         });
 
         jFrame.setVisible(true);
     }
 
+    // Méthodes d'affichage pour un professeur
     public void createTeacherPlanning(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelWeek = new JLabel("Semaine :");
         jLabelWeek.setBounds(40, 10, 100, 28);
@@ -123,8 +124,7 @@ public class TeacherView {
         jFrame.setOpacity(1);
         jFrame.setVisible(true);
     }
-
-    public void createPresonalInfos(JFrame jFrame, ControllerTeacher controllerTeacher){
+    public void createPersonalInfos(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelAcount = new JLabel("Compte");
         jLabelAcount.setBounds(20, 20, 100, 28);
 
@@ -196,7 +196,6 @@ public class TeacherView {
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
-
     public void createChangePassword(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");
         jLabelModifPassword.setBounds(560, 290, 300, 28);
@@ -230,15 +229,9 @@ public class TeacherView {
                 jFrame.getContentPane().remove(jButtonCancel);
                 jFrame.getContentPane().remove(jButtonOk);
                 jFrame.repaint();
-                try {
-                    controllerTeacher.getTeacher().updatePassword(jTextFieldNewPassword.getText());
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                controllerTeacher.getTeacher().updatePassword(jTextFieldNewPassword.getText());
             }
         });
-
         jFrame.setVisible(true);
-
     }
 }

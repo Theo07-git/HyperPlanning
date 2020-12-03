@@ -72,7 +72,6 @@ public class Group {
         return(groupDao.resultSetIdGroupNext(this));
     }
 
-
     @Override
     public String toString() {
         return "Group{" +

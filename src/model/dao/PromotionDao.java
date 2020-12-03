@@ -93,4 +93,25 @@ public class PromotionDao implements PromotionDaoInterface{
         }
         return groups;
     }
+
+    public int getNumberStudentsByPromotion(String idPromotion){
+        int nbStudents = 0;
+        try{
+            resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT COUNT(*) FROM user " +
+                    "JOIN student " +
+                    "ON user.idUser = student.id_UserS " +
+                    "JOIN group_promotion " +
+                    "ON student.id_group_promotionS = group_promotion.idGroupPromotion " +
+                    "JOIN promotion " +
+                    "ON promotion.idPromotion = group_promotion.id_promotion " +
+                    "WHERE promotion.idPromotion = '" + idPromotion + "'");
+            if(resultSet.first()){
+                nbStudents = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nbStudents;
+    }
 }
