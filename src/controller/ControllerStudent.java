@@ -26,7 +26,13 @@ public class ControllerStudent {
         return student;
     }
 
-    // Méthodes
+    /**
+     * Retourne une liste de Session contenant les sessions d'un groupe en particulier
+     * @param idGroup
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Session> getAllSession(String idGroup) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionByIdGroup(idGroup);
@@ -36,6 +42,12 @@ public class ControllerStudent {
         }
         return allSession;
     }
+
+    /**
+     * retourne tableau de int contenant les compteurs de session par matière
+     * @param allSession
+     * @return
+     */
     public int[] numberSessionOfCourse(ArrayList<Session> allSession) {
         int[] totSession = new int[3];
         int cntMath =0;
@@ -59,6 +71,14 @@ public class ControllerStudent {
 
         return totSession;
     }
+
+    /**
+     * Retourne une liste de liste de String contenant les information des étudiants en fonction de leur groupe
+     * @param idGroupPromotion
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArrayList<String>> getAllStudents(String idGroupPromotion) throws SQLException, ClassNotFoundException {
         Student student = new Student();
         student.resultSetByGroupPromotion(idGroupPromotion);
@@ -74,7 +94,12 @@ public class ControllerStudent {
         return allStudent;
     }
 
-    // Donne la répartition des cours de l'élève
+    /**
+     * Retourne un ChartPanel donnant les informations du nombre d'heure de cours (matières) pour l'éleve connecté
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ChartPanel getSessionCoursesByStudent() throws SQLException, ClassNotFoundException {
         final DefaultPieDataset dataset = new DefaultPieDataset();
         Course course = new Course();

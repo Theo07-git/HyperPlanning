@@ -20,7 +20,13 @@ public class ControllerTeacher {
         return teacher;
     }
 
-    // Récupération des cours
+    /**
+     * Retourne une liste de Session contenant les sessions du professeur connecté
+     * @param idTeacher
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Session> getAllSession(String idTeacher) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionForTeacher(idTeacher);

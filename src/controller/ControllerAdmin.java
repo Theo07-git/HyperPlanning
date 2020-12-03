@@ -5,10 +5,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerAdmin {
 
@@ -26,7 +24,12 @@ public class ControllerAdmin {
         return user;
     }
 
-    // Récupération des infos pour les combobox
+    /**
+     * Retourne une liste de String contenant les id des promotions
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllIdPromotion() throws SQLException, ClassNotFoundException {
         Promotion promotion = new Promotion();
         promotion.resultSetByIdPromotion();
@@ -37,6 +40,14 @@ public class ControllerAdmin {
         }
         return allIdPromotion;
     }
+
+    /**
+     * Retourne une liste de String contenant les id des groupes en fonction de leur promotion
+     * @param idPromotion
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllIdGroupByIdPromo(String idPromotion) throws SQLException, ClassNotFoundException {
         Group group = new Group();
         group.resultSetByIdGroup(idPromotion);
@@ -47,6 +58,13 @@ public class ControllerAdmin {
         }
         return allIdGroup;
     }
+
+    /**
+     * Retourne une liste de String contenant les id de tous les groupes
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllIdGroup() throws SQLException, ClassNotFoundException {
         Group group = new Group();
         group.resultSetIdGroup();
@@ -57,6 +75,13 @@ public class ControllerAdmin {
         }
         return allIdGroup;
     }
+
+    /**
+     * Retourne une liste de String contenant les id de tous les cours (matières)
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllIdCourse() throws SQLException, ClassNotFoundException {
         Course course = new Course();
         course.resultSetByIdCourse();
@@ -67,6 +92,13 @@ public class ControllerAdmin {
         }
         return allIdGroup;
     }
+
+    /**
+     * Retourne une liste de String contenant les noms de tous les cours (matières)
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllNameCourse() throws SQLException, ClassNotFoundException {
         Course course = new Course();
         course.resultSetByIdCourse();
@@ -78,7 +110,13 @@ public class ControllerAdmin {
         return allNameGroup;
     }
 
-    // Récupération des infos pour remplir les tableaux et les emplois du temps
+    /**
+     * Retourne une liste de liste de String contenant les information des étudiants en fonction de leur groupe
+     * @param idGroupPromotion
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArrayList<String>> getAllStudents(String idGroupPromotion) throws SQLException, ClassNotFoundException {
         Student student = new Student();
         student.resultSetByGroupPromotion(idGroupPromotion);
@@ -96,6 +134,14 @@ public class ControllerAdmin {
         }
         return allStudents;
     }
+
+    /**
+     * Retourne une liste de liste de String contenant les informations des enseignats en fonction de leur cours (matière) qu'ils enseignent
+     * @param nameCourse
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArrayList<String>> getAllTeachers(String nameCourse) throws SQLException, ClassNotFoundException{
         Teacher teacher = new Teacher();
         teacher.resultSetByCourse(nameCourse);
@@ -112,6 +158,13 @@ public class ControllerAdmin {
         }
         return allTeachers;
     }
+
+    /**
+     * Retourne une liste de liste de String contenant les informations de tous les utilisateurs
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArrayList<String>> getAllUsers() throws SQLException, ClassNotFoundException{
         User user = new User();
         user.ResultSetAll();
@@ -128,6 +181,14 @@ public class ControllerAdmin {
         }
         return allUsers;
     }
+
+    /**
+     * Retourne une liste de Session contenant les sessions d'un groupe en particulier
+     * @param idGroup
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Session> getAllSessions(String idGroup) throws SQLException, ClassNotFoundException {
         Session session = new Session();
         session.resultSetSessionByIdGroup(idGroup);
@@ -137,6 +198,13 @@ public class ControllerAdmin {
         }
         return allSession;
     }
+
+    /**
+     * Retourne une liste de String contenant tous les noms des sites
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<String> getAllNamesSite() throws SQLException, ClassNotFoundException {
         Site site = new Site();
         site.resultSetSiteName();
@@ -147,6 +215,13 @@ public class ControllerAdmin {
         }
         return allNameSite;
     }
+
+    /**
+     * Retourne une liste de Site contenant tous les sites
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Site> getAllSites() throws SQLException, ClassNotFoundException {
         Site site = new Site();
         site.resultSetSiteName();
@@ -157,6 +232,14 @@ public class ControllerAdmin {
         }
         return allSite;
     }
+
+    /**
+     * Retourne une liste de liste de String contenant toutes les informations des salle en fonction des sites
+     * @param nameSite
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArrayList<String>> getAllRooms(String nameSite) throws SQLException, ClassNotFoundException {
         Room room = new Room();
         room.resultSetRoom(nameSite);
@@ -172,7 +255,12 @@ public class ControllerAdmin {
         return allRoom;
     }
 
-    // Diagramme circulaire montrant le nombre d'élèves par promo
+    /**
+     * Retourne un ChartPanel donnant les informations du nombre d'élèves par promotion
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ChartPanel getChartStudentByPromotion() throws SQLException, ClassNotFoundException {
         final DefaultPieDataset dataset = new DefaultPieDataset();
         Promotion promotion = new Promotion();

@@ -28,7 +28,14 @@ public class ControllerConnection {
         return idFailed;
     }
 
-    // Vérifie les identifiants pour se connecter ou non
+    /**
+     * Vérifie la saisie des informations pour l'authentification (connexion)
+     * met la variable isConnect à true si les infos sont OK
+     * @param email
+     * @param mdp
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void isConnected(String email, String mdp) throws SQLException, ClassNotFoundException {
         User user = new User();
         user = user.findByEmail(email);
@@ -43,7 +50,10 @@ public class ControllerConnection {
         }
     }
 
-    // Renvoie la permission de l'utilisateur connecté
+    /**
+     * Retourne un entier en fonction de la permission de l'utilisateur qui vient de se connecter
+     * @return
+     */
     public int testPermission(){
         int i = switch (user.getPermission()) {
             case "ADMIN" -> 1;
@@ -55,7 +65,12 @@ public class ControllerConnection {
         return i;
     }
 
-    // S'il est connecté on remplit la valeur de user (la personne qui vient de se connecter)
+    /**
+     * Remplit un utilisateur avec les données correspondant à l'email de l'utilisateur qui est connecté
+     * @param email
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void updateUser(String email) throws SQLException, ClassNotFoundException {
         User user = new User();
         this.user = user.findByEmail(email);
