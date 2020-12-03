@@ -3,7 +3,7 @@ package view;
 import controller.ControllerAdmin;
 import controller.TestConnection;
 import model.*;
-import view.Ressource.AdminGlobalViewPage;
+import view.Ressource.AdminHomePage;
 import view.Ressource.AlertePopUp;
 import view.Ressource.Planning;
 
@@ -117,8 +117,8 @@ public class AdminView extends JFrame{
         mAdd.add(miRoomAdd);
         mSupp.add(miRoomSupp);
         menuPersonalInfo.add(miAccount);
-        AdminGlobalViewPage adminGlobalViewPage = new AdminGlobalViewPage(testConnection);
-        jFrame.setContentPane(adminGlobalViewPage.panel1);
+        AdminHomePage adminHomePage = new AdminHomePage(testConnection);
+        jFrame.setContentPane(adminHomePage.panel1);
 
         // Action sélection item
         miHome.addActionListener(new ActionListener() {

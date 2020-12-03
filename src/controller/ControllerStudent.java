@@ -2,7 +2,6 @@ package controller;
 
 import model.Session;
 import model.Student;
-import model.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,4 +28,48 @@ public class ControllerStudent {
         }
         return allSession;
     }
+
+    public int[] numberSessionOfCourse(ArrayList<Session> allSession ) {
+
+        int[] totSession = new int[3];
+        int cntMath =0;
+        int cntPhys =0;
+        int cntCosc =0;
+
+        for (int i =0;i<allSession.size();++i){
+            if(allSession.get(i).getIdCourse().equals("MATH")){
+                cntMath+=1;
+            }
+            if(allSession.get(i).getIdCourse().equals("COSC")){
+                cntCosc+=1;
+            }
+            if(allSession.get(i).getIdCourse().equals("PHYS")){
+                cntPhys+=1;
+            } }
+        totSession[0] = cntMath;
+        totSession[1] = cntCosc;
+        totSession[2] = cntPhys;
+
+        return totSession;
+    }
+
+    public ArrayList<ArrayList<String>> getAllStudents(String idGroupPromotion) throws SQLException, ClassNotFoundException {
+        Student student = new Student();
+        student.resultSetByGroupPromotion(idGroupPromotion);
+        ArrayList<ArrayList<String>> allStudent = new ArrayList<>();
+
+        while(student.resultSetByGroupPromotionNext()){
+            ArrayList<String> buffer = new ArrayList<>();
+
+            assert allStudent != null;
+            buffer.add(student.getLastName());
+            buffer.add(student.getFirstName());
+            buffer.add(student.getEmail());
+            allStudent.add(buffer);
+        }
+
+        return allStudent;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package view;
 import controller.ControllerStudent;
 import controller.TestConnection;
 import view.Ressource.DailyPlanning;
+import view.Ressource.StudentHomePage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ public class StudentView  {
     public StudentView(TestConnection testConnection) throws SQLException, ClassNotFoundException {
         JFrame jFrame = new JFrame();
 
-        interfaceStudent(jFrame, testConnection.getUser().getId());
+        interfaceStudent(jFrame, testConnection.getUser().getId(), testConnection);
         jFrame.setTitle(testConnection.getUser().getFirstName() + " " + testConnection.getUser().getLastName());
         jFrame.setSize(1200,800);
         jFrame.setLocationRelativeTo(null);
@@ -24,7 +25,7 @@ public class StudentView  {
         jFrame.setVisible(true);
     }
 
-    public void interfaceStudent(JFrame jFrame, String idUser) throws SQLException, ClassNotFoundException {
+    public void interfaceStudent(JFrame jFrame, String idUser, TestConnection testConnection) throws SQLException, ClassNotFoundException {
         ControllerStudent controllerStudent = new ControllerStudent(idUser);
 
         // Création de la barre menu
@@ -47,6 +48,10 @@ public class StudentView  {
         menuStudent.add(miStudentPlanning);
         menuPersonalInfos.add(miStudentAccount);
 
+
+        StudentHomePage studentHomePage = new StudentHomePage(testConnection);
+        jFrame.add(studentHomePage.panel1);
+
         // Action sélection item
         miStudentPlanning.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +70,7 @@ public class StudentView  {
             }
         });
 
-        createStudentPlanning(jFrame, controllerStudent);
+        //createStudentPlanning(jFrame, controllerStudent);
         jFrame.setVisible(true);
     }
 
