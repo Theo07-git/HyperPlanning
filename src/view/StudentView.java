@@ -2,14 +2,15 @@ package view;
 
 import controller.ControllerStudent;
 import controller.TestConnection;
-import view.Ressource.DailyPlanning;
 import view.Ressource.StudentHomePage;
+import view.ressource.Planning;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class StudentView  {
 
@@ -77,11 +78,14 @@ public class StudentView  {
     public void createStudentPlanning(JFrame jFrame, ControllerStudent controllerStudent){
         JLabel jLabelWeek = new JLabel("Choisis ta semaine :");
         jLabelWeek.setBounds(20, 10, 250, 28);
-        Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
+        String[] week = new String[53];
+        for (int i = 0; i < 52; i++) {
+            week[i] = String.valueOf(i+1);
+        }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(40, 40, 80, 28);
-        DailyPlanning planning = new DailyPlanning();
-        java.util.Date actual = new Date(2020-11-23);
+        Planning planning = new Planning();
+        planning.setSettings(jFrame);
         jComboBoxSelectWeek.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,7 +94,7 @@ public class StudentView  {
                 for(int i = 0; i < week.length; i++) {
                     if(jComboBoxSelectWeek.getSelectedIndex() == i){
                         try {
-                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), actual);
+                            planning.DrawStudentPlanningForStudent(jFrame, controllerStudent.getStudent().getIdGroupPromotion(), controllerStudent.getStudent().getId(), Integer.parseInt(Objects.requireNonNull(jComboBoxSelectWeek.getSelectedItem()).toString()));
                         } catch (SQLException | ClassNotFoundException throwables) {
                             throwables.printStackTrace();
                         }
