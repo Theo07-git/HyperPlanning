@@ -15,7 +15,13 @@ public class UserDao implements UserDaoInterface{
         this.connect = conn;
     }
 
-    // Trouver l'utilisateur
+    /**
+     * Retourne un utilisateur trouvé par son id
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public User findById(String id) throws SQLException, ClassNotFoundException {
         User user = new User();
 
@@ -37,6 +43,14 @@ public class UserDao implements UserDaoInterface{
         }
         return user;
     }
+
+    /**
+     * Retourne un utilisateur trouvé par son email
+     * @param email
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public User findByEmail(String email) throws SQLException, ClassNotFoundException {
         User user = new User();
 
@@ -59,8 +73,10 @@ public class UserDao implements UserDaoInterface{
         return user;
     }
 
-    // Parcourir tous les utilisateurs
-    public void ResultSetAll()  {
+    /**
+     *Remplit le resultSet avec la requête sql
+     */
+    public void ResultSetAll() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user ");
@@ -68,6 +84,12 @@ public class UserDao implements UserDaoInterface{
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Remplit un utiliosateur et retourne true tant qu'il y a un utilisateur dans le resultSet
+     * @param user
+     * @return
+     */
     public boolean ResultSetAllNext(User user){
         boolean found = false;
         try{
@@ -86,7 +108,11 @@ public class UserDao implements UserDaoInterface{
         return found;
     }
 
-    // Met à jour le mot de passe
+    /**
+     * Met à jour le mot de passe de l'utilisateur qui appelle cette fonction
+     * @param user
+     * @return
+     */
     public User updatePassword(User user){
         try {
             this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
@@ -99,7 +125,13 @@ public class UserDao implements UserDaoInterface{
         return user;
     }
 
-    // Vérifie si l'utilisateur existe
+    /**
+     * Retourne true si le resultSet contient un élément
+     * --> si l'id de l'utilisateur existe déja
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public boolean alreadyExist(String id) throws SQLException {
         try {
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,

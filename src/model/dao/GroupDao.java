@@ -14,6 +14,14 @@ public class GroupDao implements GroupDaoInterface{
     public GroupDao(Connection connect){ this.connect = connect; }
 
     // Trouver le groupe
+
+    /**
+     * Retourne un groupe trouver par son id
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Group findById(String id) throws SQLException, ClassNotFoundException {
         Group group = new Group();
         try{
@@ -30,6 +38,14 @@ public class GroupDao implements GroupDaoInterface{
         }
         return group;
     }
+
+    /**
+     * Retourne un groupe trouver par son nom
+     * @param name
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Group findByName(String name) throws SQLException, ClassNotFoundException {
         Group group = new Group();
 
@@ -49,6 +65,12 @@ public class GroupDao implements GroupDaoInterface{
     }
 
     // Parcourir tous les groupes
+
+    /**
+     * Rempli le resultSet avec la requête sql
+     * en fonction de sa promotion
+     * @param idPromotion
+     */
     public void resultSetByIdGroup(String idPromotion) {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -57,6 +79,12 @@ public class GroupDao implements GroupDaoInterface{
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Remplie un groupe en fonction de sa promotion et retourne true tant qu'il y a un groupe dans le resultSet
+     * @param group
+     * @return
+     */
     public boolean resultSetByIdGroupNext(Group group) {
         boolean found = false;
         try{
@@ -71,6 +99,10 @@ public class GroupDao implements GroupDaoInterface{
         }
         return found;
     }
+
+    /**
+     * Rempli le resultSet avec la requête sql
+     */
     public void resultSetIdGroup() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -79,6 +111,12 @@ public class GroupDao implements GroupDaoInterface{
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Remplie un groupe et retourne true tant qu'il y a un groupe dans le resultSet
+     * @param group
+     * @return
+     */
     public boolean resultSetIdGroupNext(Group group) {
         boolean found = false;
         try{

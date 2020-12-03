@@ -36,18 +36,41 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
-    // Trouver les matières
+    /**
+     * Retourne un cours trouvé par son id
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Course findById(String id) throws SQLException, ClassNotFoundException {
         return courseDao.findById(id);
     }
+
+    /**
+     * Retourne un cours trouvé par son nom
+     * @param name
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Course findByName(String name) throws SQLException, ClassNotFoundException {
         return courseDao.findByName(name);
     }
 
-    // Parcourir toutes les matières
+    /**
+     * Rempli le resultSet avec la requête sql
+     * (en lien avec le courseDao)
+     */
     public void resultSetByIdCourse(){
         courseDao.resultSetByIdCourse();
     }
+
+    /**
+     * Remplie un cours et retourne true tant qu'il y a un cours dans le resultSet
+     * (en lien avec le courseDao)
+     * @return
+     */
     public boolean resultSetByIdCourseNext(){
         return(courseDao.resultSetByIdCourseNext(this));
     }

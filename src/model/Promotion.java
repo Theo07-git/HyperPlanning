@@ -12,49 +12,58 @@ public class Promotion {
     private PromotionDao promotionDao;
     private String idPromotion ="";
     private String namePromotion ="";
-    private List<Group> GroupPromtion;
 
+    // Constructeur
     public Promotion() throws ClassNotFoundException, SQLException {
         DAOFactory DAOInstance = new DAOFactory();
         promotionDao = DAOInstance.getPromotionDao();
     }
-
     public Promotion(String idPromotion, String namePromotion) throws ClassNotFoundException, SQLException {
         DAOFactory DAOInstance = new DAOFactory();
         promotionDao = DAOInstance.getPromotionDao();
         this.idPromotion = idPromotion;
         this.namePromotion = namePromotion;
-        GroupPromtion = new ArrayList<Group>();
     }
 
+    // Getters
     public String getIdPromotion() {
         return idPromotion;
     }
-
-    public void setIdPromotion(String idPromotion) {
-        this.idPromotion = idPromotion;
-    }
-
     public String getNamePromotion() {
         return namePromotion;
     }
 
+    // Setters
+    public void setIdPromotion(String idPromotion) {
+        this.idPromotion = idPromotion;
+    }
     public void setNamePromotion(String namePromotion) {
         this.namePromotion = namePromotion;
     }
 
+    /**
+     * Rempli le resultSet avec la requête sql
+     * (en lien avec la promotionDao)
+     */
     public void resultSetByIdPromotion(){
         promotionDao.resultSetByIdPromotion();
     }
 
+    /**
+     * Remplie une promotion et retourne true tant qu'il y a une promotion dans le resultSet
+     * (en lien avec la promotionDao)
+     * @return
+     */
     public boolean resultSetByIdPromotionNext(){
         return(promotionDao.resultSetByIdPromotionNext(this));
     }
 
-    public List<Group> getGroup(String idPromotion) throws SQLException, ClassNotFoundException {
-        return(promotionDao.getGroup(idPromotion));
-    }
-
+    /**
+     * Retourne une liste de promotion
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Promotion> getAllPromotions() throws SQLException, ClassNotFoundException {
         ArrayList<Promotion> promotions = new ArrayList<>();
         Promotion promotion = new Promotion();
@@ -66,7 +75,11 @@ public class Promotion {
         return promotions;
     }
 
-    public int getNumberStudentsByPromotion() throws SQLException {
+    /**
+     * Retourne le nombre d'élèves dans la promotion
+     * @return
+     */
+    public int getNumberStudentsByPromotion() {
         return promotionDao.getNumberStudentsByPromotion(this.getIdPromotion());
     }
 

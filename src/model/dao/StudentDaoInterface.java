@@ -15,9 +15,6 @@ public interface StudentDaoInterface {
     Student findById(String id) throws SQLException, ClassNotFoundException;
 
     // Parcourir les élèves
-    void resultSetById();
-    boolean resultSetByIdNext(Student student);
-
     void resultSetByGroupPromotion(String idGroupPromotion);
     boolean resultSetByGroupPromotionNext(Student student);
 }

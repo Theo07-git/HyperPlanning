@@ -41,11 +41,11 @@ public  class User extends Observable {
     public String getPassword() {
         return password;
     }
-    public String getFirstName() {
-        return firstName;
-    }
     public String getLastName() {
         return lastName;
+    }
+    public String getFirstName() {
+        return firstName;
     }
     public String getPermission() {
         return permission;
@@ -71,29 +71,61 @@ public  class User extends Observable {
         this.permission = permission;
     }
 
-    // Trouver l'utilisateur
-    public User findByEmail(String email) throws SQLException, ClassNotFoundException {
-        return userDao.findByEmail(email);
-    }
+    /**
+     * Retourne un utilisateur trouvé par son id
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public User findById(String id) throws SQLException, ClassNotFoundException {
         return userDao.findById(id);
     }
 
-    // Parcourir tous les utilisateurs
+    /**
+     * Retourne un utilisateur trouvé par son email
+     * @param email
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public User findByEmail(String email) throws SQLException, ClassNotFoundException {
+        return userDao.findByEmail(email);
+    }
+
+    /**
+     * Remplit le resultSet avec la requête sql
+     * (en lien avec le userDao)
+     */
     public void ResultSetAll(){
         userDao.ResultSetAll();
     }
+
+    /**
+     * Remplit un utiliosateur et retourne true tant qu'il y a un utilisateur dans le resultSet
+     * (en lien avec le userDao)
+     * @return
+     */
     public boolean ResultSetAllNext(){
         return userDao.ResultSetAllNext(this);
     }
 
-    // Met à jour le mot de passe
+    /**
+     * Met à jour le mot de passe de l'utilisateur qui appelle cette fonction
+     * @param password
+     */
     public void updatePassword(String password){
         this.password = password;
         userDao.updatePassword(this);
     }
 
-    // Vérifie si l'utilisateur existe
+    /**
+     * Retourne true si le resultSet contient un élément
+     * --> si l'id de l'utilisateur existe déja
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public boolean alreadyExist(String id) throws SQLException{
         return userDao.alreadyExist(id);
     }

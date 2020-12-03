@@ -13,7 +13,13 @@ public class CourseDao implements CourseDaoInterface{
     // Constructeur
     public CourseDao(Connection connect){ this.connect = connect; }
 
-    // Trouver la matière
+    /**
+     * Retourne un cours trouvé par son id
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Course findById(String id) throws SQLException, ClassNotFoundException {
         Course course = new Course();
         try{
@@ -29,6 +35,14 @@ public class CourseDao implements CourseDaoInterface{
         }
         return course;
     }
+
+    /**
+     * Retourne un cours trouvé par son nom
+     * @param name
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Course findByName(String name) throws SQLException, ClassNotFoundException {
         Course course = new Course();
         try{
@@ -46,7 +60,11 @@ public class CourseDao implements CourseDaoInterface{
     }
 
     // Parcourir toutes les matières
-    public void resultSetByIdCourse(){
+
+    /**
+     * Rempli le resultSet avec la requête sql
+     */
+    public void resultSetByIdCourse() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM course");
@@ -54,7 +72,13 @@ public class CourseDao implements CourseDaoInterface{
             throwables.printStackTrace();
         }
     }
-    public boolean resultSetByIdCourseNext(Course course){
+
+    /**
+     * Remplie un cours et retourne true tant qu'il y a un cours dans le resultSet
+     * @param course
+     * @return
+     */
+    public boolean resultSetByIdCourseNext(Course course) {
         boolean found = false;
         try{
             if(resultSet.next()){

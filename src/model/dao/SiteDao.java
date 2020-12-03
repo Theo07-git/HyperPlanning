@@ -13,7 +13,13 @@ public class SiteDao {
     // Constructeur
     public SiteDao(Connection connect){ this.connect = connect; }
 
-    // Trouve le site
+    /**
+     * Retourne un site trouvé par son nom
+     * @param nameSite
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Site findByName(String nameSite) throws SQLException, ClassNotFoundException {
         Site site = new Site();
         try{
@@ -30,7 +36,9 @@ public class SiteDao {
         return site;
     }
 
-    // Parcourir tous les sites
+    /**
+     * Remplit le resultSet avec la requête sql
+     */
     public void resultSetSiteName() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -39,6 +47,12 @@ public class SiteDao {
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Remplit un site et retourne true tant qu'il y a une site dans le resultSet
+     * @param site
+     * @return
+     */
     public boolean resultSetSiteNameNext(Site site) {
         boolean found = false;
         try{
