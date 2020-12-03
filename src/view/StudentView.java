@@ -42,10 +42,12 @@ public class StudentView  {
         menuBar.add(menuPersonalInfos);
 
         // Création des items
+        JMenuItem miHome = new JMenuItem("Accueil");
         JMenuItem miStudentPlanning = new JMenuItem("Emploi du temps");
         JMenuItem miStudentAccount = new JMenuItem("Compte");
 
         // Ajout des items dans le menu
+        menuStudent.add(miHome);
         menuStudent.add(miStudentPlanning);
         menuPersonalInfos.add(miStudentAccount);
 
@@ -54,6 +56,18 @@ public class StudentView  {
         jFrame.add(studentHomePage.panel1);
 
         // Action sélection item
+        miHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.getContentPane().removeAll();
+                jFrame.dispose();
+                try {
+                    interfaceStudent(jFrame, idUser, testConnection);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
         miStudentPlanning.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
