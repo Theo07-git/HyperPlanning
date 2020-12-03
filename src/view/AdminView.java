@@ -501,7 +501,10 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
     public void createStudentPlanningView(JFrame jFrame, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
-        Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
+        String[] week = new String[53];
+        for (int i = 0; i < 52; i++) {
+            week[i] = String.valueOf(i+1);
+        }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(380, 40, 80, 28);
         Planning planning = new Planning();
@@ -554,7 +557,10 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
     public void createTeacherPlanningView(JFrame jFrame, String idUser, JComboBox jComboBoxCourse, JComboBox jComboBoxTeacherChoice) throws SQLException, ClassNotFoundException, ParseException {
-        Integer[] week = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52};
+        String[] week = new String[53];
+        for (int i = 0; i < 52; i++) {
+            week[i] = String.valueOf(i+1);
+        }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
         jComboBoxSelectWeek.setBounds(460, 40, 80, 28);
         Planning planning = new Planning();
@@ -1243,7 +1249,6 @@ public class AdminView extends JFrame{
                 suppFrame.dispose();
             }
         });
-
         jButtonSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1294,7 +1299,6 @@ public class AdminView extends JFrame{
                 suppFrame.dispose();
             }
         });
-
         jButtonSupp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
