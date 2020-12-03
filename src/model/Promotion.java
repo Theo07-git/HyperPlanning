@@ -66,7 +66,7 @@ public class Promotion {
         return promotions;
     }
 
-    public int getNumberStudentsByPromotion(){
+    public int getNumberStudentsByPromotion() throws SQLException {
         return promotionDao.getNumberStudentsByPromotion(this.getIdPromotion());
     }
 

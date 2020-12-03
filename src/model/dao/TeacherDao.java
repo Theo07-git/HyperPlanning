@@ -1,19 +1,39 @@
 package model.dao;
-
-import model.Room;
-import model.Session;
-import model.Student;
 import model.Teacher;
 
 import java.sql.*;
 
-public class TeacherDao {
+public class TeacherDao implements TeacherDaoInterface {
 
-    private Connection connect = null;
+    private final Connection connect;
     ResultSet resultSet;
 
+    // Constructeur
     public TeacherDao(Connection connect){ this.connect = connect; }
 
+    // Création/Suppresion d'un professeur
+    public void createTeacher(Teacher teacher) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO user VALUES('" + teacher.getId() + "', '" + teacher.getEmail() + "', '" + teacher.getPassword() + "', '" + teacher.getLastName() + "', '" + teacher.getFirstName() + "', '" + teacher.getPermission() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO teacher VALUES('" + teacher.getId() + "', '" + teacher.getIdCourse() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteTeacher(String idTeacher) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM teacher WHERE (id_UserT = '" + idTeacher + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM user WHERE idUser = '" + idTeacher + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Trouver le professeur
     public Teacher findById(String id) throws SQLException, ClassNotFoundException {
         Teacher teacher = new Teacher();
 
@@ -39,7 +59,6 @@ public class TeacherDao {
 
         return teacher;
     }
-
     public Teacher findByName(String nameTeacher) throws SQLException, ClassNotFoundException {
         Teacher teacher = new Teacher();
         try{
@@ -63,7 +82,8 @@ public class TeacherDao {
         return teacher;
     }
 
-    public void resultSetByCourse(String nameCourse){
+    // Parcourir les professeurs
+    public void resultSetByCourse(String nameCourse) {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user JOIN teacher JOIN course \n" +
@@ -74,7 +94,6 @@ public class TeacherDao {
             throwables.printStackTrace();
         }
     }
-
     public boolean resultSetByCourseNext(Teacher teacher) {
         boolean found = false;
         try{
@@ -94,28 +113,7 @@ public class TeacherDao {
         return found;
     }
 
-    public void createTeacher(Teacher teacher){
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "INSERT INTO user VALUES('" + teacher.getId() + "', '" + teacher.getEmail() + "', '" + teacher.getPassword() + "', '" + teacher.getLastName() + "', '" + teacher.getFirstName() + "', '" + teacher.getPermission() + "')");
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "INSERT INTO teacher VALUES('" + teacher.getId() + "', '" + teacher.getIdCourse() + "')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteTeacher(String idTeacher){
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "DELETE FROM teacher WHERE (id_UserT = '" + idTeacher + "')");
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "DELETE FROM user WHERE idUser = '" + idTeacher + "'");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Vérifie si le professeur est déjà en cours
     public boolean alreadyTeach(int week, Date date, Time startTime, Time endTime, String idTeacher) throws SQLException {
         try {
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -137,6 +135,7 @@ public class TeacherDao {
         }else return false;
     }
 
+    // Vérifie si le professeur exitse
     public boolean alreadyExist(String nameTeacher) throws SQLException {
         try {
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,

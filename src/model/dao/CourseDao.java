@@ -1,15 +1,9 @@
 package model.dao;
 
 import model.Course;
-import model.Promotion;
-import model.User;
-
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CourseDao implements CourseDaoInterface{
 
@@ -19,6 +13,7 @@ public class CourseDao implements CourseDaoInterface{
     // Constructeur
     public CourseDao(Connection connect){ this.connect = connect; }
 
+    // Trouver la matière
     public Course findById(String id) throws SQLException, ClassNotFoundException {
         Course course = new Course();
         try{
@@ -34,10 +29,8 @@ public class CourseDao implements CourseDaoInterface{
         }
         return course;
     }
-
     public Course findByName(String name) throws SQLException, ClassNotFoundException {
         Course course = new Course();
-
         try{
             ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM course WHERE name = '" + name + "'");
@@ -52,6 +45,7 @@ public class CourseDao implements CourseDaoInterface{
         return course;
     }
 
+    // Parcourir toutes les matières
     public void resultSetByIdCourse(){
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -60,7 +54,6 @@ public class CourseDao implements CourseDaoInterface{
             throwables.printStackTrace();
         }
     }
-
     public boolean resultSetByIdCourseNext(Course course){
         boolean found = false;
         try{
@@ -74,5 +67,4 @@ public class CourseDao implements CourseDaoInterface{
         }
         return found;
     }
-
 }

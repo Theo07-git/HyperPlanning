@@ -1,21 +1,21 @@
 package model.dao;
 
 import model.Group;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GroupDao implements GroupDaoInterface{
+
     private final Connection connect;
     private ResultSet resultSet;
 
-
+    // Constructeur
     public GroupDao(Connection connect){ this.connect = connect; }
 
+    // Trouver le groupe
     public Group findById(String id) throws SQLException, ClassNotFoundException {
         Group group = new Group();
-
         try{
             ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion WHERE idGroupPromotion = '" + id + "'");
@@ -30,8 +30,7 @@ public class GroupDao implements GroupDaoInterface{
         }
         return group;
     }
-
-    public Group findByName(String name) throws SQLException, ClassNotFoundException{
+    public Group findByName(String name) throws SQLException, ClassNotFoundException {
         Group group = new Group();
 
         try{
@@ -49,7 +48,8 @@ public class GroupDao implements GroupDaoInterface{
         return group;
     }
 
-    public void resultSetByIdGroup(String idPromotion)  {
+    // Parcourir tous les groupes
+    public void resultSetByIdGroup(String idPromotion) {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion WHERE id_promotion = '" + idPromotion + "'");
@@ -57,8 +57,7 @@ public class GroupDao implements GroupDaoInterface{
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetByIdGroupNext(Group group){
+    public boolean resultSetByIdGroupNext(Group group) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -72,8 +71,7 @@ public class GroupDao implements GroupDaoInterface{
         }
         return found;
     }
-
-    public void resultSetIdGroup()  {
+    public void resultSetIdGroup() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion");
@@ -81,8 +79,7 @@ public class GroupDao implements GroupDaoInterface{
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetIdGroupNext(Group group){
+    public boolean resultSetIdGroupNext(Group group) {
         boolean found = false;
         try{
             if(resultSet.next()){

@@ -1,23 +1,22 @@
 package model.dao;
 
 import model.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface UserDaoInterface {
-    boolean create(User user);
 
-    User updatePassword(User user) throws SQLException;
-
-    boolean delete(User obj);
-
+    // Trouver l'utilisateur
     User findById(String id) throws SQLException, ClassNotFoundException;
-
     User findByEmail(String email) throws SQLException, ClassNotFoundException;
 
-    User findByLastName(String last_name) throws SQLException, ClassNotFoundException;
+    // Parcourir tous les utilisateurs
+    void ResultSetAll();
+    boolean ResultSetAllNext(User user);
 
-    void ResultSetByName();
-    boolean ResultSetByNameNext(User user);
+    // Met à jour le mot de passe
+    User updatePassword(User user);
+
+    // Vérifie si l'utilisateur existe
+    boolean alreadyExist(String id) throws SQLException;
 }

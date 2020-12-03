@@ -9,23 +9,35 @@ import java.sql.SQLException;
 
 public class StudentDao implements StudentDaoInterface{
 
-    private Connection connect = null;
+    private Connection connect;
     ResultSet resultSet;
 
+    // Constructeur
     public StudentDao(Connection connect){ this.connect = connect; }
 
-    public boolean create(Student student){
-        return false;
+    // Création/Suppression d'un élève
+    public void createStudent(Student student) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO user VALUES('" + student.getId() + "', '" + student.getEmail() + "', '" + student.getPassword() + "', '" + student.getLastName() + "', '" + student.getFirstName() + "', '" + student.getPermission() + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO student VALUES('" + student.getId() + "', '" + student.getStudentNumber() + "', '" + student.getIdGroupPromotion() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteStudent(String idStudent) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM student WHERE (id_UserS = '" + idStudent + "')");
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM user WHERE idUser = '" + idStudent + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public boolean update(Student student) {
-        return false;
-    }
-
-    public boolean delete(Student student) {
-        return false;
-    }
-
+    // Trouve un élève
     public Student findById(String id) throws SQLException, ClassNotFoundException {
         Student student = new Student();
 
@@ -52,7 +64,8 @@ public class StudentDao implements StudentDaoInterface{
         return student;
     }
 
-    public void resultSetById()  {
+    // Parcourir les élèves
+    public void resultSetById() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM student ORDER BY id_UserS");
@@ -60,8 +73,7 @@ public class StudentDao implements StudentDaoInterface{
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetByIdNext(Student student){
+    public boolean resultSetByIdNext(Student student) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -81,7 +93,7 @@ public class StudentDao implements StudentDaoInterface{
         return found;
     }
 
-    public void resultSetByGroupPromotion(String idGroupPromotion){
+    public void resultSetByGroupPromotion(String idGroupPromotion) {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM user JOIN student ON user.idUser = student.id_UserS WHERE student.id_group_promotionS ='" + idGroupPromotion + "'");
@@ -89,8 +101,7 @@ public class StudentDao implements StudentDaoInterface{
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetByGroupPromotionNext(Student student){
+    public boolean resultSetByGroupPromotionNext(Student student) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -108,28 +119,6 @@ public class StudentDao implements StudentDaoInterface{
             throwables.printStackTrace();
         }
         return found;
-    }
-
-    public void createStudent(Student student){
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "INSERT INTO user VALUES('" + student.getId() + "', '" + student.getEmail() + "', '" + student.getPassword() + "', '" + student.getLastName() + "', '" + student.getFirstName() + "', '" + student.getPermission() + "')");
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "INSERT INTO student VALUES('" + student.getId() + "', '" + student.getStudentNumber() + "', '" + student.getIdGroupPromotion() + "')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteStudent(String idStudent) {
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "DELETE FROM student WHERE (id_UserS = '" + idStudent + "')");
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "DELETE FROM user WHERE idUser = '" + idStudent + "'");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
 

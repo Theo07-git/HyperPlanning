@@ -144,7 +144,7 @@ public class Session {
         return sessionDao.findTeacherSession(this.IdSession);
     }
 
-    public void createSession(Teacher teacher){
+    public void createSession(Teacher teacher) throws SQLException {
         sessionDao.createSession(this, teacher);
     }
 
@@ -167,7 +167,7 @@ public class Session {
         return sessions;
     }
 
-    public int getNumberSessionsByCourse(String idGroupPromotion, String idCourse){
+    public int getNumberSessionsByCourse(String idGroupPromotion, String idCourse) throws SQLException {
         return sessionDao.getNumberSessionByCourse(idGroupPromotion, idCourse);
     }
 

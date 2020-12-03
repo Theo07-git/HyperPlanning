@@ -2,8 +2,6 @@ package model.dao;
 
 import model.Group;
 import model.Promotion;
-import model.User;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,25 +13,14 @@ public class PromotionDao implements PromotionDaoInterface{
     private final Connection connect;
     private ResultSet resultSet;
 
+    // Constructeur
     public PromotionDao(Connection connect) {
         this.connect = connect;
     }
 
-    public boolean create(Promotion promotion) {
-        return false;
-    }
-
-    public boolean update(Promotion promotion) {
-        return false;
-    }
-
-    public boolean delete(Promotion promotion) {
-        return false;
-    }
-
+    // Trouver la promotion
     public Promotion findById(String idPromotion) throws SQLException, ClassNotFoundException {
         Promotion promotion = new Promotion();
-
         try{
             ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM promotion WHERE idPromotion = " + idPromotion);
@@ -44,11 +31,11 @@ public class PromotionDao implements PromotionDaoInterface{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return promotion;
     }
 
-    public void resultSetByIdPromotion()  {
+    // Parourir toutes les promotions
+    public void resultSetByIdPromotion() {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM promotion");
@@ -56,8 +43,7 @@ public class PromotionDao implements PromotionDaoInterface{
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetByIdPromotionNext(Promotion promotion){
+    public boolean resultSetByIdPromotionNext(Promotion promotion) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -71,19 +57,17 @@ public class PromotionDao implements PromotionDaoInterface{
         return found;
     }
 
-    public List<Group> getGroup(String idPromotion) throws SQLException, ClassNotFoundException {
+    // Donne les groupes de la promo
+    public List<Group> getGroup(String idPromotion) {
         List<Group> groups = new ArrayList<>();
-        Group group = new Group();
-        boolean found = false;
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM group_promotion " +
                     "WHERE group_promotion.id_promotion =" + idPromotion);
-            group = new Group(resultSet.getString("idGroupPromotion"),
+            Group group = new Group(resultSet.getString("idGroupPromotion"),
                     resultSet.getString("name"), idPromotion);
             groups.add(group);
             if(resultSet.next()){
-                found = true;
                 group = new Group(resultSet.getString("idGroupPromotion"),
                         resultSet.getString("name"), idPromotion);
                 groups.add(group);
@@ -94,7 +78,8 @@ public class PromotionDao implements PromotionDaoInterface{
         return groups;
     }
 
-    public int getNumberStudentsByPromotion(String idPromotion){
+    // Donne le nombre d'élèves dans la promo
+    public int getNumberStudentsByPromotion(String idPromotion) {
         int nbStudents = 0;
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,

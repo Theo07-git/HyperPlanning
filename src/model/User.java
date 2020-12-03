@@ -2,7 +2,6 @@ package model;
 
 import model.dao.DAOFactory;
 import model.dao.UserDao;
-
 import java.sql.SQLException;
 import java.util.Observable;
 
@@ -72,31 +71,31 @@ public  class User extends Observable {
         this.permission = permission;
     }
 
-    // Méthodes
+    // Trouver l'utilisateur
     public User findByEmail(String email) throws SQLException, ClassNotFoundException {
         return userDao.findByEmail(email);
     }
     public User findById(String id) throws SQLException, ClassNotFoundException {
         return userDao.findById(id);
     }
-    public void updatePassword(String password){
-        this.password = password;
-        userDao.updatePassword(this);
-    }
-    public boolean alreadyExist(String id) throws SQLException{
-        return userDao.alreadyExist(id);
-    }
+
+    // Parcourir tous les utilisateurs
     public void ResultSetAll(){
         userDao.ResultSetAll();
     }
     public boolean ResultSetAllNext(){
         return userDao.ResultSetAllNext(this);
     }
-    public void ResultSetByName(){
-        userDao.ResultSetByName();
+
+    // Met à jour le mot de passe
+    public void updatePassword(String password){
+        this.password = password;
+        userDao.updatePassword(this);
     }
-    public boolean ResultSetByNameNext(){
-        return(userDao.ResultSetByNameNext(this));
+
+    // Vérifie si l'utilisateur existe
+    public boolean alreadyExist(String id) throws SQLException{
+        return userDao.alreadyExist(id);
     }
 
     @Override

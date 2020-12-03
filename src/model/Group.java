@@ -60,15 +60,15 @@ public class Group {
         groupDao.resultSetByIdGroup(idPromotion);
     }
 
-    public boolean resultSetByIdGroupNext(){
+    public boolean resultSetByIdGroupNext() throws SQLException {
         return(groupDao.resultSetByIdGroupNext(this));
     }
 
-    public void resultSetIdGroup(){
+    public void resultSetIdGroup() throws SQLException {
         groupDao.resultSetIdGroup();
     }
 
-    public boolean resultSetIdGroupNext(){
+    public boolean resultSetIdGroupNext() throws SQLException {
         return(groupDao.resultSetIdGroupNext(this));
     }
 

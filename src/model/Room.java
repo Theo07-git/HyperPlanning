@@ -75,11 +75,11 @@ public class Room {
         return roomDao.resultSetRoomBySiteNext(this);
     }
 
-    public void createRoom(){
+    public void createRoom() throws SQLException {
         roomDao.createRoom(this);
     }
 
-    public void deleteRoom(String nameRoom){
+    public void deleteRoom(String nameRoom) throws SQLException {
         roomDao.deleteRoom(nameRoom);
     }
 }

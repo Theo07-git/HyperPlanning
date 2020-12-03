@@ -1,18 +1,37 @@
 package model.dao;
 
 import model.Room;
-import model.Site;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RoomDao {
-    private Connection connect = null;
+public class RoomDao implements RoomDaoInterface {
+
+    private final Connection connect;
     ResultSet resultSet;
 
+    // Constructeur
     public RoomDao(Connection connect){ this.connect = connect; }
 
+    // Création/Suppression d'une salle
+    public void createRoom(Room room) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "INSERT INTO room VALUES('" + room.getIdRoom() + "', '" + room.getNameRoom() + "', '" + room.getCapacity() + "', '" + room.getSite() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteRoom(String nameRoom) {
+        try {
+            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                    "DELETE FROM room WHERE (name = '" + nameRoom + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Trouver la salle
     public Room findByName(String nameRoom) throws SQLException, ClassNotFoundException {
         Room room = new Room();
         try{
@@ -27,10 +46,10 @@ public class RoomDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return room;
     }
 
+    // Vérification si la salle existe déjà
     public boolean alreadyExist(String nameRoom) throws SQLException {
         try {
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -43,7 +62,8 @@ public class RoomDao {
         }else return false;
     }
 
-    public void resultSetRoomBySite(String nameSite)  {
+    // Parcourir toutes les salles
+    public void resultSetRoomBySite(String nameSite) {
         try{
             resultSet = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM room JOIN site\n" +
@@ -53,8 +73,7 @@ public class RoomDao {
             throwables.printStackTrace();
         }
     }
-
-    public boolean resultSetRoomBySiteNext(Room room){
+    public boolean resultSetRoomBySiteNext(Room room) {
         boolean found = false;
         try{
             if(resultSet.next()){
@@ -67,23 +86,5 @@ public class RoomDao {
             throwables.printStackTrace();
         }
         return found;
-    }
-
-    public void createRoom(Room room){
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                "INSERT INTO room VALUES('" + room.getIdRoom() + "', '" + room.getNameRoom() + "', '" + room.getCapacity() + "', '" + room.getSite() + "')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteRoom(String nameRoom){
-        try {
-            this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                    "DELETE FROM room WHERE (name = '" + nameRoom + "')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
