@@ -283,7 +283,7 @@ public class Planning extends JPanel {
             if(heureDebutString.equals("11:15:00")){
                 y+=57*2+10;
             }
-            if(heureDebutString.equals("00:45:00")){
+            if(heureDebutString.equals("12:45:00")){
                 y+=57*3+10;
             }
             if(heureDebutString.equals("02:30:00")){
@@ -487,7 +487,7 @@ public class Planning extends JPanel {
             if(heureDebutString.equals("11:15:00")){
                 y+=57*2+10;
             }
-            if(heureDebutString.equals("00:45:00")){
+            if(heureDebutString.equals("12:45:00")){
                 y+=57*3+10;
             }
             if(heureDebutString.equals("02:30:00")){

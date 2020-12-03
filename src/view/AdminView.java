@@ -502,7 +502,7 @@ public class AdminView extends JFrame{
     }
     public void createStudentPlanningView(JFrame jFrame, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
         String[] week = new String[53];
-        for (int i = 0; i < 52; i++) {
+        for (int i = 0; i <= 52; i++) {
             week[i] = String.valueOf(i+1);
         }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);
@@ -558,7 +558,7 @@ public class AdminView extends JFrame{
     }
     public void createTeacherPlanningView(JFrame jFrame, String idUser, JComboBox jComboBoxCourse, JComboBox jComboBoxTeacherChoice) throws SQLException, ClassNotFoundException, ParseException {
         String[] week = new String[53];
-        for (int i = 0; i < 52; i++) {
+        for (int i = 0; i <= 52; i++) {
             week[i] = String.valueOf(i+1);
         }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);

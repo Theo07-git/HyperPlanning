@@ -4,11 +4,9 @@ import controller.ControllerStudent;
 import controller.TestConnection;
 import view.ressource.Planning;
 import view.ressource.StudentHomePage;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -92,7 +90,7 @@ public class StudentView  {
         JLabel jLabelWeek = new JLabel("Choisis ta semaine :");
         jLabelWeek.setBounds(20, 10, 250, 28);
         String[] week = new String[53];
-        for (int i = 0; i < 52; i++) {
+        for (int i = 0; i <= 52; i++) {
             week[i] = String.valueOf(i+1);
         }
         JComboBox jComboBoxSelectWeek = new JComboBox(week);

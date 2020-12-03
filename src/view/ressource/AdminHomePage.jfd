@@ -13,7 +13,7 @@ new FormModel {
 			}
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
-				"text": "Global View "
+				"text": "Vue Globale"
 				"background": new javax.swing.plaf.ColorUIResource( 255, 255, 255 )
 				"foreground": new java.awt.Color( 0, 0, 0, 255 )
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 12, false )
@@ -119,7 +119,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "Background"
 				"text": " "
-				"icon": new com.jformdesigner.model.SwingIcon( 0, "/view/Ressource/Mt. Fuji.jpg" )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/view/ressource/Image/Mt. Fuji.jpg" )
 				"border": new com.jformdesigner.model.SwingBorder( "MenuBar.border" )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 0
