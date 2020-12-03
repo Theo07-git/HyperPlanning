@@ -16,7 +16,13 @@ import java.util.Date;
 
 
 public class Planning extends JPanel {
-
+    /**
+     * Fonction qui ajoute à une string un caractères à une position donnée.
+     * @param str
+     * @param ch
+     * @param position
+     * @return
+     */
     public String addChar(String str, char ch, int position) {
             int len = str.length();
             char[] updatedArr = new char[len + 1];
@@ -26,6 +32,10 @@ public class Planning extends JPanel {
             return new String(updatedArr);
         }
 
+    /**
+     * Affiche le cadre contenant les paramètres du planning
+     * @param frame
+     */
     public void setSettings(Frame frame) {
         ArrayList<String> heure = new ArrayList<>();
         heure.add("8h00");
@@ -238,6 +248,15 @@ public class Planning extends JPanel {
         frame.add(ListMonth);
     }
 
+    /**
+     * Affiche planning pour un admin
+     * @param frame
+     * @param idGroupe
+     * @param week
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+
     public void DrawStudentPlanningForAdmin(Frame frame, String idGroupe, int week) throws SQLException, ClassNotFoundException{
         ControllerAdmin controller = new ControllerAdmin();
         ArrayList<Session> sessions = controller.getAllSessions(idGroupe);
@@ -335,6 +354,15 @@ public class Planning extends JPanel {
         }
     }
 
+    /**
+     * Affiche planning pour un étudiant
+     * @param frame
+     * @param idGroupe
+     * @param idUser
+     * @param week
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void DrawStudentPlanningForStudent(Frame frame, String idGroupe, String idUser, int week) throws SQLException, ClassNotFoundException{
         ControllerStudent controller = new ControllerStudent(idUser);
         ArrayList<Session> sessions = controller.getAllSession(idGroupe);
@@ -438,6 +466,14 @@ public class Planning extends JPanel {
         }
     }
 
+    /**
+     * Affiche planning pour un professeur
+     * @param frame
+     * @param idUser
+     * @param week
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void DrawTeacherPlanningForTeacher(Frame frame, String idUser, int week) throws SQLException, ClassNotFoundException{
         ControllerTeacher controller = new ControllerTeacher(idUser);
         ArrayList<Session> sessions = controller.getAllSession(idUser);
@@ -525,6 +561,10 @@ public class Planning extends JPanel {
         }
     }
 
+    /**
+     * Afffiche le cadrillage de fond du planning
+     * @param g2
+     */
     public void setEmploiDuTemps(Graphics g2) {
         g2.setColor(Color.gray);
         int x = 50;

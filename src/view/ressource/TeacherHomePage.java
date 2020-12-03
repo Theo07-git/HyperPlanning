@@ -20,6 +20,11 @@ public class TeacherHomePage {
         initComponents();
     }
 
+    /**
+     * Initialisation des composants du modéle
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void initComponents() throws SQLException, ClassNotFoundException {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - biollay

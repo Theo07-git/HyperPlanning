@@ -31,6 +31,14 @@ public class AdminView extends JFrame{
         frame.setVisible(true);
     }
 
+    /**
+     * Initialisation & Affichage de l'interface Admin
+     * @param jFrame
+     * @param controllerConnection
+     * @param isAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void interfaceAdmin(JFrame jFrame, ControllerConnection controllerConnection, boolean isAdmin) throws SQLException, ClassNotFoundException {
         ControllerAdmin controllerAdmin = new ControllerAdmin();
         ControllerAdmin controllerAdminPersonalInfos = new ControllerAdmin(controllerConnection.getUser().getId());
@@ -277,24 +285,71 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage des infos étudiants et professeurs
+
+    /**
+     * Création de la liste d'étudiant
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createStudentList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createPromotionChoice(jFrame, controllerAdmin, "StudentList");
     }
+
+    /** Création du Planning pour les étudiants
+     *
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createStudentPlanning(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createPromotionChoice(jFrame, controllerAdmin, "StudentPlanning");
     }
+
+    /**
+     * Création de la liste de professeurs
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createTeacherList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createCourseChoice(jFrame, controllerAdmin, "TeacherList");
     }
+
+    /**
+     * Création du Planning pour les professeurs
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createTeacherPlanning(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createCourseChoice(jFrame, controllerAdmin, "TeacherPlanning");
     }
+
+    /**
+     * Création de la liste de salles
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createRoomList(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         createSiteChoice(jFrame, controllerAdmin);
     }
 
-    // Affichage combobox choix Student
+
+    /**
+     * Création ComboBox contenant la liste des promotions
+     * @param jFrame
+     * @param controllerAdmin
+     * @param choiceView
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createPromotionChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         jFrame.setLayout(null);
         JLabel jLabelSelectPromo = new JLabel("Selectionner une promotion et un groupe :");
@@ -329,6 +384,17 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectPromotion);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Création ComboBox contenant la liste des groupes de la promotion
+     * @param jFrame
+     * @param jComboBox
+     * @param controllerAdmin
+     * @param idPromotion
+     * @param choiceView
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createGroupChoice(JFrame jFrame, JComboBox jComboBox, ControllerAdmin controllerAdmin, String idPromotion, final String choiceView) throws SQLException, ClassNotFoundException {
         ArrayList<String> groups = controllerAdmin.getAllIdGroupByIdPromo(idPromotion);
         String[] strGroup = new String[groups.size()];
@@ -371,7 +437,15 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage combobox choix Teacher
+
+    /**
+     * Création ComboBox contenant la liste des cours
+     * @param jFrame
+     * @param controllerAdmin
+     * @param choiceView
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createCourseChoice(JFrame jFrame, ControllerAdmin controllerAdmin, String choiceView) throws SQLException, ClassNotFoundException {
         JLabel jLabelSelectCourse = new JLabel("Selectionner une matière :");
         jLabelSelectCourse.setBounds(40, 10, 300, 28);
@@ -415,6 +489,16 @@ public class AdminView extends JFrame{
         jFrame.add(jComboBoxSelectCourse);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Création ComboBox contenant la liste des professeurs d'un cours
+     * @param jFrame
+     * @param jComboBoxCourse
+     * @param controllerAdmin
+     * @param courseChoiced
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createTeacherChoice(JFrame jFrame, JComboBox jComboBoxCourse, ControllerAdmin controllerAdmin, String courseChoiced) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> teachers = controllerAdmin.getAllTeachers(courseChoiced);
         String[] strTeacherId = new String[teachers.size()];
@@ -451,7 +535,13 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage combobox choix Site
+    /**
+     * Création ComboBox contenant la liste des sites
+     * @param jFrame
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createSiteChoice(JFrame jFrame, ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JLabel jLabelSelectSite = new JLabel("Selectionner un site :");
         jLabelSelectSite.setBounds(40, 10, 300, 28);
@@ -483,7 +573,15 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage tableaux des élèves par groupe
+
+    /**
+     * Affichage tableaux des élèves par groupe
+     * @param jFrame
+     * @param controllerAdmin
+     * @param groupChoiced
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createStudentListViewByGroup(JFrame jFrame, ControllerAdmin controllerAdmin, String groupChoiced) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> students = controllerAdmin.getAllStudents(groupChoiced);
         System.out.println(students);
@@ -504,6 +602,17 @@ public class AdminView extends JFrame{
         jFrame.add(jPanelStudentList);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Affichage planning des élèves en fonction du groupe
+     * @param jFrame
+     * @param GroupChoiced
+     * @param jComboBoxPromo
+     * @param jComboBoxGroupe
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws ParseException
+     */
     public void createStudentPlanningView(JFrame jFrame, String GroupChoiced, JComboBox jComboBoxPromo, JComboBox jComboBoxGroupe) throws SQLException, ClassNotFoundException, ParseException {
         String[] week = new String[53];
         for (int i = 0; i <= 52; i++) {
@@ -540,7 +649,15 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage tableaux professeurs par matière
+
+    /**
+     *  Affichage tableaux professeurs par matière
+     * @param jFrame
+     * @param controllerAdmin
+     * @param courseChoice
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createTeacherListViewByCourse(JFrame jFrame, ControllerAdmin controllerAdmin, String courseChoice) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> teachers = controllerAdmin.getAllTeachers(courseChoice);
         String[] tableTitle = {"ID", "Nom", "Prenom", "Email", "Permission"};
@@ -560,6 +677,17 @@ public class AdminView extends JFrame{
         jFrame.add(jPanelTeacherList);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Affichage planning professeurs
+     * @param jFrame
+     * @param idUser
+     * @param jComboBoxCourse
+     * @param jComboBoxTeacherChoice
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws ParseException
+     */
     public void createTeacherPlanningView(JFrame jFrame, String idUser, JComboBox jComboBoxCourse, JComboBox jComboBoxTeacherChoice) throws SQLException, ClassNotFoundException, ParseException {
         String[] week = new String[53];
         for (int i = 0; i <= 52; i++) {
@@ -596,7 +724,15 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage tableaux des salles par site
+
+    /**
+     * Affichage tableaux des salles par site
+     * @param jFrame
+     * @param controllerAdmin
+     * @param siteChoice
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void createRoomListViewBySite(JFrame jFrame, ControllerAdmin controllerAdmin, String siteChoice) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> rooms = controllerAdmin.getAllRooms(siteChoice);
         String[] tableTitle = {"ID", "Nom", "Capacite"};
@@ -617,7 +753,13 @@ public class AdminView extends JFrame{
         jFrame.setVisible(true);
     }
 
-    // Affichage mini fenêtres mise à jours
+
+    /**
+     * Affichage PopUp ajout d'une session
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void addSessionWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
@@ -826,6 +968,13 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp ajout d'un professeur
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void addTeacherWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
@@ -929,6 +1078,13 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp ajout d'un étudiant
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void addStudentWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
@@ -1042,6 +1198,13 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp ajout d'une salle
+     * @param controllerAdmin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void addRoomWindow(ControllerAdmin controllerAdmin) throws SQLException, ClassNotFoundException {
         JFrame addFrame = new JFrame();
 
@@ -1127,6 +1290,10 @@ public class AdminView extends JFrame{
         addFrame.setLayout(null);
         addFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp suppression d'une session
+     */
     public void suppSessionWindow(){
         JFrame suppFrame = new JFrame();
 
@@ -1177,6 +1344,10 @@ public class AdminView extends JFrame{
         suppFrame.setLayout(null);
         suppFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp suppression d'un professeur
+     */
     public void suppTeacherWindow(){
         JFrame suppFrame = new JFrame();
 
@@ -1228,6 +1399,10 @@ public class AdminView extends JFrame{
         suppFrame.setLayout(null);
         suppFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp suppression d'un étudiant
+     */
     public void suppStudentWindow(){
         JFrame suppFrame = new JFrame();
 
@@ -1278,6 +1453,10 @@ public class AdminView extends JFrame{
         suppFrame.setLayout(null);
         suppFrame.setVisible(true);
     }
+
+    /**
+     * Affichage PopUp suppression d'une salles
+     */
     public void suppRoomWindow(){
         JFrame suppFrame = new JFrame();
 
@@ -1329,7 +1508,11 @@ public class AdminView extends JFrame{
         suppFrame.setVisible(true);
     }
 
-    // Affichage informations personnelles
+    /**
+     * Affichage des informations personnelles
+     * @param jFrame
+     * @param controllerAdminPersonalInfos
+     */
     public void createPersonalInfos(JFrame jFrame, ControllerAdmin controllerAdminPersonalInfos){
         JLabel jLabelAcount = new JLabel("Compte");
         jLabelAcount.setBounds(20, 20, 100, 28);
@@ -1394,6 +1577,12 @@ public class AdminView extends JFrame{
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Modification du mot de passe
+     * @param jFrame
+     * @param controllerAdminPersonalInfos
+     */
     public void createModifPassword(JFrame jFrame, ControllerAdmin controllerAdminPersonalInfos){
         JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");
         jLabelModifPassword.setBounds(560, 290, 300, 28);

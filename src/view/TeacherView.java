@@ -24,6 +24,14 @@ public class TeacherView {
         jFrame.setVisible(true);
     }
 
+    /**
+     * Initialisation & Affichage de l'interface Professeur
+     * @param jFrame
+     * @param idUser
+     * @param controllerConnection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void interfaceTeacher(JFrame jFrame, String idUser, ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         ControllerTeacher controllerTeacher = new ControllerTeacher(idUser);
 
@@ -85,7 +93,12 @@ public class TeacherView {
         jFrame.setVisible(true);
     }
 
-    // Méthodes d'affichage pour un professeur
+
+    /**
+     * Création Planning Professeur
+     * @param jFrame
+     * @param controllerTeacher
+     */
     public void createTeacherPlanning(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelWeek = new JLabel("Semaine :");
         jLabelWeek.setBounds(40, 10, 100, 28);
@@ -124,6 +137,12 @@ public class TeacherView {
         jFrame.setOpacity(1);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Création onglet Mon Compte contenant les informations personelles
+     * @param jFrame
+     * @param controllerTeacher
+     */
     public void createPersonalInfos(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelAcount = new JLabel("Compte");
         jLabelAcount.setBounds(20, 20, 100, 28);
@@ -196,6 +215,12 @@ public class TeacherView {
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Modification du mot de passe
+     * @param jFrame
+     * @param controllerTeacher
+     */
     public void createChangePassword(JFrame jFrame, ControllerTeacher controllerTeacher){
         JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");
         jLabelModifPassword.setBounds(560, 290, 300, 28);

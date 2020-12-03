@@ -24,6 +24,14 @@ public class StudentView  {
         jFrame.setVisible(true);
     }
 
+    /**
+     * Initialisation & Affichage de l'interface Étudiant
+     * @param jFrame
+     * @param idUser
+     * @param controllerConnection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void interfaceStudent(JFrame jFrame, String idUser, ControllerConnection controllerConnection) throws SQLException, ClassNotFoundException {
         ControllerStudent controllerStudent = new ControllerStudent(idUser);
 
@@ -86,6 +94,11 @@ public class StudentView  {
         jFrame.setVisible(true);
     }
 
+    /**
+     * Création du planning d'un étudiant
+     * @param jFrame
+     * @param controllerStudent
+     */
     public void createStudentPlanning(JFrame jFrame, ControllerStudent controllerStudent){
         JLabel jLabelWeek = new JLabel("Choisis ta semaine :");
         jLabelWeek.setBounds(20, 10, 250, 28);
@@ -125,6 +138,11 @@ public class StudentView  {
         jFrame.setVisible(true);
     }
 
+    /**
+     * Création Onglet Mon Compte contant les informations personnelles
+     * @param jFrame
+     * @param controllerStudent
+     */
     public void createPersonalInfos(JFrame jFrame, ControllerStudent controllerStudent){
         JLabel jLabelAcount = new JLabel("Compte");
         jLabelAcount.setBounds(20, 20, 100, 28);
@@ -204,6 +222,12 @@ public class StudentView  {
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
+
+    /**
+     * Modification du mot de passe
+     * @param jFrame
+     * @param controllerStudent
+     */
 
     public void createModifPassword(JFrame jFrame, ControllerStudent controllerStudent){
         JLabel jLabelModifPassword = new JLabel("Entrer le nouveau mot de passe :");

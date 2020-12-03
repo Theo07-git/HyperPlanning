@@ -68,6 +68,11 @@ public class StudentHomePage {
         initComponents();
     }
 
+    /**
+     * Création des composants personnalisés, ici ChartPanel pour afficher un diagramme circulaire
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void createUIComponents() throws SQLException, ClassNotFoundException {
         ChartPanel chartPanel = controllerStudent.getSessionCoursesByStudent();
         chart.setLayout(null);
@@ -75,6 +80,11 @@ public class StudentHomePage {
         chart.add(chartPanel);
     }
 
+    /**
+     * Initialisation des composants du modéle
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void initComponents() throws SQLException, ClassNotFoundException {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Sami Quintana

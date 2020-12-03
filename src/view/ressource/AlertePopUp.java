@@ -9,13 +9,17 @@ public class AlertePopUp {
         initComponents();
     }
 
+    /**
+     * Fermeture PopUp AddFail
+     * @param e
+     */
     private void button1ActionPerformed(ActionEvent e) {
         AddFailId.dispose();
-        // exit
-        // TODO add your code here
     }
 
-
+    /**
+     * Initialisation des composants du modéle
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - biollay

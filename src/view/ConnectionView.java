@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
+
+/**
+ * From JFormDesigner
+ */
 public class ConnectionView {
 
     protected ControllerConnection controllerConnection;
@@ -20,6 +24,13 @@ public class ConnectionView {
         this.firstName = this.controllerConnection.firstName;
     }
 
+    /**
+     * Bouton "entrer" interface de connection, test de l'indientifiant et du mot de passe
+     * @param e
+     * @throws InterruptedException
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void button1ActionPerformed(ActionEvent e) throws InterruptedException, SQLException, ClassNotFoundException {
         // TODO add your code here
         try {
@@ -62,10 +73,17 @@ public class ConnectionView {
         }
     }
 
+    /**
+     * Fermer PopUp de type JDialog
+     * @param e
+     */
     private void buttonOkJDialogActionPerformed(ActionEvent e) {
         IdFail.dispose();
     }
 
+    /**
+     * Initialisation des composants du modèle
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - biollay
@@ -247,22 +265,17 @@ public class ConnectionView {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
+
+    /**
+     * Récupération email dans jTextField
+     * @return
+     */
     public String getEmailActualUser() {
         String result = "";
         try {
             result = textField1.getText();
         } catch (NumberFormatException e) {
             System.out.println("Erreur avec l'entrée de l'Email");
-        }
-        return result;
-    }
-
-    public String getPasswordActualUser() {
-        String result = "";
-        try {
-            result = passwordField1.getText();
-        } catch (NumberFormatException e) {
-            System.out.println("Erreur avec l'entrée du mot de passe");
         }
         return result;
     }
@@ -292,5 +305,4 @@ public class ConnectionView {
         return panel1;
     }
 
-    private void createUIComponents() {}
 }
